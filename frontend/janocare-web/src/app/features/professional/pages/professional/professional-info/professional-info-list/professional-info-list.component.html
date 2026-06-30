@@ -1,0 +1,1345 @@
+<div class="profile-foreground position-relative mx-n4 mt-n4">
+  <div class="profile-wid-bg">
+    <img src="assets/images/profile-bg.jpg" alt="" class="profile-wid-img" />
+  </div>
+</div>
+<div class="pt-4 mb-4 mb-lg-3 pb-lg-4 profile-wrapper">
+  <div class="row g-4">
+    <div class="col-auto">
+      <div class="avatar-lg">
+        <img
+            [src]="getProfileImageUrl((authService?.userProfileProfile$  | async)?.profilePic)"
+          appImgFallback="assets/images/users/user-dummy-img.jpg"
+          class="img-thumbnail rounded-circle"
+          alt="user-profile-image"
+        />
+      </div>
+    </div>
+    <div class="col">
+      <div class="p-2">
+        <h3 class="text-white mb-1" *ngIf="(auth?.userProfileProfile$ | async)?.firstName">
+          Dr. {{ auth?.userFullName$ | async }} <span class="mt-2"><i class="bx bxs-badge-check mt-1" style="color: #fff"></i></span>
+        </h3>
+        <p class="text-white text-opacity-75">Doctor</p>
+        <div class="hstack text-white-50 headerProfile">
+          <div>
+            <i class="ri-map-pin-user-line mx-1 text-white text-opacity-75 fs-16 align-middle"></i> {{ (auth?.userProfileProfile$ | async)?.state?.stateName }},
+            {{ (auth?.userProfileProfile$ | async)?.country?.countryName }}
+          </div>
+          <div><i class="ri-building-line mx-1 text-white text-opacity-75 fs-16 align-middle"></i>JanoCare Technologies PLC</div>
+        </div>
+      </div>
+    </div>
+    <!--end col-->
+    <div class="col-12 col-lg-auto order-last order-lg-0">
+      <div class="row text text-white-50 text-center">
+        <div class="col-lg-6 col-4">
+          <div class="p-2">
+            <!-- <h4 class="text-white mb-1">{{ (patientService?.data$ | async)?.length }}</h4> -->
+            <p class="fs-14 mb-0">Patient</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-4">
+          <div class="p-2">
+            <!-- <h4 class="text-white mb-1">{{ (apptBookingService?.data$ | async)?.length }}</h4> -->
+            <p class="fs-14 mb-0">Appointment</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end col-->
+  </div>
+  <!--end row-->
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div>
+      <div class="d-flex profile-wrapper">
+        <!-- Nav tabs -->
+        <ul ngbNav #customNav="ngbNav" [activeId]="1" class="nav nav-pills animation-nav profile-nav gap-2 gap-lg-3 flex-grow-1" role="tablist">
+          <li [ngbNavItem]="1" class="nav-item">
+            <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+              <i class="ri-airplay-fill d-inline-block d-md-none"></i> <span class="d-none d-md-inline-block">Overview</span>
+            </a>
+            <ng-template ngbNavContent>
+              <div class="row">
+                <div class="col-xxl-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title mb-5">Complete Your Profile</h5>
+                      <div class="progress animated-progess custom-progress progress-label">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
+                          <div class="label">30%</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card">
+                    <div class="card-header align-items-center d-flex">
+                      <h4 class="card-title mb-0 flex-grow-1">Personal Info</h4>
+                      <div>
+                        <a routerLink="/personal-info" class="link-primary text-muted"> <i class="ri-pencil-fill fs-18 align-bottom me-1"></i></a>
+                      </div>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-xxl-5">
+                          <label for="" class="fw-semibold">Full Name </label>
+                        </div>
+                        <div class="col-xxl-7">
+                          <label for="" class="text-muted">{{ auth?.userFullName$ | async }}</label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xxl-5">
+                          <label for="" class="fw-semibold">Mobile </label>
+                        </div>
+                        <div class="col-xxl-7">
+                          <label for="" class="text-muted">{{ (auth?.userProfile$ | async)?.phone }}</label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xxl-5">
+                          <label for="" class="fw-semibold">Email Address</label>
+                        </div>
+                        <div class="col-xxl-7">
+                          <label for="" class="text-muted">{{ (auth?.userProfile$ | async)?.email }}</label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xxl-5">
+                          <label for="" class="fw-semibold">Location </label>
+                        </div>
+                        <div class="col-xxl-7">
+                          <label for="" class="text-muted">
+                            {{ (auth?.userProfileProfile$ | async)?.state?.stateName }}, {{ (auth?.userProfileProfile$ | async)?.country?.countryName }}
+                          </label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xxl-5">
+                          <label for="" class="fw-semibold">Joining Date </label>
+                        </div>
+                        <div class="col-xxl-7">
+                          <label for="" class="text-muted">
+                            {{ (auth?.userProfile$ | async)?.createdAt | date : 'YY-MM-dd' }}
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end card body -->
+                  </div>
+                  <!-- end card -->
+                  <div class="card">
+                    <app-professional-speciality-list></app-professional-speciality-list>
+                  </div>
+                  <!-- end card -->
+                  <div class="card">
+                    <div class="card-header align-items-center d-flex">
+                      <h4 class="card-title mb-0 flex-grow-1">Services Provided</h4>
+                      <div></div>
+                    </div>
+                    <div class="card-body">
+                      <div class="px-3">
+                        <div class="form-check form-switch form-switch-success">
+                          <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck3" checked />
+                          <label class="form-check-label" for="SwitchCheck3">Online Video Consultation</label>
+                        </div>
+                        <div class="form-check form-switch form-switch-success">
+                          <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck3" />
+                          <label class="form-check-label" for="SwitchCheck3">In Person Clinic Visit</label>
+                        </div>
+                        <div class="form-check form-switch form-switch-success">
+                          <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck3" />
+                          <label class="form-check-label" for="SwitchCheck3">Instant Video Consult</label>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end card body -->
+
+                    <div class="card-header align-items-center d-flex">
+                      <h4 class="card-title mb-0 flex-grow-1">Service Charges</h4>
+                      <div>
+                        <a routerLink="/question" class="link-primary text-muted"> <i class="ri-pencil-fill fs-18 align-bottom me-1"></i></a>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-xxl-8">
+                          <label for="">In Person Booking Fee</label>
+                        </div>
+                        <div class="col-xxl-4">
+                          <label class="text-muted"> {{ (auth?.userProfile$ | async)?.professional?.bookingFee | currency : ' ETB ' : 'symbol' : '1.0-0' }} </label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xxl-8">
+                          <label for="">Online Consultation Fee</label>
+                        </div>
+                        <div class="col-xxl-4">
+                          <label class="text-muted">{{ (auth?.userProfile$ | async)?.professional?.consultationFee | currency : 'ETB ' : 'symbol' : '1.0-0' }} </label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xxl-8">
+                          <label for="">Instant Call Fee</label>
+                        </div>
+                        <div class="col-xxl-4">
+                          <label class="text-muted">{{ (auth?.userProfile$ | async)?.professional?.instantConsultationFee | currency : 'ETB ' : 'symbol' : '1.0-0' }} </label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xxl-8">
+                          <label for="">Time slot Interval</label>
+                        </div>
+                        <div class="col-xxl-4">
+                          <label class="text-muted">{{ (auth?.userProfile$ | async)?.professional?.professionType?.slotInterval }}</label>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end card body -->
+                  </div>
+                  <!-- end card -->
+                </div>
+                <!--end col-->
+                <div class="col-xxl-9">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title mb-3">About</h5>
+                      <p class="text-muted">{{ (auth?.userProfile$ | async)?.professional?.bio }}</p>
+                    </div>
+                    <!--end card-body-->
+                  </div>
+                  <!-- end card -->
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="card">
+                        <div class="card-header align-items-center d-flex">
+                          <div class="flex-shrink-0 ms-auto">
+                            <ul ngbNav #customNav="ngbNav" [activeId]="1" class="nav justify-content-end nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
+                              <li [ngbNavItem]="1" class="nav-item">
+                                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab"> Credentials </a>
+                                <ng-template ngbNavContent>
+                                  <div class="profile-timeline order-status">
+                                    <app-professional-qualification-list></app-professional-qualification-list>
+                                  </div>
+                                  <div class="profile-timeline order-status">
+                                    <app-professional-experience-list></app-professional-experience-list>
+                                  </div>
+                                  <div class="profile-timeline order-status">
+                                    <app-professional-registration-list></app-professional-registration-list>
+                                  </div>
+
+                                  <div class="row">
+                                    <div class="col-xl-12">
+                                      <div class="bg-light cardHeader mx-1">
+                                        <div class="headerTitle">
+                                          <p class="card-title mb-0">Availability</p>
+                                        </div>
+                                        <div class="headerButton">
+                                          <button
+                                            type="button"
+                                            class="btn btn-light add-btn"
+                                            data-bs-toggle="modal"
+                                            id="create-btn"
+                                            data-bs-target="#showModal"
+                                            (click)="showEditModal(editTemplate)"
+                                          >
+                                            <i class="ri-add-line align-bottom iconButton me-1"></i>
+                                          </button>
+                                        </div>
+                                      </div>
+
+                                      <div class="card mx-1">
+                                        <div class="card-body">
+                                          <div class="table-responsive table-card mb-0">
+                                            <table class="table">
+                                              <thead>
+                                                <tr class="bg-light text-muted text-uppercase">
+                                                  <th>Clinic Name</th>
+                                                  <th>Day of Week</th>
+                                                  <th>Start Time</th>
+                                                  <th>End Time</th>
+                                                  <th>Status</th>
+                                                  <th>Action</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr>
+                                                  <th [attr.colspan]="6" *ngIf="service.loading$ | async">
+                                                    <div class="spinner-border text-primary text-center" role="status">
+                                                      <span class="sr-only">Loading...</span>
+                                                    </div>
+                                                  </th>
+                                                </tr>
+                                                <ng-container *ngIf="!(service.loading$ | async)">
+                                                  <tr *ngFor="let item of service.data$ | async">
+                                                    <td>{{ item?.institutionUser?.institution?.name }}</td>
+                                                    <td>{{ item?.daysOfWeek }}</td>
+                                                    <td>{{ item?.startTime }}</td>
+                                                    <td>{{ item?.endTime }}</td>
+                                                    <td>
+                                                      <div class="form-check form-switch form-switch-success">
+                                                        <input
+                                                          class="form-check-input"
+                                                          type="checkbox"
+                                                          role="switch"
+                                                          id="SwitchCheck3"
+                                                          [checked]="item.isAvailable"
+                                                          (change)="onChange($event.target.checked, item)"
+                                                        />
+                                                      </div>
+                                                    </td>
+                                                    <td>
+                                                      <ul class="list-inline hstack gap-2 mb-0">
+                                                        <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                                          <a
+                                                            href="javascript:void(0);"
+                                                            data-bs-toggle="modal"
+                                                            class="text-black text-muted d-inline-block edit-item-btn"
+                                                            data-bs-toggle="modal"
+                                                            id="create-btn"
+                                                            data-bs-target="#showModal"
+                                                            (click)="showEditModal(editTemplate, item?.id)"
+                                                          >
+                                                            <i class="ri-pencil-fill fs-18"></i>
+                                                          </a>
+                                                        </li>
+                                                        <li class="list-inline-item me-0" ngbTooltip="Remove" placement="top" data-bs-toggle="tooltip" data-bs-trigger="hover">
+                                                          <a class="text-black text-muted d-inline-block remove-item-btn" data-bs-toggle="modal" data-bs-target="#deleteOrder">
+                                                            <i class="ri-delete-bin-5-fill fs-18"></i>
+                                                          </a>
+                                                        </li>
+                                                      </ul>
+                                                    </td>
+                                                  </tr>
+                                                </ng-container>
+                                                <ng-container>
+                                                  <tr *ngIf="(service.data$ | async)?.length === 0">
+                                                    <td [attr.colspan]="6" class="text-danger">No records found</td>
+                                                  </tr>
+                                                </ng-container>
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <ng-template #editTemplate>
+                                    <div class="modal-header bg-primary-subtle p-2 px-4">
+                                      <h5 class="modal-title tablelist-form mb-0" autocomplete="off">
+                                        <i class="align-middle text-primary me-1"></i>
+                                        {{ id ? 'Edit' : 'Add' }} Professional Info
+                                      </h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <app-professional-info-edit [id]="id" (onSaveComplete)="recordSaved($event)"></app-professional-info-edit>
+                                    </div>
+                                  </ng-template>
+                                </ng-template>
+                              </li>
+                              <li [ngbNavItem]="2" class="nav-item">
+                                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab"> Achievements </a>
+                                <ng-template ngbNavContent>
+                                  <div class="profile-timeline order-status">
+                                    <app-professional-achievement-list></app-professional-achievement-list>
+                                  </div>
+                                </ng-template>
+                              </li>
+                              <li [ngbNavItem]="3" class="nav-item">
+                                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab"> Membership </a>
+                                <ng-template ngbNavContent>
+                                  <div class="profile-timeline order-status">
+                                    <app-professional-membership-list></app-professional-membership-list>
+                                  </div>
+                                </ng-template>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="tab-content text-muted">
+                            <div [ngbNavOutlet]="customNav"></div>
+                          </div>
+                        </div>
+                        <!-- end card body -->
+                      </div>
+                      <!-- end card -->
+                    </div>
+                    <!-- end col -->
+                  </div>
+                </div>
+                <!--end col-->
+              </div>
+              <!--end row-->
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2" class="nav-item">
+            <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+              <i class="ri-list-unordered d-inline-block d-md-none"></i> <span class="d-none d-md-inline-block">Affilliates</span>
+            </a>
+            <ng-template ngbNavContent>
+              <div class="row">
+                <div class="col-xxl-3">
+                  <div class="card profileCardReviewOR">
+                    <div class="card-header align-items-center d-flex">
+                      <h4 class="card-title mb-0 flex-grow-1">Overall Rating</h4>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="flex-row">
+                        <div>
+                          <div>
+                            <div class="bg-light rounded-2 px-2">
+                              <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                  <div class="fs-16 align-middle text-warning">
+                                    <ng-container *ngFor="let star of stars; let i = index">
+                                      <i
+                                        class="ri-star-fill"
+                                        *ngIf="i + 1 <= (reviewService?.dataSummary$ | async)?.overallRating && (reviewService?.dataSummary$ | async)?.overallRating > 0"
+                                      ></i>
+                                      <i
+                                        class="ri-star-half-fill"
+                                        *ngIf="
+                                          i + 1 > (reviewService?.dataSummary$ | async)?.overallRating &&
+                                          i < (reviewService?.dataSummary$ | async)?.overallRating &&
+                                          (reviewService?.dataSummary$ | async)?.overallRating > 0
+                                        "
+                                      ></i>
+                                      <i
+                                        class="ri-star-line"
+                                        *ngIf="
+                                          (i + 1 > (reviewService?.dataSummary$ | async)?.overallRating && i >= (reviewService?.dataSummary$ | async)?.overallRating) ||
+                                          (reviewService?.dataSummary$ | async)?.overallRating == 0
+                                        "
+                                      ></i>
+                                    </ng-container>
+                                  </div>
+                                </div>
+                                <div class="flex-shrink-0">
+                                  <h6 class="mb-0">{{ (reviewService?.dataSummary$ | async)?.overallRating | number : '1.1-1' ?? 0 }} out of 5</h6>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="text-center p-3">
+                              <div class="text-muted">
+                                Total <span class="fw-medium">{{ (reviewService?.data$ | async)?.length | thousandSuffixPipe }}</span> reviews
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="">
+                            <div class="row align-items-center g-2">
+                              <div class="col-auto">
+                                <div class="p-1">
+                                  <h6 class="mb-0">5 <i class="ri-star-fill text-warning"></i></h6>
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="p-1">
+                                  <div class="progress animated-progess progress-sm">
+                                    <div
+                                      class="progress-bar bg-success"
+                                      role="progressbar"
+                                      [style.width.%]="(reviewService?.dataSummary$ | async)?.starRatings[4]"
+                                      [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.starRatings[4]"
+                                      aria-valuemin="0"
+                                      aria-valuemax="100"
+                                    ></div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-auto">
+                                <div class="p-1">
+                                  <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.starRatings[4] }}</h6>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- end row -->
+
+                            <div class="row align-items-center g-2">
+                              <div class="col-auto">
+                                <div class="p-1">
+                                  <h6 class="mb-0">4 <i class="ri-star-fill text-warning"></i></h6>
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="p-1">
+                                  <div class="progress animated-progess progress-sm">
+                                    <div
+                                      class="progress-bar bg-success"
+                                      role="progressbar"
+                                      [style.width.%]="(reviewService?.dataSummary$ | async)?.starRatings[3]"
+                                      [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.starRatings[3]"
+                                      aria-valuemin="0"
+                                      aria-valuemax="100"
+                                    ></div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-auto">
+                                <div class="p-1">
+                                  <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.starRatings[3] }}</h6>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- end row -->
+
+                            <div class="row align-items-center g-2">
+                              <div class="col-auto">
+                                <div class="p-1">
+                                  <h6 class="mb-0">3 <i class="ri-star-fill text-warning"></i></h6>
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="p-1">
+                                  <div class="progress animated-progess progress-sm">
+                                    <div
+                                      class="progress-bar bg-warning"
+                                      role="progressbar"
+                                      [style.width.%]="(reviewService?.dataSummary$ | async)?.starRatings[2]"
+                                      [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.starRatings[2]"
+                                      aria-valuemin="0"
+                                      aria-valuemax="100"
+                                    ></div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-auto">
+                                <div class="p-1">
+                                  <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.starRatings[2] }}</h6>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- end row -->
+
+                            <div class="row align-items-center g-2">
+                              <div class="col-auto">
+                                <div class="p-1">
+                                  <h6 class="mb-0">2 <i class="ri-star-fill text-warning"></i></h6>
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="p-1">
+                                  <div class="progress animated-progess progress-sm">
+                                    <div
+                                      class="progress-bar bg-success"
+                                      role="progressbar"
+                                      [style.width.%]="(reviewService?.dataSummary$ | async)?.starRatings[1]"
+                                      [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.starRatings[1]"
+                                      aria-valuemin="0"
+                                      aria-valuemax="100"
+                                    ></div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="col-auto">
+                                <div class="p-1">
+                                  <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.starRatings[1] }}</h6>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- end row -->
+
+                            <div class="row align-items-center g-2">
+                              <div class="col-auto">
+                                <div class="p-1">
+                                  <h6 class="mb-0">1 <i class="ri-star-fill text-warning"></i></h6>
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="p-1">
+                                  <div class="progress animated-progess progress-sm">
+                                    <div
+                                      class="progress-bar bg-danger"
+                                      role="progressbar"
+                                      [style.width.%]="(reviewService?.dataSummary$ | async)?.starRatings[0]"
+                                      [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.starRatings[0]"
+                                      aria-valuemin="0"
+                                      aria-valuemax="100"
+                                    ></div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-auto">
+                                <div class="p-1">
+                                  <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.starRatings[0] }}</h6>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- end row -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card profileCardReviewOT">
+                    <div class="card-header align-items-center d-flex">
+                      <h4 class="card-title mb-0 flex-grow-1">Wait Time</h4>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Excellent</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-success"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.EXCELLENT"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.EXCELLENT"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.waitTimeRatings?.EXCELLENT }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Very Good</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-success"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.GOOD"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.GOOD"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.waitTimeRatings?.GOOD }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Good</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-warning"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.MEDIUM"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.MEDIUM"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.waitTimeRatings?.MEDIUM }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Average</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-success"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.AVERAGE"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.AVERAGE"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.waitTimeRatings?.AVERAGE }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Poor</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-danger"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.POOR"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.POOR"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.waitTimeRatings?.POOR }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+                    </div>
+                  </div>
+                  <div class="card profileCardReviewOT">
+                    <div class="card-header align-items-center d-flex">
+                      <h4 class="card-title mb-0 flex-grow-1">Friendliness</h4>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Excellent</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-success"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.mannerRatings?.EXCELLENT"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.mannerRatings?.EXCELLENT"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.mannerRatings?.EXCELLENT }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Very Good</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-success"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.GOOD"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.GOOD"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.waitTimeRatings?.GOOD }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Good</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-warning"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.MEDIUM"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.MEDIUM"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.waitTimeRatings?.MEDIUM }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Average</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-warning"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.AVERAGE"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.AVERAGE"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.waitTimeRatings?.AVERAGE }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Poor</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-danger"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.POOR"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.POOR"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.waitTimeRatings?.POOR }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+                    </div>
+                  </div>
+                  <div class="card profileCardReviewOT">
+                    <div class="card-header align-items-center d-flex">
+                      <h4 class="card-title mb-0 flex-grow-1">Issue Explanation</h4>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Excellent</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-success"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.mannerRatings?.EXCELLENT"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.mannerRatings?.EXCELLENT"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.mannerRatings?.EXCELLENT }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Very Good</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-success"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.GOOD"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.GOOD"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.waitTimeRatings?.GOOD }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Good</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-warning"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.MEDIUM"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.MEDIUM"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.waitTimeRatings?.MEDIUM }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Average</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-success"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.AVERAGE"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.AVERAGE"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.waitTimeRatings?.AVERAGE }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Poor</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-danger"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.POOR"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.POOR"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.waitTimeRatings?.POOR }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+                    </div>
+                  </div>
+                  <div class="card profileCardReviewOT">
+                    <div class="card-header align-items-center d-flex">
+                      <h4 class="card-title mb-0 flex-grow-1">Value for Money</h4>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Excellent</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-success"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.mannerRatings?.EXCELLENT"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.mannerRatings?.EXCELLENT"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.mannerRatings?.EXCELLENT }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Very Good</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-success"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.GOOD"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.GOOD"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.waitTimeRatings?.GOOD }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Good</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-warning"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.MEDIUM"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.MEDIUM"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.waitTimeRatings?.MEDIUM }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Average</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-warning"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.AVERAGE"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.AVERAGE"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.waitTimeRatings?.AVERAGE }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+
+                      <div class="row align-items-center g-2">
+                        <div class="col-xxl-4 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0">Poor</h6>
+                          </div>
+                        </div>
+                        <div class="col-xxl-6 col-md-8 col-sm-8">
+                          <div class="pt-2">
+                            <div class="progress animated-progess progress-sm">
+                              <div
+                                class="progress-bar bg-danger"
+                                role="progressbar"
+                                [style.width.%]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.POOR"
+                                [attr.aria-valuenow]="(reviewService?.dataSummary$ | async)?.waitTimeRatings?.POOR"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xxl-2 col-md-2 col-sm-2">
+                          <div class="pt-2">
+                            <h6 class="mb-0 text-muted">{{ (reviewService?.dataSummary$ | async)?.waitTimeRatings?.POOR }}</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end row -->
+                    </div>
+                  </div>
+
+                  <div class="card profileCardReviewOT">
+                    <div class="card-body">
+                      <h5 class="card-title mb-5">Recommendations</h5>
+
+                      <div class="progress animated-progess custom-progress progress-label">
+                        <div
+                          class="progress-bar bg-primary"
+                          role="progressbar"
+                          [style.width.%]="reviewService?.data$ | async | recommendation"
+                          [attr.aria-valuenow]="reviewService?.data$ | async | recommendation"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        >
+                          <div class="label">{{ reviewService?.data$ | async | recommendation }}%</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xxl-9">
+                  <div class="card profileCardReview">
+                    <div class="card-body">
+                      <div class="table-responsive table-card">
+                        <table #TABLE class="table">
+                          <thead>
+                            <tr class="border-top border-opacity-10">
+                              <th class="text-muted">Review Date</th>
+                              <th class="text-muted">Patient Name</th>
+                              <th class="text-muted">Review</th>
+                              <th class="text-muted">Rating</th>
+                              <th class="text-muted">Recommended</th>
+                              <th class="text-muted">Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th [attr.colspan]="6" *ngIf="reviewService.loading$ | async">
+                                <div class="spinner-border text-primary text-center" role="status">
+                                  <span class="sr-only">Loading...</span>
+                                </div>
+                              </th>
+                            </tr>
+                            <ng-container *ngIf="!(reviewService.loading$ | async)">
+                              <tr *ngFor="let item of reviewService.data$ | async; let i = index">
+                                <td>{{ item?.createdAt | date : 'YYYY-MM-dd' }}</td>
+
+                                <td>
+                                  <a href="" [routerLink]="['/patients', item?.patient?.id]">
+                                    <img
+                                      src="{{ item.patient?.user?.userProfile?.profilePic | removePort }}"
+                                      appImgFallback="assets/images/users/user-dummy-img.jpg"
+                                      class="avatar-xxs rounded-circle me-1"
+                                      alt=""
+                                    />
+                                  </a>
+
+                                  <a href="javascript:void(0);" [routerLink]="['/patients', item?.patient?.id]" class="text-reset"
+                                    >{{ item.patient?.user?.userProfile?.firstName }} {{ item.patient?.user?.userProfile?.middleName }}</a
+                                  >
+                                </td>
+                                <td>
+                                  <p class="text" [title]="item?.review">
+                                    {{ item?.review | truncate }}
+                                    <span class="ellipsis">...</span>
+                                  </p>
+                                </td>
+                                <td>{{ item?.overallRating | number : '1.1-1' }} <i class="ri-star-fill text-warning mt-2"> </i></td>
+                                <td>
+                                  <ng-container *ngIf="item?.isDoctorRecommended; else notRecommended">
+                                    <span class="text-success">Yes</span>
+                                  </ng-container>
+                                  <ng-template #notRecommended>
+                                    <span class="text-danger">No</span>
+                                  </ng-template>
+                                </td>
+
+                                <td>
+                                  <ul class="list-inline hstack gap-2 mb-0">
+                                    <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="View" placement="top">
+                                      <a class="text-primary d-inline-block" style="color: #299cdb !important"> Replay </a>
+                                    </li>
+                                    <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="View" placement="top">
+                                      <a class="text-primary d-inline-block" style="color: #0ab39c !important"> View </a>
+                                    </li>
+                                  </ul>
+                                </td>
+                              </tr>
+                            </ng-container>
+                            <ng-container *ngIf="(reviewService.data$ | async)?.length === 0">
+                              <tr>
+                                <td [attr.colspan]="6" class="text-danger">No data found</td>
+                              </tr>
+                            </ng-container>
+                          </tbody>
+                          <tfoot>
+                            <tr>
+                              <td class="py-1" [attr.colspan]="6">
+                                <app-tp-pagination-info
+                                  [collectionSize]="(reviewService.total$ | async)!"
+                                  [pageSize]="reviewService.pageSize"
+                                  [page]="reviewService.page"
+                                  [loading]="reviewService.loading$ | async"
+                                ></app-tp-pagination-info>
+                              </td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                      <div class="row">
+                        <app-tp-pagination [collectionSize]="(reviewService.total$ | async)!" [(pageSize)]="reviewService.pageSize" [(page)]="reviewService.page">
+                        </app-tp-pagination>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--end card-->
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="3" class="nav-item">
+            <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+              <i class="ri-price-tag-line d-inline-block d-md-none"></i> <span class="d-none d-md-inline-block">Reviews</span>
+            </a>
+            <ng-template ngbNavContent>
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <app-professional-achievement-list></app-professional-achievement-list>
+                    </div>
+                  </div>
+                  <!--end row-->
+                </div>
+                <!--end card-body-->
+              </div>
+              <!--end card-->
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="4" class="nav-item">
+            <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+              <i class="ri-folder-4-line d-inline-block d-md-none"></i> <span class="d-none d-md-inline-block">Settings</span>
+            </a>
+            <ng-template ngbNavContent>
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <app-professional-experience-list></app-professional-experience-list>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </li>
+        </ul>
+        <div class="flex-shrink-0">
+          <a routerLink="/personal-info" class="btn btn-success"><i class="ri-edit-box-line align-bottom"></i> Edit Profile</a>
+        </div>
+      </div>
+      <!-- Tab panes -->
+      <div class="tab-content pt-4 text-muted">
+        <div [ngbNavOutlet]="customNav"></div>
+      </div>
+      <!--end tab-content-->
+    </div>
+  </div>
+  <!--end col-->
+</div>
+<!--end row-->

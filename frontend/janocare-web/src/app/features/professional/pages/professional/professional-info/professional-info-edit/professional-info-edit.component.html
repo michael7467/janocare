@@ -1,0 +1,138 @@
+
+<form *ngIf="isLoaded && !isError" (ngSubmit)="goToNext(frm)" [formGroup]="frm" novalidate>
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="mb-3">
+          <label *ngIf="!institutionUserId.touched" [for]="id" class="d-block"> Institution {{ isRequiredBank }} </label>
+          <label *ngIf="institutionUserId.touched && !institutionUserId.invalid" [for]="id" class="valid-feedback d-block">Institution {{ isRequiredBank }}</label>
+          <label *ngIf="institutionUserId.touched && institutionUserId.invalid" [for]="id" class="invalid-feedback d-block">Institution {{ isRequiredBank }}</label>
+          <ng-select
+              #bankCtl
+              [searchable]="true"
+             
+              [items]="$banks | async"
+              [trackByFn]="bankTrackedBy"
+              bindLabel="institution.name"
+              bindValue="id"
+              [loading]="bankLoading"
+              [placeholder]="'Select institution ...'"
+              typeToSearchText="Start typing institution name..."
+              [typeahead]="$bankInput"
+              id="institutionUserId"
+              name="institutionUserId"
+              formControlName="institutionUserId"
+              [ngClass]="{
+              'is-valid': institutionUserId.touched && !institutionUserId.invalid,
+              'is-invalid': institutionUserId.touched && institutionUserId.invalid
+              }"
+          >
+          </ng-select>
+    
+          <ng-template ng-header-tmp>
+              <input
+              appAutofocus
+              class="form-control form-control-sm bg-primary-subtle text-primary"
+              style="width: 100%; line-height: 24px"
+              type="text"
+              (input)="bankCtl.filter($event.target['value'])"
+              />
+          </ng-template>
+        </div>
+  
+
+    </div>
+      <div class="col-12 col-sm-6">
+        <app-tp-input [label]="'Office No.'" [type]="'text'" formControlName="officeNumber" [control]="officeNumber"> </app-tp-input>
+
+      </div>
+      <div class="col-md-6">
+        <div class="mb-3 select">
+          <label *ngIf="!daysOfWeek.touched" [for]="id" class="d-block"> Days of Week {{ isRequired }} </label>
+          <label *ngIf="daysOfWeek.touched && !daysOfWeek.invalid" [for]="id" class="valid-feedback d-block">Days of Week {{ isRequired }}</label>
+          <label *ngIf="daysOfWeek.touched && daysOfWeek.invalid" [for]="id" class="invalid-feedback d-block">Days of Week {{ isRequired }}</label>
+          <ng-select
+             #daysOfWeekCtl
+            
+              [searchable]="false"
+              (change)="daysOfWeekCtl.blur()"
+              [items]="$daysList"
+              bindLabel="name"
+              bindValue="value"
+              [placeholder]="'Select daysOfWeek ...'"
+              id="value"
+              name="daysOfWeek"
+              formControlName="daysOfWeek"
+              [ngClass]="{
+              'is-valid': daysOfWeek.touched && !daysOfWeek.invalid,
+              'is-invalid': daysOfWeek.touched && daysOfWeek.invalid
+              }"
+          >
+          </ng-select>
+          <ng-template ng-header-tmp>
+              <input
+              appAutofocus
+              class="form-control form-control-sm bg-primary-subtle text-primary"
+              style="width: 100%; line-height: 24px"
+              type="text"
+              (input)="daysOfWeekCtl.filter($event.target['value'])"
+              />
+          </ng-template>
+          <div [id]="'validation' + id" class="invalid-feedback d-block">
+              &nbsp;
+              <ng-container *ngIf="daysOfWeek.touched && daysOfWeek.invalid">
+                <small class="text-danger" *ngFor="let error of Errors"> <i class="ri ri-close-line"> </i> {{ error.message }} </small>
+              </ng-container>
+            </div>
+        </div>
+        <!-- <label for="id" class="d-block"> Day Of Week </label>
+        <ng-select
+           #daysOfWeekCtl
+            [searchable]="false"
+            (change)="daysOfWeekCtl.blur()"
+            [items]="$daysList"
+            bindLabel="name"
+            bindValue="value"
+            [placeholder]="'Select day ...'"
+            id="value"
+            name="daysOfWeek"
+            formControlName="daysOfWeek"
+            [ngClass]="{
+            'is-valid': daysOfWeek.touched && !daysOfWeek.invalid,
+            'is-invalid': daysOfWeek.touched && daysOfWeek.invalid
+            }"
+          
+        >
+        </ng-select>
+        <ng-template ng-header-tmp>
+            <input
+            appAutofocus
+            class="form-control form-control-sm bg-primary-subtle text-primary"
+            style="width: 100%; line-height: 24px"
+            type="text"
+            (input)="daysOfWeekCtl.filter($event.target['value'])"
+            />
+        </ng-template> -->
+        </div>
+
+      <div class="col-12 col-sm-6">
+        <!-- <input type="time" name="" id=""> -->
+        <app-tp-input [label]="'Start Time'" [type]="'time'" formControlName="startTime" [control]="startTime"> </app-tp-input>
+
+
+      </div>
+      <div class="col-12 col-sm-6">
+        <app-tp-input [label]="'End Time'" [type]="'time'" formControlName="endTime" [control]="endTime"> </app-tp-input>
+      </div>
+    
+    </div>
+    <div class="form-group row mt-4">
+      <div class="col-12 text-center">
+        <button type="submit" class="btn btn-primary" [disabled]="frm.invalid">
+          <i class="ri ri-save-line label-icon align-middle fs-16 me-2"></i>
+          {{ saveLabel }} Details
+        </button>
+      </div>
+    </div>
+  </form>
+  

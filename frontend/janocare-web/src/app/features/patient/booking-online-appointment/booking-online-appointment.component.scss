@@ -1,0 +1,550 @@
+
+.active-date {
+  border-bottom: 2px solid #000; /* Change color as needed */
+}
+
+
+.custom-button {
+  border: 1px solid #831089; /* Change as needed */
+  color: #831089;
+}
+
+.custom-button:hover {
+  background-color: #831089; /* Change as needed */
+  color: white; /* Change as needed */
+}
+::ng-deep .carousel-control-prev-icon,
+::ng-deep .carousel-control-next-icon {
+  display: none;
+}
+.active {
+  background-color: #299cdb;
+  color: white;
+}
+
+.center-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.half-inside-outside {
+  position: relative;
+  top: -50%;
+}
+
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link{
+  background: none;
+  color: #831089;
+}
+.active{
+background: none;
+}
+.active i{
+color: #831089;
+}
+.active span {
+  color: #831089 !important;
+}
+.active .circle-label{
+  background: #831089 !important;
+}
+
+
+
+
+
+.custom-radio {
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+  font-size: 22px;
+  user-select: none;
+}
+
+.custom-radio input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+}
+
+.custom-radio input:checked ~ .checkmark i {
+  display: block;
+}
+.custom-radio {
+  input:checked ~ i {
+    color: #831089;
+  }
+}
+
+.profileStepper{
+
+  .leftDetail{
+    @media only screen and (max-width: 600px) {
+      /* Styles for extra small devices (phones, 600px and down) */
+      margin-left: 120px !important;
+      margin-top: 15px !important;
+    
+    }
+  
+    @media only screen and (min-width: 601px) and (max-width: 768px) {
+      /* Styles for small devices (portrait tablets and large phones, 601px - 768px) */
+     
+    }
+  
+    @media only screen and (min-width: 769px) and (max-width: 992px) {
+      /* Styles for medium devices (landscape tablets, 769px - 992px) */
+
+    }
+  
+    @media only screen and (min-width: 993px) and (max-width: 1200px) {
+      /* Styles for large devices (laptops/desktops, 993px - 1200px) */
+  
+    }
+  
+    @media only screen and (min-width: 1201px) {
+      /* Styles for extra large devices (large laptops and desktops, 1201px and up) */
+      //  margin-left: -25px !important;
+
+    }
+  }
+  
+  .stepperLabel{
+    display: flex;
+    flex-direction: column;
+    @media only screen and (max-width: 600px) {
+      /* Styles for extra small devices (phones, 600px and down) */
+      justify-content: center;
+      align-items: center;
+      margin-left: -40px !important;
+       margin-top: -5px !important;
+      span{
+        display: none;
+     }
+     .iconSize{
+      font-size: 1.5rem;
+    
+    }
+    .iconSizeOp{
+      font-size: 2rem;
+    
+    }
+     .circle-label {
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px; /* adjust as needed */
+      height: 40px; /* adjust as needed */
+      border-radius: 50%;
+      color: white;
+      background-color: #c1bfbf; /* adjust as needed */
+    }
+    }
+  
+    @media only screen and (min-width: 601px) and (max-width: 768px) {
+      /* Styles for small devices (portrait tablets and large phones, 601px - 768px) */
+      span{
+        display: none;
+     }
+      .iconSize{
+        font-size: 1.5rem;
+      
+      }
+      .iconSizeOp{
+        font-size: 2rem;
+      
+      }
+      .circle-label {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px; /* adjust as needed */
+        height: 40px; /* adjust as needed */
+        border-radius: 50%;
+        color: white;
+        background-color: #c1bfbf; /* adjust as needed */
+      }
+    }
+  
+    @media only screen and (min-width: 769px) and (max-width: 992px) {
+      /* Styles for medium devices (landscape tablets, 769px - 992px) */
+      span{
+        display: none;
+     }
+      .iconSize{
+        font-size: 1.5rem;
+      
+      }
+      .iconSizeOp{
+        font-size: 2rem;
+      
+      }
+      .circle-label {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px; /* adjust as needed */
+        height: 40px; /* adjust as needed */
+        border-radius: 50%;
+        color: white;
+        background-color: #c1bfbf; /* adjust as needed */
+      }
+    }
+  
+    @media only screen and (min-width: 993px) and (max-width: 1200px) {
+      /* Styles for large devices (laptops/desktops, 993px - 1200px) */
+      justify-content: center;
+      align-items: center;
+      span{
+         font-size: 1rem;
+      }
+      .iconSize{
+        font-size: 1.5rem;
+      
+      }
+      .iconSizeOp{
+        font-size: 2rem;
+      
+      }
+      .circle-label {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px; /* adjust as needed */
+        height: 40px; /* adjust as needed */
+        border-radius: 50%;
+        color: white;
+        background-color: #c1bfbf; /* adjust as needed */
+      }
+    }
+  
+    @media only screen and (min-width: 1201px) {
+      /* Styles for extra large devices (large laptops and desktops, 1201px and up) */
+      //  margin-left: -25px !important;
+   
+      justify-content: center;
+      align-items: center;
+      span{
+         font-size: 1rem;
+      }
+      .iconSize{
+        font-size: 1.5rem;
+      
+      }
+      .iconSizeOp{
+        font-size: 2rem;
+      
+      }
+      .circle-label {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px; /* adjust as needed */
+        height: 40px; /* adjust as needed */
+        border-radius: 50%;
+        color: white;
+        background-color: #c1bfbf; /* adjust as needed */
+      }
+    }
+  }
+  @media only screen and (max-width: 600px) {
+    /* Styles for extra small devices (phones, 600px and down) */
+   margin-left: -10px !important;
+    margin-right: -10px !important;
+  }
+
+  @media only screen and (min-width: 601px) and (max-width: 768px) {
+    /* Styles for small devices (portrait tablets and large phones, 601px - 768px) */
+    margin-left: -13px !important;
+    margin-right: -13px !important;
+  }
+
+  @media only screen and (min-width: 769px) and (max-width: 992px) {
+    /* Styles for medium devices (landscape tablets, 769px - 992px) */
+    margin-left: -10px !important;
+    margin-right: -10px !important;
+  }
+
+  @media only screen and (min-width: 993px) and (max-width: 1200px) {
+    /* Styles for large devices (laptops/desktops, 993px - 1200px) */
+    margin-left: -10px !important;
+    margin-right: -10px !important;
+  }
+
+  @media only screen and (min-width: 1201px) {
+    /* Styles for extra large devices (large laptops and desktops, 1201px and up) */
+    //  margin-left: -25px !important;
+    margin-left: -10px !important;
+    margin-right: -10px !important;
+    margin-top: -10px !important;
+  }
+}
+
+.appointmentContent{
+  @media only screen and (max-width: 600px) {
+    /* Styles for extra small devices (phones, 600px and down) */
+   margin-left: -10px !important;
+    margin-right: -10px !important;
+    span{
+      font-size: 0.7rem;
+    }
+    p{
+
+      font-size: 0.5rem;
+    }
+    .arrow-left{
+      margin-left: -50px;
+      color: #299cdb;
+    }
+    .arrow-right{
+       margin-right: -50px;
+      color: #299cdb;
+    }
+    .las {
+      font-size:1.5em;
+    }
+    .date-div {
+      margin: 0 5px;
+    }
+  //   .no-margin {
+  //     margin-left: -40px;
+  //     margin-right: -20px;
+  // }
+      .carouselBig{
+        display: none;
+      }
+      .carouselSmall{
+        display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap
+      }
+      .btnCarousel{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .row-content {
+        display: flex;
+        flex-direction: row;
+  
+      
+      }
+      .row-content-inner {
+        display: flex;
+        flex-direction: row;
+  
+      
+      }
+  }
+
+  @media only screen and (min-width: 601px) and (max-width: 768px) {
+    /* Styles for small devices (portrait tablets and large phones, 601px - 768px) */
+    margin-left: -13px !important;
+    margin-right: -13px !important;
+    .btnCarousel{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .row-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      // gap: 10px;
+    }
+    .row-content-inner {
+      display: flex;
+      flex-direction: row;
+
+    
+    }
+    span{
+      font-size: 0.8rem;
+    }
+    p{
+      font-size: 0.7rem;
+    }
+    .arrow-left{
+      margin-left: -50px;
+      color: #299cdb;
+    }
+    .arrow-right{
+      margin-right: -50px;
+      color: #299cdb;
+    }
+    .las {
+      font-size:2.5em;
+    }
+    .date-div {
+      margin: 0 10px;
+    }
+    .carouselBig{
+      display: none;
+    }
+    .carouselSmall{
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap
+    }
+  }
+
+  @media only screen and (min-width: 769px) and (max-width: 992px) {
+    /* Styles for medium devices (landscape tablets, 769px - 992px) */
+    .btnCarousel{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .row-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      // gap: 10px;
+    }
+    .row-content-inner {
+      display: flex;
+      flex-direction: row;
+
+    
+    }
+    span{
+      font-size: 0.8rem;
+    }
+    p{
+      font-size: 0.7rem;
+    }
+    .arrow-left{
+      margin-left: -50px;
+      color: #299cdb;
+    }
+    .arrow-right{
+      margin-right: -50px;
+      color: #299cdb;
+    }
+    .las {
+      font-size:2.5em;
+    }
+    .date-div {
+      margin: 0 10px;
+    }
+    .carouselSmall{
+      display: none;
+    }
+    .carouselBig{
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap
+    }
+  }
+
+  @media only screen and (min-width: 993px) and (max-width: 1200px) {
+    /* Styles for large devices (laptops/desktops, 993px - 1200px) */
+    margin-left: -10px !important;
+    margin-right: -10px !important;
+    margin-top: -10px !important;
+    span{
+      font-size: 1rem;
+    }
+    p{
+      font-size: 0.7rem;
+    }
+    .arrow-left{
+      margin-left: -20px;
+      color: #299cdb;
+    }
+    .arrow-right{
+      margin-right: -20px;
+      color: #299cdb;
+    }
+    .las {
+      font-size:2.5em;
+    }
+    .date-div {
+      margin: 0 10px;
+    }
+    .carouselSmall{
+      display: none;
+    }
+    .carouselBig{
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap
+    }
+
+    .btnCarousel{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .row-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .row-content-inner {
+      display: flex;
+      flex-direction: row;
+
+    
+    }
+  }
+
+  @media only screen and (min-width: 1201px) {
+    /* Styles for extra large devices (large laptops and desktops, 1201px and up) */
+    //  margin-left: -25px !important;
+    margin-left: -10px !important;
+    margin-right: -10px !important;
+    margin-top: -10px !important;
+    span{
+      font-size: 1rem;
+    }
+    p{
+      font-size: 0.7rem;
+    }
+    .arrow-left{
+      margin-left: 10px;
+      color: #299cdb;
+    }
+    .arrow-right{
+      margin-right: 10px;
+      color: #299cdb;
+    }
+    .las {
+      font-size:2.5em;
+    }
+    .date-div {
+      margin: 0 25px;
+    }
+    .carouselSmall{
+      display: none;
+    }
+    .carouselBig{
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap
+    }
+
+    .btnCarousel{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .row-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .row-content-inner {
+      display: flex;
+      flex-direction: row;
+
+    
+    }
+  }
+}

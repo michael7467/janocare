@@ -1,0 +1,473 @@
+<section class="pt-4 bg-light" id="doctors">
+  <div class="container">
+ 
+
+
+<div class="row">
+  <div class="col-xl-7">
+    <div class="accordion accordion-flush">
+      <ng-container *ngIf="!((service?.dataSingle$ | async)?.loading$ | async)">
+        <div class="card profileDetailCard joblist-card">
+          <div class="card-body">
+            <div id="t_{{ (service?.dataSingle$ | async)?.id }} d-flex">
+              <div class="row">
+                <div class="col-xxl-9 col-md-9 col-sm-12">
+                  <div class="team-profile-img d-flex">
+                    <div class="avatar-lg img-thumbnail rounded-circle flex-shrink-0">
+                      <a [routerLink]="['/doctor-profile', (service?.dataSingle$ | async)?.id]">
+                        <img
+                          [src]="(service?.dataSingle$ | async)?.user?.userProfile?.profilePic | removePort"
+                          appImgFallback="assets/images/users/user-dummy-img.jpg"
+                          id="img"
+                          class="rounded-circle img-fluid userprofile"
+                          alt="Avatar"
+                      /></a>
+                    </div>
+
+                    <div class="team-content px-4">
+                      <a [routerLink]="['/doctor-profile', (service?.dataSingle$ | async)?.id]" data-bs-toggle="offcanvas" aria-controls="offcanvasExample">
+                        <h5 class="fs-16 fw-bold mb-1">
+                          Dr. {{ (service?.dataSingle$ | async)?.user?.userProfile?.firstName }} {{ (service?.dataSingle$ | async)?.user?.userProfile?.lastName }}
+                          <span class="mt-2"><i class="bx bxs-badge-check mt-1" style="color: #6f42c1"></i></span>
+                        </h5>
+                      </a>
+                      <p class="pt-1 mb-0">{{ (service?.dataSingle$ | async)?.professionType?.type }}</p>
+
+                      <ng-container *ngIf="getExperience((service?.dataSingle$ | async)?.professionalExperiences) > 0">
+                        <p class="pt-1 mb-0">{{ getExperience((service?.dataSingle$ | async)?.professionalExperiences) }} Years of experience</p>
+                      </ng-container>
+                      <div class="pt-1 me-2">
+                        {{ (service?.dataSingle$ | async)?.user?.userProfile?.state?.stateName }}, {{ (service?.dataSingle$ | async)?.user?.userProfile?.country?.countryName }}
+                      </div>
+
+                      <p class="mb-0 pt-1">
+                        <i class="ri-map-pin-line"></i>
+                        <span class="px-1" *ngFor="let address of (service?.dataSingle$ | async)?.user?.institutionUsers; let i = index">
+                          <ng-container *ngIf="i < 2">{{ address?.institution.name }}{{ i < 1 ? ', ' : '' }}</ng-container>
+                        </span>
+                        <ng-container *ngIf="data?.user?.institutionUsers.length > 2"> +{{ data?.user?.institutionUsers.length - 2 }} more </ng-container>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xxl-3 col-md-3 col-sm-3">
+                  <div class="leftDetail">
+                    <div class="d-flex" style="margin-top: -10px">
+                      <i class="ri-time-line fs-18"></i>
+                      <p class="pt-1"><span class="px-1 fs-12" style="color: rgb(103 177 115)">Available Today</span></p>
+                    </div>
+                    <div class="d-flex" style="margin-top: -10px">
+                      <i class="ri-thumb-up-line fs-18"></i>
+                      <p class="pt-1"><span class="px-1 fs-12">98%</span></p>
+                    </div>
+                    <div class="d-flex" style="margin-top: -10px">
+                      <i class="ri-user-line fs-18"></i>
+                      <p class="pt-1"><span class="px-1 fs-12">250 patients</span></p>
+                    </div>
+                    <div class="d-flex" style="margin-top: -10px">
+                      <i class="ri-star-fill fs-18"></i>
+                      <p class="pt-1"><span class="px-1 fs-12">4.9 (350 reviews)</span></p>
+                    </div>
+                    <div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--end col-->
+            <div class="pt-4">
+              <h4>About</h4>
+              <p class="text-muted">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, nostrum nisi reprehenderit impedit commodi fugit, possimus hic perferendis itaque dicta
+                laudantium aperiam Architecto.
+                <a href="#" class="read-more" style="color: #20c0f3">read more</a>
+              </p>
+            </div>
+            <div></div>
+          </div>
+        </div>
+
+        <!-- pagination -->
+      </ng-container>
+
+      <div class="card profileDetailCard joblist-card">
+        <div class="card-body">
+          <div class="col-lg-12">
+            <div class="">
+              <div class="card-header align-items-center d-flex">
+                <ul ngbNav #customNav="ngbNav" [activeId]="1" class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
+                  <li [ngbNavItem]="1" class="nav-item">
+                    <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab"> Info </a>
+                    <ng-template ngbNavContent>
+                      <!-- <h3 class="pt-4">Availablity</h3> -->
+                      <h5 class="fs-22 pt-4"><span class="dot mb-1"></span> Availablity</h5>
+
+                      <div *ngFor="let ins of info?.data$ | async">
+                        <div class="row py-2">
+                          <div class="col-xxl-6 col-md-6 col-sm-6">
+                            <h5>{{ ins?.institution }}</h5>
+                            <p>{{ ins.address }}</p>
+                          </div>
+                          <div class="col-xxl-6 col-md-6 col-sm-6">
+                            <div *ngFor="let inf of ins?.info">
+                              <div class="row">
+                                <div class="col-xxl-6 col-md-6 col-sm-6">
+                                  <h6>{{ inf?.daysOfWeek }}</h6>
+                                </div>
+                                <div class="col-xxl-3 col-md-3 col-sm-3">
+                                  <h6>{{ inf?.startTime }} {{ getAmPm(inf?.startTime) }}</h6>
+                                </div>
+                                <div class="col-xxl-3 col-md-3 col-sm-3">
+                                  <h6>{{ inf?.endTime }} {{ getAmPm(inf?.endTime) }}</h6>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </li>
+                  <li [ngbNavItem]="2" class="nav-item">
+                    <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab"> Reviews </a>
+                    <ng-template ngbNavContent>
+                      <div class="card profileCardReview">
+                        <div class="card-body">
+                          <div class="table-responsive table-card">
+                            <table #TABLE class="table">
+                              <thead>
+                                <tr class="border-top border-opacity-10">
+                                  <th class="text-muted">Review Date</th>
+                                  <th class="text-muted">Patient Name</th>
+                                  <th class="text-muted">Review</th>
+                                  <th class="text-muted">Rating</th>
+                                  <th class="text-muted">Recommended</th>
+                                  <th class="text-muted">Actions</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <th [attr.colspan]="6" *ngIf="reviewService.loading$ | async">
+                                    <div class="spinner-border text-primary text-center" role="status">
+                                      <span class="sr-only">Loading...</span>
+                                    </div>
+                                  </th>
+                                </tr>
+                                <ng-container *ngIf="!(reviewService.loading$ | async)">
+                                  <tr *ngFor="let item of reviewService.data$ | async; let i = index">
+                                    <td>{{ item?.createdAt | date : 'YYYY-MM-dd' }}</td>
+
+                                    <td>
+                                      <a href="" [routerLink]="['/patients', item?.patient?.id]">
+                                        <img
+                                          src="{{ item.patient?.user?.userProfile?.profilePic | removePort }}"
+                                          appImgFallback="assets/images/users/user-dummy-img.jpg"
+                                          class="avatar-xxs rounded-circle me-1"
+                                          alt=""
+                                        />
+                                      </a>
+
+                                      <a href="javascript:void(0);" [routerLink]="['/patients', item?.patient?.id]" class="text-reset"
+                                        >{{ item.patient?.user?.userProfile?.firstName }} {{ item.patient?.user?.userProfile?.middleName }}</a
+                                      >
+                                    </td>
+                                    <td>
+                                      <p class="text" [title]="item?.review">
+                                        {{ item?.review | truncate }}
+                                        <span class="ellipsis">...</span>
+                                      </p>
+                                    </td>
+                                    <td>{{ item?.overallRating | number : '1.1-1' }} <i class="ri-star-fill text-warning mt-2"> </i></td>
+                                    <td>
+                                      <ng-container *ngIf="item?.isDoctorRecommended; else notRecommended">
+                                        <span class="text-success">Yes</span>
+                                      </ng-container>
+                                      <ng-template #notRecommended>
+                                        <span class="text-danger">No</span>
+                                      </ng-template>
+                                    </td>
+
+                                    <td>
+                                      <ul class="list-inline hstack gap-2 mb-0">
+                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="View" placement="top">
+                                          <a class="text-primary d-inline-block" style="color: #299cdb !important"> Replay </a>
+                                        </li>
+                                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="View" placement="top">
+                                          <a class="text-primary d-inline-block" style="color: #0ab39c !important"> View </a>
+                                        </li>
+                                      </ul>
+                                    </td>
+                                  </tr>
+                                </ng-container>
+                                <ng-container *ngIf="(reviewService.data$ | async)?.length === 0">
+                                  <tr>
+                                    <td [attr.colspan]="6" class="text-danger">No data found</td>
+                                  </tr>
+                                </ng-container>
+                              </tbody>
+                              <tfoot>
+                                <tr>
+                                  <td class="py-1" [attr.colspan]="6">
+                                    <app-tp-pagination-info
+                                      [collectionSize]="(reviewService.total$ | async)!"
+                                      [pageSize]="reviewService.pageSize"
+                                      [page]="reviewService.page"
+                                      [loading]="reviewService.loading$ | async"
+                                    ></app-tp-pagination-info>
+                                  </td>
+                                </tr>
+                              </tfoot>
+                            </table>
+                          </div>
+                          <div class="row">
+                            <app-tp-pagination [collectionSize]="(reviewService.total$ | async)!" [(pageSize)]="reviewService.pageSize" [(page)]="reviewService.page">
+                            </app-tp-pagination>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </li>
+                  <li [ngbNavItem]="3" class="nav-item">
+                    <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab"> Articles </a>
+                    <ng-template ngbNavContent> </ng-template>
+                  </li>
+                  <li [ngbNavItem]="4" class="nav-item">
+                    <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab"> Consult Q&A </a>
+                    <ng-template ngbNavContent>
+                      <div style="width: 700px">
+                        <!-- <app-patient-question-list></app-patient-question-list> -->
+                      </div>
+                    </ng-template>
+                  </li>
+                </ul>
+              </div>
+              <div class="">
+                <div class="tab-content text-muted">
+                  <div [ngbNavOutlet]="customNav"></div>
+                </div>
+              </div>
+              <!-- end card body -->
+            </div>
+            <!-- end card -->
+          </div>
+          <!-- end col -->
+
+          <div></div>
+        </div>
+      </div>
+      <div class="card profileDetailCard joblist-card">
+        <div class="card-body">
+          <div class="col-lg-12">
+            <h5 class="fs-22 pt-1"><span class="dot mb-1"></span> Qualifications</h5>
+            <div *ngFor="let ins of qualService?.data$ | async">
+              <div class="row py-1">
+                <div class="col-xxl-12">
+                  <h6>{{ ins?.qualificationName }} - {{ ins?.procrumentYear | date }}</h6>
+                  <p class="text-muted">{{ ins.institutionName }}</p>
+                </div>
+              </div>
+            </div>
+            <!-- end card -->
+          </div>
+          <div class="col-lg-12">
+            <h5 class="fs-22 pt-1"><span class="dot mb-1"></span> Awards</h5>
+            <div *ngFor="let ins of awardService?.data$ | async">
+              <div class="row py-1">
+                <div class="col-xxl-12">
+                  <h6>{{ ins?.awardOrRecognitionName }} - {{ ins?.createdAt | date }}</h6>
+                  <p class="text-muted">Lorem ipsum dolor sit amet Vel molestiae ullam facere accusantium. Voluptate neque,</p>
+                </div>
+              </div>
+            </div>
+            <!-- end card -->
+          </div>
+          <!-- end col -->
+
+          <div></div>
+        </div>
+      </div>
+      <div class="card profileDetailCard joblist-card">
+        <div class="card-body">
+          <div class="col-lg-12">
+            <h5 class="fs-22 pt-1"><span class="dot mb-1"></span> Membership</h5>
+            <div *ngFor="let ins of membershipService?.data$ | async">
+              <div class="row py-1">
+                <div class="col-xxl-12">
+                  <h6>{{ ins?.membershipName }} - {{ ins?.createdAt | date }}</h6>
+                  <p class="text-muted">Lorem ipsum dolor elit. Vel molestiae ullam facere accusantium. Voluptate neque,</p>
+                </div>
+              </div>
+            </div>
+            <!-- end card -->
+          </div>
+          <!-- end col -->
+
+          <div></div>
+        </div>
+      </div>
+
+      <!-- end accordion-item -->
+    </div>
+  </div>
+  <!-- end col -->
+
+  <div class="col-xxl-5 col-lg-4 col-sm-12 bookingDetail">
+    <div class="card profileDetailCard card-height-100">
+      <div class="card-body">
+        <div class="card mt-2 card-sel">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-4 py-1">
+                <div class="form-check form-radio-dark" style="border-right: 0.5px solid black">
+                  <input class="form-check-input" type="radio" name="formradiocolor7" id="formradioRight1" [(ngModel)]="selectedOption" value="ONLINE" />
+                  <label class="form-check-label" for="formradioRight1"> Video Consult </label>
+                </div>
+              </div>
+              <div class="col-4 py-1">
+                <div class="form-check form-radio-dark" style="border-right: 0.5px solid black">
+                  <input class="form-check-input" type="radio" name="formradiocolor7" id="formradioRight2" [(ngModel)]="selectedOption" value="IN_PERSON" />
+                  <label class="form-check-label" for="formradioRight2"> Clinic Visit </label>
+                </div>
+              </div>
+              <div class="col-4 py-1">
+                <div class="form-check form-radio-dark">
+                  <input class="form-check-input" type="radio" name="formradiocolor7" id="formradioRight3" [(ngModel)]="selectedOption" value="INSTANT" />
+                  <label class="form-check-label" for="formradioRight3"> Instant Consult </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-choices-input pt-3"></div>
+
+        <div class="row">
+          <div class="p-4" style="display: flex; justify-content: space-between; background: rgb(197, 228, 241)">
+            <div>
+              <h4 class="mb-1">Online Appointment</h4>
+            </div>
+            <div>
+              <h5 class="fw-bold text-muted">ETB {{ (service?.dataSingle$ | async)?.consultationFee }} fee</h5>
+            </div>
+          </div>
+
+          <div class="px-2 pt-3" style="border-bottom: 1px solid black; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap">
+            <i class="las la-angle-left" (click)="prevDate()" style="cursor: pointer; color: #299cdb !important"></i>
+            <ngb-carousel [pauseOnHover]="false" [interval]="0">
+              <ng-template ngbSlide>
+                <div style="display: flex; justify-content: space-around">
+                  <a
+                    style="cursor: pointer"
+                    *ngFor="let date of getDisplayedDates(); let dateIndex = index"
+                    (click)="onDateClick(date)"
+                    [class.active-date]="date === currentDate"
+                    class="date-div"
+                  >
+                    <h6 style="cursor: pointer">{{ isToday(date) ? 'Today' : isTomorrow(date) ? 'Tomorrow' : (date | date) }}</h6>
+                    <p class="text-muted">{{ getDayName(date) }}</p>
+                  </a>
+                </div>
+              </ng-template>
+            </ngb-carousel>
+            <i (click)="nextDate()" class="las la-angle-right" style="cursor: pointer; color: #299cdb !important"></i>
+          </div>
+
+          <div>
+            <div [attr.colspan]="6" *ngIf="bookingSlotService.loading$ | async">
+              <div class="spinner-border text-primary text-center" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+            <ng-container *ngIf="!(bookingSlotService.loading$ | async)">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="token-slot mt-2 px-2">
+                    <div *ngIf="getAvailableSlots(slots.morning) > 0" class="py-2">
+                      <h5>
+                        Morning <span class="text-muted"> ({{ getAvailableSlots(slots.morning) }} slots)</span>
+                      </h5>
+                    </div>
+                    <div *ngFor="let slot of slots.morning" class="form-check-inline visits me-0">
+                      <ng-container *ngIf="!slot.checked">
+                        <label class="visit-btns me-3">
+                          <button
+                            class="btn btn-outline-info w-lg waves-effect waves-light"
+                            [class.active]="slot.time === selectedTimeSlot"
+                            (click)="selectTimeSlot(slot.time, slot.id)"
+                          >
+                            {{ slot.time }}
+                          </button>
+                        </label>
+                      </ng-container>
+                    </div>
+                    <br />
+                    <div *ngIf="getAvailableSlots(slots.afternoon) > 0" class="py-2">
+                      <h5>
+                        Afternoon <span class="text-muted"> ({{ getAvailableSlots(slots.afternoon) }} slots)</span>
+                      </h5>
+                    </div>
+                    <div *ngFor="let slot of slots.afternoon" class="form-check-inline visits me-0">
+                      <ng-container *ngIf="!slot.checked">
+                        <label class="visit-btns me-3">
+                          <button class="btn btn-outline-info w-lg waves-effect waves-light" [class.active]="slot.time === selectedTimeSlot" (click)="selectTimeSlot(slot.time)">
+                            {{ slot.time }}
+                          </button>
+                        </label>
+                      </ng-container>
+                    </div>
+                    <br />
+                    <div *ngIf="getAvailableSlots(slots.evening) > 0" class="py-2">
+                      <h5>
+                        Evening <span class="text-muted"> ({{ getAvailableSlots(slots.evening) }} slots)</span>
+                      </h5>
+                    </div>
+                    <div *ngFor="let slot of slots.evening" class="form-check-inline visits me-0">
+                      <ng-container *ngIf="!slot.checked">
+                        <label class="visit-btns me-3">
+                          <button class="btn btn-outline-info w-lg waves-effect waves-light" [class.active]="slot.time === selectedTimeSlot" (click)="selectTimeSlot(slot.time)">
+                            {{ slot.time }}
+                          </button>
+                        </label>
+                      </ng-container>
+                    </div>
+                    <br />
+                    <div *ngIf="getAvailableSlots(slots.night) > 0" class="py-2">
+                      <h5>
+                        Night <span class="text-muted"> ({{ getAvailableSlots(slots.night) }} slots)</span>
+                      </h5>
+                    </div>
+                    <div *ngFor="let slot of slots.night" class="form-check-inline visits me-0">
+                      <ng-container *ngIf="!slot.checked">
+                        <label class="visit-btns me-3">
+                          <button class="btn btn-outline-info w-lg waves-effect waves-light" [class.active]="slot.time === selectedTimeSlot" (click)="selectTimeSlot(slot.time)">
+                            {{ slot.time }}
+                          </button>
+                        </label>
+                      </ng-container>
+                    </div>
+
+                    <ng-container
+                      *ngIf="
+                        getAvailableSlots(slots.morning) === 0 &&
+                        getAvailableSlots(slots.night) === 0 &&
+                        getAvailableSlots(slots.evening) === 0 &&
+                        getAvailableSlots(slots.afternoon) === 0
+                      "
+                    >
+                      <div class="text-center">
+                        <p class="text-muted">No slots available</p>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end card -->
+  </div>
+  <!-- end col -->
+</div>
+<!-- end row -->
+   </div>
+    </section>

@@ -1,0 +1,60 @@
+<div #ddown ngbDropdown container="body" class="d-i-n-line-block">
+  <div class="input-group">
+    <input
+      type="text"
+      placeholder="Select date..."
+      id="exportDropdown"
+      [value]="inputValue"
+      [disabled]="false"
+      readonly
+      ngbDropdownToggle
+      aria-label="Select date..."
+      class="form-control rounded-0 fs-6 px-2 backgroundColor"
+      [ngClass]="{ 'bg-light': backgroundColor }"
+      id="dateSelectionDisplay"
+      name="dateSelectionDisplay"
+    />
+    <button
+      type="button"
+      id="exportDropdown"
+      [ngClass]="{ 'bg-light': backgroundColor }"
+      ngbDropdownToggle
+      class="btn btn-outline-primary btn-sm rounded-0"
+      style="border-color: #cfcbcb"
+    >
+      <i class="mdi mdi-calendar-month"></i>
+    </button>
+  </div>
+
+  <div ngbDropdownMenu display="dynamic" aria-labelledby="exportDropdown">
+    <ngb-datepicker
+      #dp
+      (dateSelect)="onDateSelection($event)"
+      [footerTemplate]="footerTemplate"
+      [displayMonths]="monthsToDisplay"
+      [minDate]="minDate"
+      [maxDate]="maxDate"
+      [dayTemplate]="t"
+      outsideDays="hidden"
+    >
+    </ngb-datepicker>
+
+    <ng-template #t let-date let-focused="focused">
+      <span
+        class="custom-day"
+        [class.focused]="focused"
+        [class.range]="isRange(date)"
+        [class.faded]="isHovered(date) || isInside(date)"
+        (mouseenter)="hoveredDate = date"
+        (mouseleave)="hoveredDate = null"
+      >
+        {{ date.day }}
+      </span>
+    </ng-template>
+    <ng-template #footerTemplate>
+      <hr class="my-0" />
+      <button class="btn btn-primary btn-sm m-2 float-start" (click)="onDateSelection(calendar.getToday())">Today</button>
+      <button class="btn btn-secondary btn-sm m-2 float-end" (click)="clearSelection()">Clear</button>
+    </ng-template>
+  </div>
+</div>

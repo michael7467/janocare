@@ -1,0 +1,26 @@
+Now:
+- finish entities
+- add CRUD
+- add Flyway migrations
+- add tests for one service
+- Dockerize each service
+
+Then:
+- GitHub Actions → GHCR
+- Kubernetes manifests
+- Prometheus/Grafana or OpenTelemetry
+
+
+1. Hexagonal Architecture
+2. DDD-inspired domain model
+3. CQRS-inspired commands and queries
+4. Repository ports and adapters
+5. Centralized exception handling
+6. API mappers and persistence mappers
+7. JWT security between services
+8. Event-driven communication for cross-service actions
+9. Flyway migrations
+10. CI/CD to GHCR
+11. Kubernetes deployment
+12. Observability with OpenTelemetry, Prometheus, Grafana, Loki
+13. Unit and integration tests

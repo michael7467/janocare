@@ -1,0 +1,662 @@
+<ng-container *ngIf="!(service.loading$ | async)">
+  <div class="card profileStepper">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-xxl-9 col-md-9 col-sm-12">
+          <div class="team-profile-img d-flex">
+            <div class="avatar-lg img-thumbnail rounded-circle flex-shrink-0">
+              <a [routerLink]="['/doctor-profile', data?.id]">
+                <img
+                  [src]="(service?.dataSingle$ | async)?.user?.userProfile?.profilePic | removePort"
+                  appImgFallback="assets/images/users/user-dummy-img.jpg"
+                  id="img"
+                  class="rounded-circle img-fluid userprofile"
+                  alt="Avatar"
+              /></a>
+            </div>
+
+            <div class="team-content px-4">
+              <a [routerLink]="['/doctor-profile', (service?.dataSingle$ | async)?.id]" data-bs-toggle="offcanvas" aria-controls="offcanvasExample">
+                <h5 class="fs-16 fw-bold mb-1">
+                  Dr. {{ (service?.dataSingle$ | async)?.user?.userProfile?.firstName }} {{ (service?.dataSingle$ | async)?.user?.userProfile?.lastName }}
+                  <span class="mt-2"><i class="bx bxs-badge-check mt-1" style="color: #6f42c1"></i></span>
+                </h5>
+              </a>
+              <p class="pt-1 mb-0">{{ (service?.dataSingle$ | async)?.professionType?.type }}</p>
+
+              <ng-container *ngIf="getExperience((service?.dataSingle$ | async)?.professionalExperiences) > 0">
+                <p class="pt-1 mb-0">{{ getExperience((service?.dataSingle$ | async)?.professionalExperiences) }} Years of experience</p>
+              </ng-container>
+
+              <div class="pt-1 me-2">
+                {{ (service?.dataSingle$ | async)?.user?.userProfile?.state?.stateName }}, {{ (service?.dataSingle$ | async)?.user?.userProfile?.country?.countryName }}
+              </div>
+
+              <p class="mb-0 pt-1">
+                <i class="ri-map-pin-line"></i>
+                <span class="px-1" *ngFor="let address of (service?.dataSingle$ | async)?.user?.institutionUsers; let i = index">
+                  <ng-container *ngIf="i < 2">{{ address?.institution.name }}{{ i < 1 ? ', ' : '' }}</ng-container>
+                </span>
+                <ng-container *ngIf="(service?.dataSingle$ | async)?.user?.institutionUsers.length > 2">
+                  +{{ (service?.dataSingle$ | async)?.user?.institutionUsers.length - 2 }} more
+                </ng-container>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xxl-3 col-md-3 col-sm-12">
+          <div class="leftDetail">
+            <div class="d-flex" style="margin-top: -10px">
+              <i class="ri-time-line fs-18"></i>
+              <p class="pt-1"><span class="px-1 fs-12" style="color: rgb(103 177 115)">Available Today</span></p>
+            </div>
+            <div class="d-flex" style="margin-top: -10px">
+              <i class="ri-thumb-up-line fs-18"></i>
+              <p class="pt-1"><span class="px-1 fs-12">98%</span></p>
+            </div>
+            <div class="d-flex" style="margin-top: -10px">
+              <i class="ri-user-line fs-18"></i>
+              <p class="pt-1"><span class="px-1 fs-12">250 patients</span></p>
+            </div>
+            <div class="d-flex" style="margin-top: -10px">
+              <i class="ri-star-fill fs-18"></i>
+              <p class="pt-1"><span class="px-1 fs-12">4.9 (350 reviews)</span></p>
+            </div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row" style="margin-bottom: -125px !important">
+        <div class="col-xxl-2 col-md-1"></div>
+        <div class="col-xxl-8 col-md-10 col-sm-12">
+          <ng-stepper #stepper cdkStepper [linear]="true" class="cdksteppercontent nav nav-pills progress-bar-tab custom-nav">
+            <cdk-step [optional]="false" class="center-label" *ngFor="let label of stepLabels; index as i">
+              <ng-template cdkStepLabel class="wizard-nav">
+                <button
+                  class="nav-link rounded-pill"
+                  [class.active]="activeLabel === label"
+                  data-progressbar="custom-progress-bar"
+                  [id]="'pills-gen-info-tab' + i"
+                  data-bs-toggle="pill"
+                  [data-bs-target]="'#pills-gen-info' + i"
+                  type="button"
+                  role="tab"
+                  [aria-controls]="'pills-gen-info' + i"
+                  aria-selected="false"
+                >
+                  <ng-container *ngIf="label === '1'">
+                    <div [class.active]="activeLabel === label" class="center-content stepperLabel">
+                      <i class="las la-calendar-alt iconSizeOp"></i>
+                      <span>Date and Time</span>
+
+                      <div class="circle-label">{{ label }}</div>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="label === '2'">
+                    <div [class.active]="activeLabel === label" class="center-content stepperLabel">
+                      <i class="las la-user iconSizeOp"></i>
+                      <span>Patient Info</span>
+                      <div class="circle-label">{{ label }}</div>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="label === '3'">
+                    <div [class.active]="activeLabel === label" class="center-content stepperLabel">
+                      <i class="ri-file-search-line iconSize"></i>
+                      <span>Booking Review</span>
+                      <div class="circle-label">{{ label }}</div>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="label === '4'">
+                    <div [class.active]="activeLabel === label" class="center-content stepperLabel">
+                      <i class="ri-checkbox-circle-line iconSize"></i>
+                      <span>Booking Submitted</span>
+                      <div class="circle-label">{{ label }}</div>
+                    </div>
+                  </ng-container>
+                </button>
+              </ng-template>
+            </cdk-step>
+          </ng-stepper>
+        </div>
+        <div class="col-xxl-2 col-md-1"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- pagination -->
+</ng-container>
+
+<!-- end accordion-item -->
+
+<div class="row pt-4">
+  <div class="col-xxl-12">
+    <div class="card appointmentContent">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-xxl-12">
+            <ng-container *ngIf="selectedLabel === '1'">
+              <div class="px-5 py-2 carouselBig">
+                <i class="las la-angle-left arrow-left" (click)="prevDate()" style="cursor: pointer"></i>
+                <ngb-carousel [pauseOnHover]="false" [interval]="0" class="no-margin">
+                  <ng-template ngbSlide>
+                    <div style="display: flex">
+                      <a
+                        style="cursor: pointer"
+                        *ngFor="let date of getDisplayedDates(); let dateIndex = index"
+                        (click)="onDateClick(date)"
+                        [class.active-date]="date === currentDate"
+                        class="date-div"
+                      >
+                        <span style="cursor: pointer">{{ isToday(date) ? 'Today' : isTomorrow(date) ? 'Tomorrow' : (date | date) }}</span>
+                        <p class="text-muted">{{ getDayName(date) }}</p>
+                      </a>
+                    </div>
+                  </ng-template>
+                </ngb-carousel>
+                <i (click)="nextDate()" class="las la-angle-right arrow-right" style="cursor: pointer"></i>
+              </div>
+              <div class="px-5 py-2 carouselSmall">
+                <i class="las la-angle-left arrow-left" (click)="prevDate()" style="cursor: pointer"></i>
+                <ngb-carousel [pauseOnHover]="false" [interval]="0" class="no-margin">
+                  <ng-template ngbSlide>
+                    <div style="display: flex">
+                      <a
+                        style="cursor: pointer"
+                        *ngFor="let date of getDisplayedDatesSmall(); let dateIndex = index"
+                        (click)="onDateClick(date)"
+                        [class.active-date]="date === currentDate"
+                        class="date-div"
+                      >
+                        <span style="cursor: pointer">{{ isToday(date) ? 'Today' : isTomorrow(date) ? 'Tomorrow' : (date | date) }}</span>
+                        <p class="text-muted">{{ getDayName(date) }}</p>
+                      </a>
+                    </div>
+                  </ng-template>
+                </ngb-carousel>
+                <i (click)="nextDate()" class="las la-angle-right arrow-right" style="cursor: pointer"></i>
+              </div>
+              <div [attr.colspan]="6" *ngIf="bookingSlotService.loading$ | async">
+                <div class="spinner-border text-primary text-center" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+              <ng-container *ngIf="!(bookingSlotService.loading$ | async)">
+                <div class="row">
+                  <div class="col-xxl-2"></div>
+
+                  <div class="col-xxl-8">
+                    <div class="token-slot mt-2">
+                      <div *ngIf="getAvailableSlots(slots.morning) > 0" class="p-2">
+                        <h5>
+                          Morning <span class="text-muted">({{ getAvailableSlots(slots.morning) }} slots)</span>
+                        </h5>
+                      </div>
+                      <div *ngFor="let slot of slots.morning" class="form-check-inline visits me-0">
+                        <ng-container *ngIf="!slot.checked">
+                          <label class="visit-btns me-3">
+                            <ng-container *ngIf="slotTime === slot.time && isSameDay(selectedTime, currentDate); else notSelected">
+                              <button
+                                class="btn w-lg btn-info waves-effect waves-light"
+                                [class.active]="slot.time === selectedTimeSlot"
+                                (click)="selectTimeSlot(slot.time, currentDate)"
+                              >
+                                {{ slot.time }}
+                              </button>
+                            </ng-container>
+                            <ng-template #notSelected>
+                              <button
+                                class="btn w-lg btn-outline-info waves-effect waves-light"
+                                [class.active]="slot.time === selectedTimeSlot"
+                                (click)="selectTimeSlot(slot.time, currentDate)"
+                              >
+                                {{ slot.time }}
+                              </button>
+                            </ng-template>
+                          </label>
+                        </ng-container>
+                      </div>
+                      <br />
+                      <div *ngIf="getAvailableSlots(slots.afternoon) > 0" class="p-2">
+                        <h5>
+                          Afternoon <span class="text-muted"> ({{ getAvailableSlots(slots.afternoon) }} slots)</span>
+                        </h5>
+                      </div>
+                      <div *ngFor="let slot of slots.afternoon" class="form-check-inline visits me-0">
+                        <ng-container *ngIf="!slot.checked">
+                          <label class="visit-btns me-3">
+                            <ng-container *ngIf="slotTime === slot.time && selectedTime === currentDate; else notSelected">
+                              <button
+                                class="btn w-lg btn-info waves-effect waves-light"
+                                [class.active]="slot.time === selectedTimeSlot"
+                                (click)="selectTimeSlot(slot.time, currentDate)"
+                              >
+                                {{ slot.time }}
+                              </button>
+                            </ng-container>
+                            <ng-template #notSelected>
+                              <button
+                                class="btn w-lg btn-outline-info waves-effect waves-light"
+                                [class.active]="slot.time === selectedTimeSlot"
+                                (click)="selectTimeSlot(slot.time, currentDate)"
+                              >
+                                {{ slot.time }}
+                              </button>
+                            </ng-template>
+                          </label>
+                        </ng-container>
+                      </div>
+                      <br />
+                      <div *ngIf="getAvailableSlots(slots.evening) > 0" class="p-2">
+                        <h5>
+                          Evening <span class="text-muted"> ({{ getAvailableSlots(slots.evening) }} slots)</span>
+                        </h5>
+                      </div>
+                      <div *ngFor="let slot of slots.evening" class="form-check-inline visits me-0">
+                        <ng-container *ngIf="!slot.checked">
+                          <label class="visit-btns me-3">
+                            <ng-container *ngIf="slotTime === slot.time; else notSelected">
+                              <button
+                                class="btn w-lg btn-info waves-effect waves-light"
+                                [class.active]="slot.time === selectedTimeSlot"
+                                (click)="selectTimeSlot(slot.time, currentDate)"
+                              >
+                                {{ slot.time }}
+                              </button>
+                            </ng-container>
+                            <ng-template #notSelected>
+                              <button
+                                class="btn w-lg btn-outline-info waves-effect waves-light"
+                                [class.active]="slot.time === selectedTimeSlot"
+                                (click)="selectTimeSlot(slot.time, currentDate)"
+                              >
+                                {{ slot.time }}
+                              </button>
+                            </ng-template>
+                          </label>
+                        </ng-container>
+                      </div>
+                      <br />
+                      <div *ngIf="getAvailableSlots(slots.night) > 0" class="p-2">
+                        <h5>
+                          Night <span class="text-muted"> ({{ getAvailableSlots(slots.night) }} slots)</span>
+                        </h5>
+                      </div>
+                      <div *ngFor="let slot of slots.night" class="form-check-inline visits me-0">
+                        <ng-container *ngIf="!slot.checked">
+                          <label class="visit-btns me-3">
+                            <ng-container *ngIf="slotTime === slot.time; else notSelected">
+                              <button
+                                class="btn w-lg btn-info waves-effect waves-light"
+                                [class.active]="slot.time === selectedTimeSlot"
+                                (click)="selectTimeSlot(slot.time, currentDate)"
+                              >
+                                {{ slot.time }}
+                              </button>
+                            </ng-container>
+                            <ng-template #notSelected>
+                              <button
+                                class="btn w-lg btn-outline-info waves-effect waves-light"
+                                [class.active]="slot.time === selectedTimeSlot"
+                                (click)="selectTimeSlot(slot.time, currentDate)"
+                              >
+                                {{ slot.time }}
+                              </button>
+                            </ng-template>
+                          </label>
+                        </ng-container>
+                      </div>
+
+                      <ng-container
+                        *ngIf="
+                          getAvailableSlots(slots.morning) === 0 &&
+                          getAvailableSlots(slots.night) === 0 &&
+                          getAvailableSlots(slots.evening) === 0 &&
+                          getAvailableSlots(slots.afternoon) === 0
+                        "
+                      >
+                        <div class="text-center">
+                          <p class="text-muted">No slots available</p>
+                        </div>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div class="col-xxl-2"></div>
+                  <hr class="mt-4" />
+                </div>
+
+                <div class="row">
+                  <div class="btnCarousel">
+                    <button type="button" (click)="prevStep1()" class="btn btn-lg btnBack w-lg btn-outline-success waves-effect waves-light custom-button mx-3 custom-button-app">
+                      Back
+                    </button>
+
+                    <button type="button" (click)="nextStep1()" class="btn btn-lg btnNext w-lg btn-info waves-effect waves-light mx-3">Next</button>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="selectedLabel === '2'">
+              <div class="row">
+                <div class="col-xxl-3 col-md-2"></div>
+                <div class="col-xxl-6 col-md-8 col-sm-12">
+                  <div class="row-content">
+                    <label class="list-group-item fs-16"> Booking for </label>
+                    <label class="custom-radio list-group-item fs-16">
+                      <div class="row-content-inner">
+                        <input class="form-check-input me-1" type="radio" value="option1" (change)="changeContent($event)" name="exampleRadios" checked />
+                        <i class="ri-checkbox-circle-fill fs-20"></i>
+                        <div>Myself</div>
+                      </div>
+                    </label>
+                    <label class="custom-radio list-group-item fs-16">
+                      <div class="row-content-inner">
+                        <input class="form-check-input me-1" type="radio" value="option2" (change)="changeContent($event)" name="exampleRadios" />
+                        <i class="ri-checkbox-circle-fill fs-20"></i>
+                        <div>Someone else</div>
+                      </div>
+                    </label>
+                  </div>
+                  <ng-container *ngIf="content === 'self'">
+                    <div>
+                      <form (ngSubmit)="goToNext(frm)" [formGroup]="frm" novalidate>
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <app-tp-input [label]="'Full Name'" [type]="'text'" formControlName="firstName" [control]="firstName"> </app-tp-input>
+                          </div>
+                          <div class="col-lg-12">
+                            <app-tp-input [label]="'Age'" [type]="'text'" formControlName="middleName" [control]="middleName"> </app-tp-input>
+                          </div>
+                          <!--end col-->
+
+                          <div class="col-lg-12">
+                            <div class="mb-3 select">
+                              <label *ngIf="!gender.touched" [for]="id" class="d-block"> Gender {{ isRequired }} </label>
+                              <label *ngIf="gender.touched && !gender.invalid" [for]="id" class="valid-feedback d-block">Gender {{ isRequired }}</label>
+                              <label *ngIf="gender.touched && gender.invalid" [for]="id" class="invalid-feedback d-block">Gender {{ isRequired }}</label>
+                              <ng-select
+                                #genderCtl
+                                [searchable]="false"
+                                (change)="genderCtl.blur()"
+                                [items]="$genders"
+                                bindLabel="name"
+                                bindValue="value"
+                                [placeholder]="'Select gender ...'"
+                                id="value"
+                                name="gender"
+                                formControlName="gender"
+                                [ngClass]="{
+                                  'is-valid': gender.touched && !gender.invalid,
+                                  'is-invalid': gender.touched && gender.invalid
+                                }"
+                              >
+                              </ng-select>
+                              <ng-template ng-header-tmp>
+                                <input
+                                  appAutofocus
+                                  class="form-control form-control-sm bg-primary-subtle text-primary"
+                                  style="width: 100%; line-height: 24px"
+                                  type="text"
+                                  (input)="genderCtl.filter($event.target['value'])"
+                                />
+                              </ng-template>
+                              <div [id]="'validation' + id" class="invalid-feedback d-block">
+                                &nbsp;
+                                <ng-container *ngIf="gender.touched && gender.invalid">
+                                  <small class="text-danger" *ngFor="let error of Errors"> <i class="ri ri-close-line"> </i> {{ error.message }} </small>
+                                </ng-container>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <app-tp-input [label]="'Reason for Booking'" [type]="'textarea'" formControlName="nationalId" [control]="nationalId"> </app-tp-input>
+                          </div>
+                          <!--end col-->
+                        </div>
+                        <!--end row-->
+                      </form>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="content === 'dependant'">
+                    <div>
+                      <form (ngSubmit)="goToNext(frm)" [formGroup]="frm" novalidate>
+                        <div class="row">
+                          <div class="col-xxl-12">
+                            <div class="mb-3">
+                              <label *ngIf="!dependantId.touched" [for]="id" class="d-block"> Dependant {{ isRequiredCountry }} </label>
+                              <label *ngIf="dependantId.touched && !dependantId.invalid" [for]="id" class="valid-feedback d-block">Dependant {{ isRequiredCountry }}</label>
+                              <label *ngIf="dependantId.touched && dependantId.invalid" [for]="id" class="invalid-feedback d-block">Dependant {{ isRequiredCountry }}</label>
+                              <ng-select
+                                #countryCtl
+                                [searchable]="true"
+                                (change)="onDependantChange($event)"
+                                [items]="$dependants | async"
+                                [trackByFn]="countryTrackedBy"
+                                bindLabel="fullName"
+                                bindValue="id"
+                                [loading]="dependantLoading"
+                                [placeholder]="'Select dependant ...'"
+                                typeToSearchText="Start typing dependant name..."
+                                [typeahead]="$dependantInput"
+                                id="dependantId"
+                                name="dependantId"
+                                formControlName="dependantId"
+                                [ngClass]="{
+                                  'is-valid': dependantId.touched && !dependantId.invalid,
+                                  'is-invalid': dependantId.touched && dependantId.invalid
+                                }"
+                              >
+                              </ng-select>
+
+                              <ng-template ng-header-tmp>
+                                <input
+                                  appAutofocus
+                                  class="form-control form-control-sm bg-primary-subtle text-primary"
+                                  style="width: 100%; line-height: 24px"
+                                  type="text"
+                                  (input)="countryCtl.filter($event.target['value'])"
+                                />
+                              </ng-template>
+                            </div>
+                          </div>
+                          <!--end col-->
+                          <div class="col-lg-12">
+                            <div class="mb-3 select">
+                              <label *ngIf="!genderd.touched" [for]="id" class="d-block"> Gender {{ isRequiredd }} </label>
+                              <label *ngIf="genderd.touched && !genderd.invalid" [for]="id" class="valid-feedback d-block">Gender {{ isRequiredd }}</label>
+                              <label *ngIf="genderd.touched && genderd.invalid" [for]="id" class="invalid-feedback d-block">Gender {{ isRequiredd }}</label>
+                              <ng-select
+                                #genderCtl
+                                [searchable]="false"
+                                (change)="genderCtl.blur()"
+                                [items]="$genders"
+                                bindLabel="name"
+                                bindValue="value"
+                                [placeholder]="'Select gender ...'"
+                                id="value"
+                                name="genderd"
+                                formControlName="genderd"
+                                [ngClass]="{
+                                  'is-valid': genderd.touched && !genderd.invalid,
+                                  'is-invalid': genderd.touched && genderd.invalid
+                                }"
+                              >
+                              </ng-select>
+                              <ng-template ng-header-tmp>
+                                <input
+                                  appAutofocus
+                                  class="form-control form-control-sm bg-primary-subtle text-primary"
+                                  style="width: 100%; line-height: 24px"
+                                  type="text"
+                                  (input)="genderCtl.filter($event.target['value'])"
+                                />
+                              </ng-template>
+                              <div [id]="'validation' + id" class="invalid-feedback d-block">
+                                &nbsp;
+                                <ng-container *ngIf="genderd.touched && genderd.invalid">
+                                  <small class="text-danger" *ngFor="let error of Errorsd"> <i class="ri ri-close-line"> </i> {{ error.message }} </small>
+                                </ng-container>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <app-tp-input [label]="'Age'" [type]="'text'" formControlName="dependantAge" [control]="dependantAge"> </app-tp-input>
+                          </div>
+                          <!--end col-->
+                          <div class="col-lg-12">
+                            <app-tp-input [label]="'Reason for Booking'" [type]="'textarea'" formControlName="nationalId" [control]="nationalId"> </app-tp-input>
+                          </div>
+                          <!--end col-->
+                        </div>
+                        <!--end row-->
+                      </form>
+                    </div>
+                  </ng-container>
+                </div>
+
+                <div class="col-3 col-md-2"></div>
+                <hr class="mt-3" />
+              </div>
+              <div class="row">
+                <div class="btnCarousel">
+                  <button type="button" (click)="prevStep2()" class="btn btn-lg btnBack w-lg btn-outline-success waves-effect waves-light custom-button mx-3 custom-button-app">
+                    Back
+                  </button>
+
+                  <button type="button" (click)="nextStep2()" class="btn btn-lg btnNext w-lg btn-info waves-effect waves-light mx-3">Next</button>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="selectedLabel === '3'">
+              <div class="row">
+                <div class="col-xxl-3"></div>
+                <div class="col-xxl-6">
+                  <h4 class="fw-bold">Appointment Info</h4>
+                  <div class="row">
+                    <div class="col-xxl-6 py-2">
+                      <div>
+                        <p>Booking Date</p>
+                      </div>
+                      <div>
+                        <p>Appointment Time</p>
+                      </div>
+                      <div>
+                        <p>Booked For</p>
+                      </div>
+                      <div>
+                        <p>Booking Type</p>
+                      </div>
+                    </div>
+                    <div class="col-xxl-6">
+                      <div>
+                        <p>{{ currDate | date }}</p>
+                      </div>
+                      <div>
+                        <p>{{ slotTime }}</p>
+                      </div>
+                      <div>
+                        <p>{{ content }}</p>
+                      </div>
+                      <div>
+                        <p>{{ bookingType }}</p>
+                      </div>
+                    </div>
+                    <hr style="border: 1px black dashed; margin: 10px 10px !important" />
+                  </div>
+                  <div class="row">
+                    <div class="col-xxl-6">
+                      <div>
+                        <p>Doctor Name</p>
+                      </div>
+                    </div>
+                    <div class="col-xxl-6">
+                      <div class="team-profile-img d-flex">
+                        <div class="avatar-sm img-thumbnail rounded-circle flex-shrink-0">
+                          <a [routerLink]="['/doctor-profile', data?.id]">
+                            <img
+                              [src]="(service?.dataSingle$ | async)?.user?.userProfile?.profilePic | removePort"
+                              appImgFallback="assets/images/users/user-dummy-img.jpg"
+                              id="img"
+                              class="rounded-circle img-fluid userprofile"
+                              alt="Avatar"
+                          /></a>
+                        </div>
+
+                        <div class="team-content px-4">
+                          <a [routerLink]="['/doctor-profile', (service?.dataSingle$ | async)?.id]" data-bs-toggle="offcanvas" aria-controls="offcanvasExample">
+                            <h5 class="fs-14 fw-bold mb-1">
+                              Dr. {{ (service?.dataSingle$ | async)?.user?.userProfile?.firstName }} {{ (service?.dataSingle$ | async)?.user?.userProfile?.lastName }}
+                              <span class="mt-2"><i class="bx bxs-badge-check mt-1" style="color: #6f42c1"></i></span>
+                            </h5>
+                          </a>
+                          <p class="pt-1 mb-0">{{ (service?.dataSingle$ | async)?.professionType?.type }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <h4 class="fw-bold">Payment Info</h4>
+                  <div class="row">
+                    <div class="col-xxl-6">
+                      <div>
+                        <p>Wallet Balance</p>
+                      </div>
+                      <div>
+                        <p>Booking Fee</p>
+                      </div>
+                      <div>
+                        <p>Additional Charges</p>
+                      </div>
+                      <div>
+                        <p>Total Amount</p>
+                      </div>
+                    </div>
+                    <div class="col-xxl-6">
+                      <div>
+                        <p>{{ (auth?.userProfile$ | async)?.patient?.walletBalance | number : '1.2-2' }}</p>
+                      </div>
+                      <div>
+                        <p>{{ (service?.dataSingle$ | async)?.bookingFee | number : '1.2-2' }}</p>
+                      </div>
+                      <div>
+                        <p>15</p>
+                      </div>
+                      <div>
+                        <p>{{ +(service?.dataSingle$ | async)?.bookingFee + 15 | number : '1.2-2' }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xxl-3"></div>
+                <hr class="mt-3" />
+              </div>
+              <div class="row">
+                <div class="btnCarousel">
+                  <button type="button" (click)="prevStep3()" class="btn btn-lg btnBack w-lg btn-outline-success waves-effect waves-light custom-button mx-3 custom-button-app">
+                    Back
+                  </button>
+
+                  <button type="button" (click)="nextStep3()" class="btn btn-lg btnNext w-lg btn-info waves-effect waves-light mx-3">Pay</button>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="selectedLabel === '4'">
+              <div class="text-center">
+                <div class="mb-4">
+                  <lord-icon src="https://cdn.lordicon.com/lupuorrc.json" trigger="loop" colors="primary:#0ab39c,secondary:#405189" style="width: 120px; height: 120px"></lord-icon>
+                </div>
+                <h2 class="fw-bold">Congrats!</h2>
+                <p class="text-muted">
+                  You have successfully booked your appointment with Dr. {{ (service?.dataSingle$ | async)?.user?.userProfile?.firstName }}
+                  {{ (service?.dataSingle$ | async)?.user?.userProfile?.lastName }}
+                </p>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

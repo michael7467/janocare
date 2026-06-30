@@ -1,0 +1,96 @@
+<div class="form-row">
+  <div class="col-md-12">
+    <label *ngIf="!control.touched" [for]="id" class="d-block"> {{ label }}{{ isRequired }} </label>
+    <label *ngIf="control.touched && !control.invalid" [for]="id" class="valid-feedback d-block">{{ label }}{{ isRequired }}</label>
+    <label *ngIf="control.touched && control.invalid" [for]="id" class="invalid-feedback d-block">{{ label }}{{ isRequired }}</label>
+    <input
+      *ngIf="type !== 'textarea'"
+      class="form-control"
+      [ngClass]="inputClass"
+      [id]="id"
+      [value]="value"
+      [type]="type"
+      [placeholder]="placeholder"
+      (input)="onChange($event.target['value'])"
+      [disabled]="isDisabled"
+      (blur)="onTouched()"
+    />
+    <textarea
+      *ngIf="type === 'textarea'"
+      class="form-control"
+      [rows]="rows"
+      [ngClass]="inputClass"
+      [id]="id"
+      [value]="value"
+      [placeholder]="placeholder"
+      (input)="onChange($event.target['value'])"
+      [disabled]="isDisabled"
+      (blur)="onTouched()"
+    >
+    </textarea>
+    <!-- <div [id]="'validation'+id" class="valid-feedback d-block">
+          Looks good!
+        </div> -->
+    <div [id]="'validation' + id" class="invalid-feedback d-block">
+      &nbsp;
+      <ng-container *ngIf="control.touched && control.invalid">
+        <small class="text-danger" *ngFor="let error of Errors"> <i class="icofont icofont-warning"> </i> {{ error.message }} </small>
+      </ng-container>
+    </div>
+  </div>
+</div>
+<div>
+  <div ngbDropdown #myDrop="ngbDropdown">
+    <button class="btn btn-block btn-outline-primary p-0 text-left" id="dropdownForm1" ngbDropdownToggle>
+      <div class="p-1 d-flex align-items-center">
+        <!--  `/assets/coin-images/${this.txn?.currency2}.png` -->
+        <div class="dropdown-list-image mr-3">
+          <!-- <img class="rounded-circle" [src]="'/assets/coin-images/' + coinRateResp?.currency2 + '.png'" alt="" /> -->
+          <img class="rounded-circle" [src]="data[meta?.imgSrc]" [alt]="data[meta?.imgAlt]" />
+        </div>
+
+        <!-- <div class="dropdown-list-image mr-3 d-flex align-items-center bg-success justify-content-center rounded-circle text-white">{{ badge }}</div> -->
+        <div class="font-weight-bold mr-3">
+          <div class="text-truncate">{{ data[meta?.mainLabel] }}</div>
+          <ng-container *ngIf="!isLoading">
+            <div class="small text-dark f-10">{{ data[meta?.subLabel] }}</div>
+          </ng-container>
+          <ng-container *ngIf="isLoading">
+            <span class="spinner-border spinner-border-sm" role="status"></span>
+            {{ 'Loading...' }}
+          </ng-container>
+        </div>
+        <span [ngClass]="{ 'fa-chevron-down': !myDrop.isOpen(), 'fa-chevron-up': myDrop.isOpen() }" class="ml-auto mr-3 fa"> </span>
+      </div>
+    </button>
+    <div ngbDropdownMenu class="col-md-12" aria-labelledby="dropdownForm1">
+      <div class="card mb-0 shadow-1">
+        <div class="card-header p-1">
+          <input type="text" class="form-control form-control-custom rounded-0 d-flex w-100 justify-content-between" #search type="text" (keyup)="searchItem($event)" placeholder="Search..." />
+        </div>
+        <div class="card-body p-0">
+          <ul class="list-group list-group-hover list-group-flush">
+            <ng-container ngbDropdownItem *ngFor="let item of filteredData" (click)="selectItem(item.code); $event.stopPropagation(); myDrop.close()">
+              <input type="radio" class="d-none" name="RadioInputName" value="Value1" [id]="item.code" (click)="selectItem(item.code); $event.stopPropagation(); myDrop.close()" />
+              <label class="list-group-item list-group-item-action p-0 m-0 pointer" [for]="item.code">
+                <div class="p-1 d-flex align-items-center">
+                  <!-- <div class="dropdown-list-image mr-3 d-flex align-items-center bg-primary justify-content-center rounded-circle text-white">
+                      {{ item.code | coinTitle }}
+                    </div> -->
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" [src]="'/assets/coin-images/' + item.code + '.png'" [alt]="item?.code" />
+                  </div>
+
+                  <div class="font-weight-bold mr-3">
+                    <div class="text-truncate">{{ item.code }}</div>
+                    <div class="small">{{ item.name }}</div>
+                  </div>
+                </div>
+              </label>
+            </ng-container>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

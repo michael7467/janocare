@@ -1,0 +1,44 @@
+
+
+<div class="row">
+    
+    <form *ngIf="isLoaded && !isError" (ngSubmit)="goToNext(frm)" [formGroup]="frm" novalidate>
+        <div class="row">
+
+        <div class="col-12 mb-3">
+            <label for="cancellationReasonId">Reason</label>
+            <select class="form-select" 
+            [ngClass]="(frm.controls['cancellationReasonId'].touched) 
+            ? frm.controls['cancellationReasonId'].errors ? 'is-invalid' : 'is-valid' : null"
+            formControlName="cancellationReasonId">
+            <option value="">Select Reason</option>
+            <option *ngFor="let reason of cancellationReason" [value]="reason?.id">
+                {{ reason?.reason }}
+            </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="(frm.controls['cancellationReasonId'].touched && frm.controls['cancellationReasonId'].errors)">
+            <span *ngIf="frm.controls['cancellationReasonId'].errors?.required">Cancellation Reason is required</span>
+            
+             </div>
+        </div>
+        <div class="col-md-12">
+            <app-tp-input [label]="'Comment'" [type]="'textarea'"  formControlName="comment" [control]="comment"> </app-tp-input>
+          </div>
+    
+        <!-- <div class="col-md-12">
+            <label for="comment">Comment</label>
+            <textarea formControlName="comment" rows="4" style="width: 100%;"></textarea>
+        </div> -->
+    
+        </div>
+    
+        <div class="form-group row mt-4">
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary" [disabled]="frm.invalid">
+            <i class="ri ri-save-line label-icon align-middle fs-16 me-2"></i>
+            {{ saveLabel }} Details
+            </button>
+        </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,45 @@
+<div class="cardHeader mx-1">
+  <div class="headerTitle">
+    <h4 class="card-title mb-0 text-muted">Speciality</h4>
+  </div>
+  <div class="headerButton">
+    <button type="button" class="btn add-btn text-muted" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal" (click)="showEditModal(editTemplate)">
+      <i class="ri-add-line align-bottom iconButton me-1"></i>
+    </button>
+  </div>
+</div>
+<hr class="cardBody text-muted" />
+
+<div class="card-body" style="margin-top: -10px !important">
+  <ul>
+    <li *ngFor="let specialty of service?.data$ | async">
+      <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#showModal" (click)="showEditModal(editTemplate, specialty?.specialization?.id)">
+        <img
+          [src]="specialty?.specialization?.icon"
+          class="rounded-circle header-profile-user"
+          appImgFallback="assets/img/icons/healthcare.svg"
+          alt="{{ specialty?.specialization?.name }} Icon"
+        />
+      </a>
+      <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#showModal" (click)="showEditModal(editTemplate, specialty?.specialization?.id)">
+        <span class="px-2">{{ specialty?.specialization?.name }}</span>
+      </a>
+    </li>
+  </ul>
+  <!-- <h5 class="card-title mb-3">Speciality</h5> -->
+</div>
+<hr class="cardBodyBtm text-muted" />
+
+<app-professional-sub-speciality-list> </app-professional-sub-speciality-list>
+<ng-template #editTemplate>
+  <div class="modal-header bg-primary-subtle p-2 px-4">
+    <h5 class="modal-title tablelist-form mb-0" autocomplete="off">
+      <i class="align-middle text-primary me-1"></i>
+      {{ id ? 'Edit' : 'Add' }} Speciality
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>
+  </div>
+  <div class="modal-body">
+    <app-professional-speciality-edit [id]="id" (onSaveComplete)="recordSaved($event)"></app-professional-speciality-edit>
+  </div>
+</ng-template>

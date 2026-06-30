@@ -1,0 +1,32 @@
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex mb-3">
+      <div class="flex-grow-1">
+        <h5 class="fs-16 fw-semibold"><i class="ri-equalizer-fill mx-1 align-bottom"></i> Filters</h5>
+      </div>
+      <div class="flex-shrink-0">
+        <a href="javascript:void(0);" class="text-decoration-underline" (click)="handleClearFilters()">Clear All</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion accordion-flush">
+    <div class="card-body border-bottom">
+      <div class="my-2">
+        <input type="text" class="form-control" placeholder="Doctor's name" (keyup)="searchDoctorTerm($event)" />
+      </div>
+
+      <app-specialty-filter></app-specialty-filter>
+
+      <app-city-filter></app-city-filter>
+
+      <app-gender-filter></app-gender-filter>
+
+      <app-service-filter></app-service-filter>
+
+      <div>
+        <button type="button" class="btn btn-success waves-effect waves-light w-100" (click)="handleFilterSearch()">Search</button>
+      </div>
+    </div>
+  </div>
+</div>

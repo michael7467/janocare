@@ -1,0 +1,55 @@
+<!-- <section class="section">
+  <div class="container">
+    <hr />
+
+    <div class="row gap-2 gap-lg-0 align-items-start mt-5">
+      <div class="col-lg-6">
+        <div class="text-muted ps-lg-5">
+          <h4 class="mb-3">Read top articles from health experts</h4>
+
+          <p class="text-sm-start">Articles on health topics to keep you informed about effective health practices and help you reach your wellness goals.</p>
+
+          <button type="button" class="btn btn-outline-primary w-50 mt-4" routerLink="/articles">See All Articles</button>
+        </div>
+      </div>
+
+      <div class="col-lg-6 mx-auto">
+        @for (data of topPosts; track $index) {
+        <div class="project-card">
+          <div class="card card-height-100">
+            <div class="card-body">
+              <div
+                class="d-flex flex-column flex-sm-row align-items-start text-start"
+                data-bs-toggle="collapse"
+                role="button"
+                aria-expanded="false"
+                aria-controls="contactInitiated1"
+              >
+                <div class="flex-shrink-0 mb-3 mb-sm-0">
+                  <img
+                    src="{{ data?.professional?.user?.userProfile?.profilePic | removePort }}"
+                    appImgFallback="assets/images/users/avatar-5.jpg"
+                    alt=""
+                    class="avatar-lg rounded"
+                  />
+                </div>
+
+                <div class="flex-grow-1 ms-sm-3">
+                  <div class="d-flex flex-column flex-sm-row justify-content-between">
+                    <h6 class="fs-13 mb-1 text-wrap">{{ data?.title }}</h6>
+                    <p class="text-muted mb-0 fs-13 text-nowrap">{{ data?.publishedAt | date }}</p>
+                  </div>
+                  <p class="text-muted mb-0 text-start fs-6">Topic: {{ data?.metaTitle }}</p>
+                  <p class="text-muted mb-0 text-start fs-6">{{ data?.professional?.user?.userProfile?.firstName + data?.professional?.user?.userProfile?.lastName }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+
+    <hr />
+  </div>
+</section> -->

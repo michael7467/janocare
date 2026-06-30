@@ -1,0 +1,18 @@
+
+  <form *ngIf="isLoaded && !isError" (ngSubmit)="goToNext(frm)" [formGroup]="frm" novalidate>
+    <div class="row">
+      <div class="col-md-12">
+        <app-tp-input [label]="'Service Name'" [type]="'text'" formControlName="serviceName" [control]="serviceName"> </app-tp-input>
+      </div>
+  
+    </div>
+  
+    <div class="form-group row mt-4">
+      <div class="col-12 text-center">
+        <button type="submit" class="btn btn-primary" [disabled]="frm.invalid">
+          <i class="ri ri-save-line label-icon align-middle fs-16 me-2"></i>
+          {{ saveLabel }} Details
+        </button>
+      </div>
+    </div>
+  </form>

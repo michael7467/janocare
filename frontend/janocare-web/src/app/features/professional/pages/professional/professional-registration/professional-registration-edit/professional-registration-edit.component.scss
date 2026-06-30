@@ -1,0 +1,63 @@
+.inline-image {
+  display: inline-block;
+  vertical-align: middle; /* optional, aligns the image with the middle of the adjacent text */
+}
+.file-upload {
+  position: relative;
+  display: inline-block;
+}
+.file-upload-button {
+  // styles that apply to all device sizes...
+  display: block;
+
+  color: #000;
+  cursor: pointer;
+  padding: 20px;
+  text-align: center;
+
+  @media (max-width: 404px) {
+    // styles that apply to devices with a width of 600px or less...
+    font-size: 15px;
+    width: 345px;
+  }
+  @media (min-width: 405px) and (max-width: 512px) {
+    // styles that apply to devices with a width of 600px or less...
+    font-size: 15px;
+    width: 405px;
+  }
+  @media (min-width: 513px) and (max-width: 1024px) {
+    // styles that apply to devices with a width between 601px and 1024px...
+    font-size: 20px;
+    width: 465px;
+  }
+
+  @media (min-width: 1025px) {
+    // styles that apply to devices with a width of 1025px or more...
+    font-size: 20px;
+    width: 465px;
+  }
+}
+
+
+.file-upload-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-upload-label {
+  margin-top: 10px;
+  display: block;
+  text-align: center;
+  font-size: 18px;
+}
+
+.image-preview {
+  max-width: 100px; /* Adjust as needed */
+  max-height: 100px; /* Adjust as needed */
+}
+.images-display{
+  display: inline !important;
+}

@@ -1,0 +1,97 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="bg-light cardHeader mx-1">
+      <div class="headerTitle">
+        <p class="card-title mb-0">Credentials > <span class="text-muted"> Registration</span></p>
+      </div>
+      <div class="headerButton">
+        <button type="button" class="btn btn-light add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal" (click)="showEditModal(editTemplate)">
+          <i class="ri-add-line align-bottom iconButton me-1"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="card mx-1">
+      <div class="card-body">
+        <div class="table-responsive table-card mb-0">
+          <table class="table">
+            <thead>
+              <tr class="bg-light text-muted text-uppercase">
+                <th>Registration Name</th>
+                <th>Registration Number</th>
+                <th>Registration Year</th>
+                <th>Certificate</th>
+
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th [attr.colspan]="6" *ngIf="service.loading$ | async">
+                  <div class="spinner-border text-primary text-center" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </th>
+              </tr>
+              <ng-container *ngIf="!(service.loading$ | async)">
+                <tr *ngFor="let item of service.data$ | async">
+                  <td>{{ item?.registrationName }}</td>
+                  <td>{{ item?.institutionName }}</td>
+                  <td>{{ item?.registrationDate | date : 'YYYY-MM-dd' }}</td>
+                  <td>
+                    <a href="{{ item?.certificatePhoto | removePort }}" target="_blank">
+                      <!-- {{ getFileName(item?.certificatePhoto) }} -->
+                      <div class="px-4" style="margin-top: -8px !important">
+                        <i class="ri-image-2-fill fs-24"></i>
+                      </div>
+                    </a>
+                  </td>
+                  <td>
+                    <ul class="list-inline hstack gap-2 mb-0">
+                      <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                        <a
+                          href="javascript:void(0);"
+                          data-bs-toggle="modal"
+                          class="text-black text-muted d-inline-block edit-item-btn"
+                          data-bs-toggle="modal"
+                          id="create-btn"
+                          data-bs-target="#showModal"
+                          (click)="showEditModal(editTemplate, item?.id)"
+                        >
+                          <i class="ri-pencil-fill fs-18"></i>
+                        </a>
+                      </li>
+                      <li class="list-inline-item me-0" ngbTooltip="Remove" placement="top" data-bs-toggle="tooltip" data-bs-trigger="hover">
+                        <a class="text-black text-muted d-inline-block remove-item-btn" data-bs-toggle="modal" data-bs-target="#deleteOrder">
+                          <i class="ri-delete-bin-5-fill fs-18"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+              </ng-container>
+              <ng-container>
+                <tr *ngIf="(service.data$ | async)?.length === 0">
+                  <td [attr.colspan]="6" class="text-danger">No records found</td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #editTemplate>
+  <div class="modal-header bg-primary-subtle p-2 px-4">
+    <h5 class="modal-title tablelist-form mb-0" autocomplete="off">
+      <i class="align-middle text-primary me-1"></i>
+      {{ id ? 'Edit' : 'Add' }} Registration
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>
+  </div>
+  <div class="modal-body">
+    <app-professional-registration-edit [id]="id" (onSaveComplete)="recordSaved($event)"></app-professional-registration-edit>
+  </div>
+</ng-template>

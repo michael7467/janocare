@@ -1,0 +1,39 @@
+<form *ngIf="isLoaded && !isError" (ngSubmit)="goToNext(frm)" [formGroup]="frm" novalidate>
+  <div class="row">
+    <div class="col-md-12">
+      <app-tp-input [label]="'Membership Name'" [type]="'text'" formControlName="membershipName" [control]="membershipName"> </app-tp-input>
+    </div>
+    <div class="col-12">
+      <div class="mb-3" class="date-input">
+        <label *ngIf="!membershipYear.touched" [for]="id" class="d-block"> Membership Year {{ isRequired }} </label>
+        <label *ngIf="membershipYear.touched && !membershipYear.invalid" [for]="id" class="valid-feedback d-block">Membership Year {{ isRequired }}</label>
+        <label *ngIf="membershipYear.touched && membershipYear.invalid" [for]="id" class="invalid-feedback d-block">Membership Year {{ isRequired }}</label>
+        <div class="cal-icon">
+          <input
+            placeholder="Select Date"
+            class="form-control flatpickr-input"
+            formControlName="membershipYear"
+            [minDate]="minDate"
+            type="text"
+            mwlFlatpickr
+            [altInput]="true"
+            [convertModelValue]="true"
+          />
+          <!-- <input formControlName="membershipYear" placeholder="Select Date" type="text"  class="form-control mb-3" #dp="bsDatepicker" bsDatepicker  container=".date-input" /> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 mt-4">
+      <app-tp-input [label]="'Membership Description'" [type]="'textarea'" formControlName="membershipDescription" [control]="membershipDescription"> </app-tp-input>
+    </div>
+  </div>
+
+  <div class="form-group row mt-4">
+    <div class="col-12 text-center">
+      <button type="submit" class="btn btn-primary" [disabled]="frm.invalid">
+        <i class="ri ri-save-line label-icon align-middle fs-16 me-2"></i>
+        {{ saveLabel }} Details
+      </button>
+    </div>
+  </div>
+</form>

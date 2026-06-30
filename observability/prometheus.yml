@@ -1,0 +1,28 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: "auth-service"
+    metrics_path: /q/metrics
+    static_configs:
+      - targets: ["auth-service:8080"]
+
+  - job_name: "professional-service"
+    metrics_path: /q/metrics
+    static_configs:
+      - targets: ["professional-service:8080"]
+
+  - job_name: "booking-service"
+    metrics_path: /q/metrics
+    static_configs:
+      - targets: ["booking-service:8080"]
+
+  - job_name: "payment-service"
+    metrics_path: /q/metrics
+    static_configs:
+      - targets: ["payment-service:8080"]
+
+  - job_name: "notification-service"
+    metrics_path: /q/metrics
+    static_configs:
+      - targets: ["notification-service:8080"]

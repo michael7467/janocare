@@ -1,11 +1,14 @@
 <div appScrollspy [spiedTags]="['SECTION']" (sectionChange)="onSectionChange($event)">
   <div class="layout-wrapper landing">
+
     <nav class="navbar navbar-expand-lg navbar-landing fixed-top" id="navbar" (window:scroll)="windowScroll()">
       <div class="custom-container">
+
         <a class="navbar-brand" routerLink="/">
           <img src="assets/images/janocare-logo-transparent.png" class="card-logo card-logo-dark" alt="logo dark" height="32" />
           <img src="assets/images/janocare-logo-transparent.png" class="card-logo card-logo-light" alt="logo light" height="32" />
         </a>
+
         <button
           class="navbar-toggler py-0 fs-20 text-body"
           type="button"
@@ -21,47 +24,85 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mx-auto mt-2 mt-lg-0" id="navbar-example">
+
             <li class="nav-item">
-              <a class="nav-link active" [ngClass]="{ active: currentSection === 'hero' }" [routerLink]="''">Home</a>
-              <!-- <a class="nav-link active" [ngClass]="{ active: currentSection === 'hero' }" [routerLink]="''">Home</a> -->
+              <a class="nav-link active"
+                 [ngClass]="{ active: currentSection === 'hero' }"
+                 (click)="scrollTo('hero')">
+                Home
+              </a>
             </li>
+
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="{ active: currentSection === 'doctors' }" [routerLink]="['doctors']">Doctors</a>
-              <!-- <a class="nav-link" [ngClass]="{ active: currentSection === 'doctors' }" [ngxScrollTo]="'#doctors'" href="javascript:void(0);">Doctors</a> -->
+              <a class="nav-link"
+                 [ngClass]="{ active: currentSection === 'doctors' }"
+                 (click)="scrollTo('doctors')">
+                Doctors
+              </a>
             </li>
+
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="{ active: currentSection === 'clinics' }" [ngxScrollTo]="'#clinics'" href="javascript:void(0);">Clinics</a>
+              <a class="nav-link"
+                 [ngClass]="{ active: currentSection === 'clinics' }"
+                 (click)="scrollTo('clinics')">
+                Clinics
+              </a>
             </li>
+
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="{ active: currentSection === 'labTests' }" [ngxScrollTo]="'#labTests'" href="javascript:void(0);">Lab Tests</a>
+              <a class="nav-link"
+                 [ngClass]="{ active: currentSection === 'labTests' }"
+                 (click)="scrollTo('labTests')">
+                Lab Tests
+              </a>
             </li>
+
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="{ active: currentSection === 'pharmacies' }" [ngxScrollTo]="'#pharmacies'" href="javascript:void(0);">Pharmacies</a>
+              <a class="nav-link"
+                 [ngClass]="{ active: currentSection === 'pharmacies' }"
+                 (click)="scrollTo('pharmacies')">
+                Pharmacies
+              </a>
             </li>
+
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="{ active: currentSection === 'reviews' }" [ngxScrollTo]="'#reviews'" href="javascript:void(0);">Reviews</a>
+              <a class="nav-link"
+                 [ngClass]="{ active: currentSection === 'reviews' }"
+                 (click)="scrollTo('reviews')">
+                Reviews
+              </a>
             </li>
+
           </ul>
 
           <div>
-            <a href="{{ environment.patientUrl + '/auth/login' }}" class="btn btn-link fw-medium text-decoration-none text-body">Sign in</a>
-            <a href="{{ environment.patientUrl + '/auth/register' }}" class="btn btn-primary">Sign Up</a>
+            <a routerLink="/auth/login" class="btn btn-link fw-medium text-decoration-none text-body">Sign in</a>
+           <a routerLink="/auth/register"
+   class="btn btn-primary">
+  Join as Patient
+</a>
+            <a routerLink="/auth/register-professional"
+   class="btn btn-outline-primary ms-2">
+  Join as Professional
+</a>
           </div>
         </div>
+
       </div>
     </nav>
-    <!-- end navbar -->
 
-    <section class="section pb-0 hero-section">
+    <!-- Hero Section -->
+    <section class="section pb-0 hero-section" id="hero">
       <router-outlet></router-outlet>
     </section>
 
+    <!-- Footer -->
     <app-footer></app-footer>
 
-    <!--start back-to-top-->
+    <!-- Back to top -->
     <button (click)="topFunction()" class="btn btn-danger btn-icon landing-back-top" id="back-to-top">
       <i class="ri-arrow-up-line"></i>
     </button>
-    <!--end back-to-top-->
+
   </div>
 </div>

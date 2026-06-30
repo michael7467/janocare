@@ -1,4 +1,151 @@
+
+
+
+
 /* You can add global styles to this file, and also import other style files */
+// @import '../node_modules/intl-tel-input/build/css/intlTelInput.css';
+@import "@ng-select/ng-select/themes/default.theme.css";
+.map-container {
+  height: 300px;
+}
+
+.email-content1 {
+  width: 100%;
+  transition: all 0.2s;
+}
+
+.mail-list a {
+  // padding: 5px 0;
+  padding: 5px;
+  margin-bottom: 5px;
+  border: 2px solid #eef1fa;
+  border-radius: 3px;
+}
+.mail-list a.active {
+  color: #405189;
+  background-color: #d2d5e5;
+  font-weight: 600;
+}
+.mail-list a.hover {
+  color: #405189;
+  background-color: #d2d5e5;
+  font-weight: 600;
+}
+.mail-list a.active i {
+  color: #405189;
+}
+
+// plan radio color
+.card-radio .form-check-input:checked + .form-check-label {
+  border-color: #405189 !important;
+  background-color: aliceblue !important;
+}
+
+/// pretty json code print
+pre {
+  font-weight: 400 !important;
+
+  .number-line {
+    color: #7272f8 !important;
+  }
+  .string {
+    color: #2547f0 !important;
+  }
+  .number {
+    color: #f2192f !important;
+  }
+  .boolean {
+    color: #0097f1 !important;
+  }
+  .null {
+    color: #416cfa !important;
+  }
+  .key {
+    color: #de02bd !important;
+  }
+}
+
+// date picker
+.custom-day {
+  text-align: center;
+  padding: 0.185rem 0.25rem;
+  display: inline-block;
+  height: 2rem;
+  width: 2rem;
+}
+.custom-day.focused {
+  background-color: #e6e6e6;
+}
+.custom-day.range,
+.custom-day:hover {
+  background-color: rgb(2, 117, 216);
+  color: white;
+}
+.custom-day.faded {
+  background-color: rgba(2, 117, 216, 0.5);
+}
+
+::ng-deep .ng-select .ng-value-label {
+  color: #212529 !important;
+}
+
+::ng-deep .ng-select .ng-placeholder {
+  color: #878a99 !important;
+}
+
+::ng-deep .ng-dropdown-panel .ng-option {
+  color: #212529 !important;
+  background-color: #fff !important;
+}
+
+::ng-deep .ng-select .ng-select-container {
+  background-color: #fff !important;
+}
+// table selection
+
+.table-row-selected{
+  background-color: #e6e6e6;
+
+}
+
+
+///
+/// 
+.ng-select.custom.ng-select-single .ng-select-container {
+  height: 20px !important;
+  border-radius: 0 !important;
+}
+
+.ng-select.ng-select-single .ng-select-container {
+  height: 41px !important;
+  // border-radius: 0 !important;
+}
+
+// .ng-select.custom ::ng-deep .ng-select-container  {            
+//   min-height: 43px;
+//   border-radius: 0;
+// }
+
+
+// light placeholder
+.light-placeholder::placeholder {
+  color: silver !important;
+  font-weight: 400 !important;
+}
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
 // custom container start
 
 /* Base styles for the custom container */
@@ -298,3 +445,11 @@
 .form-check-input:hover {
   border-color: var(--bs-primary); /* Border color on hover */
 }
+
+
+
+
+
+
+
+

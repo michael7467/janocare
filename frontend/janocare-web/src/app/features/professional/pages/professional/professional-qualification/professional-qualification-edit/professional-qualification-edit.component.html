@@ -1,0 +1,32 @@
+
+  
+  <form *ngIf="isLoaded && !isError" (ngSubmit)="goToNext(frm)" [formGroup]="frm" novalidate>
+    <div class="row">
+      <div class="col-md-12">
+        <app-tp-input [label]="'Qualification Name'" [type]="'text'" formControlName="qualificationName" [control]="qualificationName"> </app-tp-input>
+      </div>
+      <div class="col-md-12">
+        <app-tp-input [label]="'Institution Name'" [type]="'text'" formControlName="institutionName" [control]="institutionName"> </app-tp-input>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="mb-3 " class="date-input">
+        <label for="date-of-birth" class="mb-2">Completion Date</label>
+
+        <div class="cal-icon">
+          <input placeholder="Select Date" class="form-control flatpickr-input"  formControlName="procrumentYear" 
+          [minDate]="minDate"  type="text" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
+
+          <!-- <input type="text" formControlName="procrumentYear" [control]="procrumentYear"  class="form-control mb-3" #dp="bsDatepicker" bsDatepicker  container=".date-input" /> -->
+        </div>
+      </div>
+    </div>
+    <div class="form-group row mt-4">
+      <div class="col-12 text-center">
+        <button type="submit" class="btn btn-primary" [disabled]="frm.invalid">
+          <i class="ri ri-save-line label-icon align-middle fs-16 me-2"></i>
+          {{ saveLabel }} Details
+        </button>
+      </div>
+    </div>
+  </form>

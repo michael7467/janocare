@@ -1,0 +1,45 @@
+<form *ngIf="isLoaded && !isError" (ngSubmit)="goToNext(frm)" [formGroup]="frm" novalidate>
+  <div class="row">
+    <div class="col-12">
+      <app-tp-input [label]="'Experience'" [type]="'text'" formControlName="experience" [control]="experience"> </app-tp-input>
+    </div>
+    <div class="col-12">
+      <app-tp-input [label]="'Specialization'" [type]="'text'" formControlName="specialization" [control]="specialization"> </app-tp-input>
+    </div>
+    <div class="col-12">
+      <app-tp-input [label]="'Place'" [type]="'text'" formControlName="place" [control]="place"> </app-tp-input>
+    </div>
+    <div class="col-12 col-sm-6">
+      <label for="startYear">Start Year</label>
+      <select class="form-select" [ngClass]="frm.controls['startYear'].touched ? (frm.controls['startYear'].errors ? 'is-invalid' : 'is-valid') : null" formControlName="startYear">
+        <option value="">Select Start Year</option>
+        <option *ngFor="let year of years" [value]="year">
+          {{ year }}
+        </option>
+      </select>
+      <div class="invalid-feedback" *ngIf="frm.controls['startYear'].touched && frm.controls['startYear'].errors">
+        <span *ngIf="frm.controls['startYear'].errors?.required">Start Year is required</span>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6">
+      <label for="endYear">End Year</label>
+      <select class="form-select" [ngClass]="frm.controls['endYear'].touched ? (frm.controls['endYear'].errors ? 'is-invalid' : 'is-valid') : null" formControlName="endYear">
+        <option value="">Select End Year</option>
+        <option *ngFor="let year of years" [value]="year">
+          {{ year }}
+        </option>
+      </select>
+      <div class="invalid-feedback" *ngIf="frm.controls['endYear'].touched && frm.controls['endYear'].errors">
+        <span *ngIf="frm.controls['endYear'].errors?.required"> End Year is required</span>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row mt-4">
+    <div class="col-12 text-center">
+      <button type="submit" class="btn btn-primary" [disabled]="frm.invalid">
+        <i class="ri ri-save-line label-icon align-middle fs-16 me-2"></i>
+        {{ saveLabel }} Details
+      </button>
+    </div>
+  </div>
+</form>

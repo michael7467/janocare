@@ -1,0 +1,54 @@
+<!-- Specialties  -->
+<div>
+  <p class="text-muted text-uppercase fs-12 fw-medium my-3">Specialty</p>
+  <div class="my-3 d-flex gap-1 flex-wrap">
+    @for (item of Specialties$ | async; track $index) {
+    <button
+      type="button"
+      class="btn btn-sm waves-effect waves-light"
+      [ngClass]="{ 'btn-primary ': item.selected, 'btn-outline-primary ': !item.selected }"
+      (click)="selectSpecialty(item)"
+    >
+      <!-- (click)="item.selected = !item.selected" -->
+      {{ item.name }}
+    </button>
+    }
+    <button
+      type="button"
+      class="btn btn-sm btn-outline-primary waves-effect waves-light"
+      [ngClass]="{ 'btn-primary ': !allSpecialtiesSelected, 'btn-outline-primary ': allSpecialtiesSelected }"
+      (click)="selectAllSpecialties()"
+    >
+      All
+    </button>
+  </div>
+
+  <!-- other specialities -->
+  <div class="filter-choices-input">
+    <ng-select
+      #specialtyCtl
+      [searchable]="true"
+      [items]="specialties$ | async"
+      (change)="specialtyChanged($event)"
+      [trackByFn]="specialtiesTrackedBy"
+      bindLabel="name"
+      bindValue="id"
+      [loading]="specialtyLoading"
+      [placeholder]="'Other Specialties...'"
+      typeToSearchText="Start typing specialties..."
+      [typeahead]="specialtyInput$"
+      name="specialtyId"
+      id="specialtyId"
+    >
+    </ng-select>
+    <ng-template ng-header-tmp>
+      <input
+        appAutofocus
+        class="form-control form-control-sm bg-primary-subtle text-primary"
+        style="width: 100%; line-height: 24px"
+        type="text"
+        (input)="specialtyCtl.filter($event.target['value'])"
+      />
+    </ng-template>
+  </div>
+</div>

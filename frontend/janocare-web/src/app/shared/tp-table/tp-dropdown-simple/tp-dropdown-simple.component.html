@@ -1,0 +1,57 @@
+<div class="form-row">
+  <div class="col-md-12">
+    <ng-container *ngIf="meta?.hasLabel && control">
+      <label *ngIf="!control.touched" [for]="id" class="d-block"> {{ meta.label }}{{ isRequired }} </label>
+      <label *ngIf="control.touched && !control.invalid" [for]="id" class="valid-feedback d-block">{{ meta.label }}{{ isRequired }}</label>
+      <label *ngIf="control.touched && control.invalid" [for]="id" class="invalid-feedback d-block">{{ meta.label }}{{ isRequired }}</label>
+    </ng-container>
+    <div ngbDropdown #myDrop="ngbDropdown">
+      <!-- DROPDOWN BUTTON -->
+      <button ngbDropdownToggle [disabled]="isDisabled" [ngClass]="inputClass" type="button" (blur)="onTouched()" class="btn btn-block btn-outline-light border-default p-0 text-left form-control-sm" id="simpleDropdown">
+        <div class="p-1 d-flex align-items-center">
+          <div class="me-3 d-flex align-items-center">
+            <ng-container *ngIf="!isLoading">
+              <div class="text-truncate text-dark f-10 me-3" style="overflow-x: hidden; overflow-wrap: break-word">{{ selectedItem[meta?.mainLabel] }}</div>
+            </ng-container>
+            <ng-container *ngIf="isLoading">
+              <span class="spinner-border spinner-border-sm" role="status"></span>
+              {{ 'Loading...' }}
+            </ng-container>
+          </div>
+          <span [ngClass]="{ 'fa-chevron-down': !myDrop.isOpen(), 'fa-chevron-up': myDrop.isOpen() }" class="ml-auto me-3 fa text-info small"> </span>
+        </div>
+      </button>
+
+      <div ngbDropdownMenu class="col-md-12" aria-labelledby="simpleDropdown">
+        <div class="card mb-0 shadow-1">
+          <div class="card-header p-0">
+            <input type="text" class="form-control form-control-custom form-control-sm rounded-0 d-flex justify-content-between" #search type="text" (keyup)="searchItem($event)" placeholder="Search..." />
+          </div>
+          <div class="card-body p-0">
+            <ul class="list-group list-group-hover list-group-flush">
+              <ng-container ngbDropdownItem *ngFor="let item of filteredData" (click)="selectItem(item[meta?.valueField]); $event.stopPropagation(); myDrop.close()">
+                <input type="radio" class="d-none" name="RadioInputName" [id]="item[meta?.valueField] + id" (click)="selectItem(item[meta?.valueField]); $event.stopPropagation(); myDrop.close()" />
+                <label class="list-group-item list-group-item-action p-0 m-0 pointer" [for]="item[meta?.valueField] + id">
+                  <div class="p-1 d-flex align-items-center">
+                    <div class="font-weight-bold me-3">
+                      <div class="small">{{ item[meta?.mainLabel] }}</div>
+                    </div>
+                  </div>
+                </label>
+              </ng-container>
+              <div>
+                <button type="button" (click)="reset(); $event.stopPropagation(); myDrop.close()"  class="btn btn-block btn-secondary rounded-0 btn-sm"><i class="icofont icofont-close-squared-alt me-2"></i>Reset</button>
+              </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="meta?.viewValidationMessages && control" [id]="'validation' + id" class="invalid-feedback d-block">
+      &nbsp;
+      <ng-container *ngIf="control.touched && control.invalid">
+        <small class="text-danger" *ngFor="let error of Errors"> <i class="icofont icofont-warning"> </i> {{ error.message }} </small>
+      </ng-container>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,21 @@
-version: '3.9'
-
 services:
-  postgres:
+  redis:
+    image: redis:7
+    container_name: janocare-redis
+    restart: always
+    ports:
+      - "16380:6379"
+
+  adminer:
+    image: adminer
+    container_name: janocare-adminer
+    restart: always
+    ports:
+      - "8085:8080"
+
+  professional-postgres:
     image: postgres:16
-    container_name: janocare-postgres
+    container_name: janocare-professional-postgres
     restart: always
     environment:
       POSTGRES_DB: janocare_professional
@@ -12,14 +24,269 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - professional_postgres_data:/var/lib/postgresql/data
 
-  adminer:
-    image: adminer
-    container_name: janocare-adminer
+  auth-postgres:
+    image: postgres:16
+    container_name: janocare-auth-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: janocare_auth
+      POSTGRES_USER: janocare
+      POSTGRES_PASSWORD: janocare123
+    ports:
+      - "5433:5432"
+    volumes:
+      - auth_postgres_data:/var/lib/postgresql/data
+
+  booking-postgres:
+    image: postgres:16
+    container_name: janocare-booking-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: janocare_booking
+      POSTGRES_USER: janocare
+      POSTGRES_PASSWORD: janocare123
+    ports:
+      - "5434:5432"
+    volumes:
+      - booking_postgres_data:/var/lib/postgresql/data
+
+  payment-postgres:
+    image: postgres:16
+    container_name: janocare-payment-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: janocare_payment
+      POSTGRES_USER: janocare
+      POSTGRES_PASSWORD: janocare123
+    ports:
+      - "5435:5432"
+    volumes:
+      - payment_postgres_data:/var/lib/postgresql/data
+
+  notification-postgres:
+    image: postgres:16
+    container_name: janocare-notification-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: janocare_notification
+      POSTGRES_USER: janocare
+      POSTGRES_PASSWORD: janocare123
+    ports:
+      - "5436:5432"
+    volumes:
+      - notification_postgres_data:/var/lib/postgresql/data
+
+  professional-service:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        - SERVICE_NAME=professional-service
+    container_name: janocare-professional-service
+    restart: always
+    depends_on:
+      - professional-postgres
+    environment:
+      QUARKUS_PROFILE: prod
+      QUARKUS_HTTP_PORT: 8080
+      QUARKUS_DATASOURCE_USERNAME: janocare
+      QUARKUS_DATASOURCE_PASSWORD: janocare123
+      QUARKUS_OTEL_SERVICE_NAME: auth-service
+      QUARKUS_OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
+    ports:
+      - "9006:8080"
+
+  notification-service:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        - SERVICE_NAME=notification-service
+    container_name: janocare-notification-service
+    restart: always
+    depends_on:
+      - notification-postgres
+    environment:
+      QUARKUS_PROFILE: prod
+      QUARKUS_HTTP_PORT: 8080
+      QUARKUS_DATASOURCE_USERNAME: janocare
+      QUARKUS_DATASOURCE_PASSWORD: janocare123
+      QUARKUS_OTEL_SERVICE_NAME: auth-service
+      QUARKUS_OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
+    ports:
+      - "9030:8080"
+
+  payment-service:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        - SERVICE_NAME=payment-service
+    container_name: janocare-payment-service
+    restart: always
+    depends_on:
+      - payment-postgres
+    environment:
+      QUARKUS_PROFILE: prod
+      QUARKUS_HTTP_PORT: 8080
+      QUARKUS_DATASOURCE_USERNAME: janocare
+      QUARKUS_DATASOURCE_PASSWORD: janocare123
+      QUARKUS_OTEL_SERVICE_NAME: auth-service
+      QUARKUS_OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
+    ports:
+      - "9020:8080"
+
+  booking-service:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        - SERVICE_NAME=booking-service
+
+    container_name: janocare-booking-service
+    restart: always
+
+    depends_on:
+      - booking-postgres
+      - payment-service
+      - notification-service
+
+    environment:
+      QUARKUS_PROFILE: prod
+      QUARKUS_HTTP_PORT: 8080
+
+      QUARKUS_DATASOURCE_USERNAME: janocare
+      QUARKUS_DATASOURCE_PASSWORD: janocare123
+
+      QUARKUS_OTEL_SERVICE_NAME: booking-service
+      QUARKUS_OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
+
+      PAYMENT_SERVICE_MP_REST_URL: http://payment-service:8080/api
+      NOTIFICATION_SERVICE_MP_REST_URL: http://notification-service:8080/api
+
+    ports:
+      - "9010:8080"
+
+  auth-service:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        - SERVICE_NAME=auth-service
+
+    container_name: janocare-auth-service
+    restart: always
+
+    depends_on:
+      - auth-postgres
+      - redis
+      - professional-service
+      - notification-service
+
+    environment:
+      QUARKUS_PROFILE: prod
+      QUARKUS_HTTP_PORT: 8080
+
+      QUARKUS_DATASOURCE_USERNAME: janocare
+      QUARKUS_DATASOURCE_PASSWORD: janocare123
+
+      QUARKUS_REDIS_HOSTS: redis://redis:6379
+
+      QUARKUS_OTEL_SERVICE_NAME: auth-service
+      QUARKUS_OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
+
+      PROFESSIONAL_SERVICE_MP_REST_URL: http://professional-service:8080/api
+      NOTIFICATION_SERVICE_MP_REST_URL: http://notification-service:8080/api
+
+    ports:
+      - "9005:8080"
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+    container_name: janocare-api-gateway
+    restart: always
+    depends_on:
+      - auth-service
+      - professional-service
+      - booking-service
+      - payment-service
+      - notification-service
+    ports:
+      - "8088:8080"
+
+  frontend:
+    build:
+      context: ./frontend/janocare-web
+    container_name: janocare-frontend
+    restart: always
+    depends_on:
+      - api-gateway
+    ports:
+      - "4200:80"
+  prometheus:
+    image: prom/prometheus
+    container_name: janocare-prometheus
+    restart: always
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - auth-service
+      - professional-service
+      - booking-service
+      - payment-service
+      - notification-service
+  promtail:
+    image: grafana/promtail:2.9.8
+    container_name: janocare-promtail
+    restart: always
+    volumes:
+      - ./observability/promtail-config.yml:/etc/promtail/config.yml
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: -config.file=/etc/promtail/config.yml
+    depends_on:
+      - loki
+  grafana:
+    image: grafana/grafana
+    container_name: janocare-grafana
     restart: always
     ports:
-      - "8081:8080"
-
+      - "3001:3000"
+    depends_on:
+      - prometheus
+  k6:
+    image: grafana/k6
+    container_name: janocare-k6
+    volumes:
+      - ./performance:/scripts
+    command: run /scripts/register-test.js
+    depends_on:
+      - api-gateway
+  loki:
+    image: grafana/loki:2.9.8
+    container_name: janocare-loki
+    restart: always
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./observability/loki-config.yml:/etc/loki/local-config.yaml
+    command: -config.file=/etc/loki/local-config.yaml
+  jaeger:
+    image: jaegertracing/all-in-one:1.57
+    container_name: janocare-jaeger
+    restart: always
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+      - "4318:4318"
 volumes:
-  postgres_data:
+  professional_postgres_data:
+  auth_postgres_data:
+  booking_postgres_data:
+  payment_postgres_data:
+  notification_postgres_data:

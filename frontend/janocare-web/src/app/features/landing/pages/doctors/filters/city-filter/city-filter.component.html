@@ -1,0 +1,54 @@
+<!-- Locations -->
+<div>
+  <p class="text-muted text-uppercase fs-12 fw-medium my-3">Location</p>
+  <div class="my-3 d-flex gap-1 flex-wrap">
+    @for (item of Locations$ | async; track $index) {
+    <button
+      type="button"
+      class="btn btn-sm waves-effect waves-light"
+      [ngClass]="{ 'btn-primary ': item.selected, 'btn-outline-primary ': !item.selected }"
+      (click)="selectLocation(item)"
+    >
+      {{ item.name }}
+    </button>
+    }
+    <button
+      type="button"
+      class="btn btn-sm btn-outline-primary waves-effect waves-light"
+      [ngClass]="{ 'btn-primary ': !allLocationsSelected, 'btn-outline-primary ': allLocationsSelected }"
+      (click)="selectAllLocations()"
+    >
+      All
+    </button>
+  </div>
+
+  <!-- city -->
+  <div class="filter-choices-input">
+    <!-- (change)="selectLocation($event)" -->
+    <ng-select
+      #cityCtl
+      [searchable]="true"
+      [items]="cities$ | async"
+      (change)="locationChanged($event)"
+      [trackByFn]="cityTrackedBy"
+      bindLabel="cityName"
+      bindValue="id"
+      [loading]="cityLoading"
+      [placeholder]="'Other Locations...'"
+      typeToSearchText="Start typing location..."
+      [typeahead]="cityInput$"
+      id="cityId"
+      name="cityId"
+    >
+    </ng-select>
+    <ng-template ng-header-tmp>
+      <input
+        appAutofocus
+        class="form-control form-control-sm bg-primary-subtle text-primary"
+        style="width: 100%; line-height: 24px"
+        type="text"
+        (input)="cityCtl.filter($event.target['value'])"
+      />
+    </ng-template>
+  </div>
+</div>

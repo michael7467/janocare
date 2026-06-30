@@ -1,0 +1,686 @@
+<app-breadcrumbs title="BOOKING APPOINTMENT" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<div class="row">
+  <div class="col-xxl-3 col-sm-6">
+    <div class="card slotTot card-animate">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <div>
+            <p class="fw-semibold text-muted mb-0">Total Bookings</p>
+            <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="totalSlots" class="counter-value" [options]="option"></span></h2>
+            <p class="mb-0 text-muted">
+              <span class="badge bg-light text-success mb-0"> <i class="ri-arrow-up-line align-middle"></i> 17.32 % </span> vs. previous month
+            </p>
+          </div>
+          <div>
+            <div class="avatar-sm flex-shrink-0">
+              <span class="avatar-title bg-info-subtle text-info rounded-circle fs-4">
+                <i class="ri-timer-2-line"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end card body -->
+    </div>
+    <!-- end card-->
+  </div>
+  <!--end col-->
+  <div class="col-xxl-3 col-sm-6">
+    <div class="card slotBooked card-animate">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <div>
+            <p class="fw-semibold text-muted mb-0">Online Consultation</p>
+            <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="online" class="counter-value" [options]="option"></span></h2>
+            <p class="mb-0 text-muted">
+              <span class="badge bg-light text-danger mb-0"> <i class="ri-arrow-down-line align-middle"></i> 0.87 % </span> vs. previous month
+            </p>
+          </div>
+          <div>
+            <div class="avatar-sm flex-shrink-0">
+              <span class="avatar-title bg-info-subtle text-info rounded-circle fs-4">
+                <i class="las la-calendar-check"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end card body -->
+    </div>
+  </div>
+  <!--end col-->
+  <div class="col-xxl-3 col-sm-6">
+    <div class="card slotCompleted card-animate">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <div>
+            <p class="fw-semibold text-muted mb-0">Instatn Consultation</p>
+            <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="instant" class="counter-value" [options]="option"></span></h2>
+            <p class="mb-0 text-muted">
+              <span class="badge bg-light text-danger mb-0"> <i class="ri-arrow-down-line align-middle"></i> 2.52 % </span> vs. previous month
+            </p>
+          </div>
+          <div>
+            <div class="avatar-sm flex-shrink-0">
+              <span class="avatar-title bg-success-subtle text-success rounded-circle fs-4">
+                <i class="ri-user-follow-line"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end card body -->
+    </div>
+  </div>
+  <!--end col-->
+  <div class="col-xxl-3 col-sm-6">
+    <div class="card slotExpired card-animate">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <div>
+            <p class="fw-semibold text-muted mb-0">In Person Bookings</p>
+            <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="inPerson" class="counter-value" [options]="option"></span></h2>
+            <p class="mb-0 text-muted">
+              <span class="badge bg-light text-success mb-0"> <i class="ri-arrow-up-line align-middle"></i> 0.63 % </span> vs. previous month
+            </p>
+          </div>
+          <div>
+            <div class="avatar-sm flex-shrink-0">
+              <span class="avatar-title bg-info-subtle text-info rounded-circle fs-4">
+                <i class="las la-calendar-times"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end card body -->
+    </div>
+  </div>
+  <!--end col-->
+</div>
+
+<div class="row">
+  <div class="col-xxl-3 col-sm-6">
+    <div class="card slotTot card-animate">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <div>
+            <p class="fw-semibold text-muted mb-0">Pending</p>
+            <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="pending" class="counter-value" [options]="option"></span></h2>
+            <p class="mb-0 text-muted">
+              <span class="badge bg-light text-success mb-0"> <i class="ri-arrow-up-line align-middle"></i> 17.32 % </span> vs. previous month
+            </p>
+          </div>
+          <div>
+            <div class="avatar-sm flex-shrink-0">
+              <span class="avatar-title bg-info-subtle text-info rounded-circle fs-4">
+                <i class="ri-timer-2-line"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end card body -->
+    </div>
+    <!-- end card-->
+  </div>
+  <!--end col-->
+  <div class="col-xxl-3 col-sm-6">
+    <div class="card slotBooked card-animate">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <div>
+            <p class="fw-semibold text-muted mb-0">Booked</p>
+            <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="booked" class="counter-value" [options]="option"></span></h2>
+            <p class="mb-0 text-muted">
+              <span class="badge bg-light text-danger mb-0"> <i class="ri-arrow-down-line align-middle"></i> 0.87 % </span> vs. previous month
+            </p>
+          </div>
+          <div>
+            <div class="avatar-sm flex-shrink-0">
+              <span class="avatar-title bg-info-subtle text-info rounded-circle fs-4">
+                <i class="las la-calendar-check"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end card body -->
+    </div>
+  </div>
+  <!--end col-->
+  <div class="col-xxl-3 col-sm-6">
+    <div class="card slotCompleted card-animate">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <div>
+            <p class="fw-semibold text-muted mb-0">Completed</p>
+            <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="completed" class="counter-value" [options]="option"></span></h2>
+            <p class="mb-0 text-muted">
+              <span class="badge bg-light text-danger mb-0"> <i class="ri-arrow-down-line align-middle"></i> 2.52 % </span> vs. previous month
+            </p>
+          </div>
+          <div>
+            <div class="avatar-sm flex-shrink-0">
+              <span class="avatar-title bg-success-subtle text-success rounded-circle fs-4">
+                <i class="ri-user-follow-line"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end card body -->
+    </div>
+  </div>
+  <!--end col-->
+  <div class="col-xxl-3 col-sm-6">
+    <div class="card slotExpired card-animate">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <div>
+            <p class="fw-semibold text-muted mb-0">Cancelled</p>
+            <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="expired" class="counter-value" [options]="option"></span></h2>
+            <p class="mb-0 text-muted">
+              <span class="badge bg-light text-success mb-0"> <i class="ri-arrow-up-line align-middle"></i> 0.63 % </span> vs. previous month
+            </p>
+          </div>
+          <div>
+            <div class="avatar-sm flex-shrink-0">
+              <span class="avatar-title bg-info-subtle text-info rounded-circle fs-4">
+                <i class="las la-calendar-times"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end card body -->
+    </div>
+  </div>
+  <!--end col-->
+</div>
+
+<div class="card slotList">
+  <div class="card-header card-body border border-dashed border-end-0 border-start-0">
+    <div class="row align-items-center gy-3">
+      <div class="col-sm">
+        <h5 class="card-title mb-0">Patient Appointments</h5>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="card">
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-xxl-6 col-sm-6">
+            <div class="search-box">
+              <input type="text" class="form-control bg-light" placeholder="Search for name, tasks, projects or something..." [(ngModel)]="service.q" />
+              <i class="ri-search-line search-icon"></i>
+            </div>
+          </div>
+          <div class="col-xxl-2">
+            <app-date-range-picker class="dateRange" [backgroundColor]="'bg-light'" (selectedRange)="rangeSelected($event)"></app-date-range-picker>
+          </div>
+          <div class="col-xxl-2 col-sm-4">
+            <div>
+              <select class="form-select bg-light" data-choices data-choices-search-false name="choices-single-default" id="idStatus" [(ngModel)]="service.bookingType">
+                <option [value]="undefined">Filter By Booking Type...</option>
+                <option *ngFor="let d of typeuses" [value]="d">{{ d }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-xxl-2 col-sm-4">
+            <div>
+              <select class="form-select bg-light" data-choices data-choices-search-false name="choices-single-default" id="idStatus" [(ngModel)]="service.bookingStatus">
+                <option [value]="undefined">Filte By Status...</option>
+                <option *ngFor="let d of statuses" [value]="d">{{ d }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!--end row-->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive table-card">
+              <table #TABLE class="table">
+                <thead>
+                  <tr class="border-top border-opacity-10">
+                    <th class="text-muted">Created Date</th>
+                    <th class="text-muted">Booking Date</th>
+                    <th class="text-muted">Patient Name</th>
+                    <th class="text-muted">Booking For</th>
+                    <th class="text-muted">Booking Interval</th>
+                    <th class="text-muted">Start Time</th>
+                    <th class="text-muted">End Time</th>
+                    <th class="text-muted">Booking Type</th>
+                    <th class="text-muted">Status</th>
+
+                    <th class="text-muted">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th [attr.colspan]="6" *ngIf="service.loading$ | async">
+                      <div class="spinner-border text-primary text-center" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    </th>
+                  </tr>
+                  <ng-container *ngIf="!(service.loading$ | async)">
+                    <tr *ngFor="let item of service.data$ | async; let i = index">
+                      <td>{{ item?.createdAt | date : 'YYYY-MM-dd' }}</td>
+
+                      <td>{{ item?.bookingDate | date : 'YYYY-MM-dd' }}</td>
+
+                      <td>
+                        <img
+                          src="{{ item.patient?.user?.userProfile?.profilePic | removePort }}"
+                          appImgFallback="assets/images/users/user-dummy-img.jpg"
+                          class="avatar-xxs rounded-circle me-1"
+                          alt=""
+                        />
+                        <a href="javascript:void(0);" class="text-reset">{{ item.patient?.user?.userProfile?.firstName }} {{ item.patient?.user?.userProfile?.middleName }}</a>
+                      </td>
+                      <td>{{ item?.Total }}</td>
+                      <td>{{ item?.bookingSlot?.slotInterval }}</td>
+                      <td>{{ item?.bookingSlot?.slotTime }}</td>
+                      <td>{{ getEndTime(item?.bookingSlot?.slotTime, item?.bookingSlot?.slotInterval) }}</td>
+                      <!-- <td>{{ item?.CANCELLED }}</td> -->
+                      <td>
+                        {{ item?.bookingType }}
+                      </td>
+                      <td>
+                        <span
+                          class="badge text-uppercase"
+                          [ngClass]="{
+                            'bg-info-subtle text-info': item?.bookingStatus === 'PENDING',
+                            'bg-warning-subtle text-warning': item?.bookingStatus === 'Unpaid',
+                            'bg-success-subtle text-success': item?.bookingStatus === 'COMPLETED',
+                            'bg-danger-subtle text-danger': item?.bookingStatus === 'REJECTED'
+                          }"
+                          >{{ item.bookingStatus }}</span
+                        >
+                      </td>
+
+                      <td>
+                        <div class="table-action">
+                          <a
+                            class="btn btn-sm bg-success-light text-success link"
+                            (click)="showEditModal(editTemplate, item?.id, 'accept')"
+                            *ngIf="item?.bookingStatus === 'PENDING'"
+                          >
+                            <i class="fas fa-check"></i> Accept
+                          </a>
+
+                          <a
+                            class="btn btn-sm link text-success"
+                            *ngIf="
+                              item?.bookingStatus === 'ACCEPTED' || item?.bookingStatus === 'COMPLETED' || item?.bookingStatus === 'REJECTED' || item?.bookingStatus === 'CANCELLED'
+                            "
+                            [ngClass]="{
+                              'bg-success-light': item?.bookingStatus === 'ACCEPTED' || item?.bookingStatus === 'COMPLETED',
+                              'bg-danger-light': item?.bookingStatus === 'REJECTED' || item?.bookingStatus === 'CANCELLED'
+                            }"
+                          >
+                            <i class="fas fa-check"></i> {{ item?.bookingStatus }}
+                          </a>
+
+                          <a
+                            *ngIf="item?.bookingStatus === 'ACCEPTED'"
+                            (click)="showEditModal(editTemplateBookingCancelation, item?.id, 'cancel')"
+                            class="btn btn-sm bg-danger-light text-danger link"
+                          >
+                            <i class="fas fa-times"></i> Cancel
+                          </a>
+                          <a
+                            *ngIf="item?.bookingStatus === 'PENDING'"
+                            class="btn btn-sm bg-danger-light text-danger link"
+                            (click)="showEditModal(editTemplate, item?.id, 'reject')"
+                          >
+                            <i class="fas fa-times"></i> REJECT
+                          </a>
+                        </div>
+                        <!-- <ul class="list-inline hstack gap-2 mb-0">
+                          <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="View" placement="top">
+                            <a [routerLink]="[routes.bookingSlots, item?.slotDate]" class="text-primary d-inline-block" style="color: #299cdb !important">
+                          
+                              View
+                            </a>
+                          </li>
+                        </ul> -->
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td class="py-1" [attr.colspan]="6">
+                      <app-tp-pagination-info
+                        [collectionSize]="(service.total$ | async)!"
+                        [pageSize]="service.pageSize"
+                        [page]="service.page"
+                        [loading]="service.loading$ | async"
+                      ></app-tp-pagination-info>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <div class="row">
+              <app-tp-pagination [collectionSize]="(service.total$ | async)!" [(pageSize)]="service.pageSize" [(page)]="service.page"> </app-tp-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <app-common-table
+      [columns]="columns"
+      sortBy="sortByType"
+      [data]="service.data$ | async"
+      (onNavChangeNew)="onNavChange($event)"
+      [collectionSize]="(service.total$ | async)!"
+      [pageSize]="service.pageSize"
+      [page]="service.page"
+      [loading]="service.loading$ | async"
+      (onSortBy)="setSortNew($event)"
+      (onDateRange)="rangeSelected($event)"
+      (onApptEditClick)="showEditModal(editTemplate, $event?.id, $event?.type)"
+      (onApptCancelEditClick)="showEditModal(editTemplateBookingCancelation, $event?.id, $event?.type)"
+    ></app-common-table> -->
+    <!-- <app-tp-pagination [collectionSize]="(service.total$ | async)!" [(pageSize)]="service.pageSize" [(page)]="service.page"> </app-tp-pagination> -->
+  </div>
+</div>
+<!-- <div class="row">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-header card-body border border-dashed border-end-0 border-start-0">
+        <div class="row align-items-center gy-3">
+          <div class="col-sm">
+            <h5 class="card-title mb-0">Booking Appointment</h5>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <tp-standard-table #table [options]="options" [columns]="columns" [datasource]="datasource" [paging]="paging">
+          <ng-template tpTableCellTemplate="IdTemplate" let-data="data" let-row="row">
+            <a class="fw-semibold" [routerLink]="[routes.banks, row.id]" class="fw-bold">
+              {{ row?.id.toString().padStart(10, '0') }}
+            </a>
+          </ng-template>
+          <ng-template tpTableCellTemplate="nameTemplate" let-data="data" let-row="row">
+            <div class="flex-shrink-0">
+              <a [routerLink]="[routes.patientsList, row?.id]">
+                <img
+                  [src]="(auth?.userProfileProfile$ | async)?.profilePic"
+                  appImgFallback="assets/images/users/user-dummy-img.jpg"
+                  id="img"
+                  class="rounded-circle header-profile-user"
+                  alt="Avatar"
+                />
+              </a>
+              <a [routerLink]="[routes.patientsList, row?.id]">{{ row?.patient?.ecpFirstName }} {{ row?.patient?.ecpLastName }}</a>
+            </div>
+          </ng-template>
+          <ng-template tpTableCellTemplate="bookingDateTemplate" let-data="data" let-row="row">
+            {{ row?.bookingDate | date : 'YYYY-MM-dd' }}
+          </ng-template>
+          <ng-template tpTableCellTemplate="bookingStatusTemplate" let-data="data" let-row="row">
+            {{ row?.bookingStatus }}
+            <a
+              class="btn btn-sm badge rounded-pill"
+              *ngIf="
+                row?.bookingStatus === 'ACCEPTED' ||
+                row?.bookingStatus === 'COMPLETED' ||
+                row?.bookingStatus === 'REJECTED' ||
+                row?.bookingStatus === 'CANCELLED' ||
+                row?.bookingStatus === 'PENDING'
+              "
+              [ngClass]="{
+                'bg-success-light': row?.bookingStatus === 'ACCEPTED' || row?.bookingStatus === 'COMPLETED',
+                'bg-danger-light': row?.bookingStatus === 'REJECTED' || row?.bookingStatus === 'CANCELLED',
+                'bg-warning-light': row?.bookingStatus === 'PENDING'
+              }"
+            >
+              {{ row?.bookingStatus }}
+            </a>
+          </ng-template>
+          <ng-template tpTableCellTemplate="bookingSlotStatusTemplate" let-data="data" let-row="row">
+            {{ row?.bookingSlot?.bookingSlotStatus }}
+          </ng-template>
+          <ng-template tpTableCellTemplate="bookingSlotStartTimeTemplate" let-data="data" let-row="row">
+            {{ row?.bookingSlot?.slotTime }}
+          </ng-template>
+          <ng-template tpTableCellTemplate="bookingSlotEndTimeTemplate" let-data="data" let-row="row">
+            {{ getEndTime(row?.bookingSlot?.slotTime, row?.bookingSlot?.slotInterval) }}
+          </ng-template>
+          <ng-template tpTableCellTemplate="btnActions" let-data="data" let-row="row">
+            <ul class="list-inline hstack gap-2 mb-0">
+              <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="View" placement="top">
+                <a class="text-primary d-inline-block">
+                  <i class="ri-eye-fill fs-16"></i>
+                </a>
+                <a class="btn btn-sm bg-success-light link" (click)="showEditModal(editTemplate, data?.id, 'accept')" *ngIf="data?.bookingStatus === 'PENDING'">
+                  <i class="fas fa-check"></i> Accept
+                </a>
+              </li>
+              <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                <a
+                  (click)="showEditModal(editTemplate, row.id)"
+                  data-bs-toggle="modal"
+                  class="text-primary d-inline-block edit-item-btn"
+                  data-bs-toggle="modal"
+                  id="create-btn"
+                  data-bs-target="#showModal"
+                >
+                  <i class="ri-pencil-fill fs-16"></i>
+                </a>
+              </li>
+              <li class="list-inline-item me-0" ngbTooltip="Remove" placement="top" data-bs-toggle="tooltip" data-bs-trigger="hover">
+                <a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal" data-bs-target="#deleteOrder">
+                  <i class="ri-delete-bin-5-fill fs-16"></i>
+                </a>
+              </li>
+            </ul>
+          </ng-template>
+        </tp-standard-table>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- 
+<div class="page-wrapper">
+  <div class="content container-fluid">
+      <div class="page-header">
+          <div class="row">
+            <div class="col">
+    
+              <ul class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a [routerLink]="routes.professionalDashboard">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Appointments</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      <div class="col-md-12 dct-appoinment">
+     
+        
+          
+                              <div id="pat_appointments">
+                                  <div class="card card-table mb-0">
+                                      <div class="card-body user">
+                                          <div class="table-responsive header-space">
+                                              <app-pagination-header></app-pagination-header>
+                                              <table matSort (matSortChange)="sortData($event)" class="table table-hover table-center mb-0">
+                                                  <thead>
+                                                      <tr>
+                                                          <th mat-sort-header="doctor">Patient</th>
+                                                          <th mat-sort-header="bookingDate">Booking Date</th>
+                                                          <th mat-sort-header="createDate">Create Date</th>
+                                                      
+                                                          <th mat-sort-header="bookingStatus">Booking Status</th>
+                                                          <th mat-sort-header="bookingType">Booking Type</th>
+                                                          <th mat-sort-header="slotStatus">Slot Status</th>
+                                                          <th mat-sort-header="startTime">Start Time</th>
+                                                          <th mat-sort-header="endTime">End Time</th>
+                                                    
+                                                          <th mat-sort-header="action" class="text-center">Action</th>
+                                                      </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                      <tr *ngFor = "let data of tableData">
+                                                          <td>
+                                                              <h2 class="table-avatar">
+                                                                  <a [routerLink]="[routes.patientDetails, data?.patient?.id]" class="avatar avatar-sm me-2">
+                                                                      <img class="avatar-img rounded-circle" [src]="data?.patient?.user?.userProfile?.profilePic" onerror="this.onerror=null; this.src='assets/img/patients/patient.jpg';">
+
+                                                                  </a>
+                                                                  <a [routerLink]="[routes.patientDetails, data?.patient?.id]">{{data?.patient?.ecpFirstName}} {{data?.patient?.ecpLastName}} </a>
+                                                              </h2>
+                                                          </td>
+                                                          <td>{{data?.bookingSlot?.slotDate | date: 'YYYY-MM-dd'}} <span class="d-block text-info">{{data?.bookingSlot?.slotTime}}</span></td>
+                                           
+                                                          <td>{{data?.createdAt | date : 'YYYY-MM-dd'}}</td>
+                                                     
+
+                                                          <td>
+                                                            <a class="btn btn-sm badge rounded-pill" 
+                                                            *ngIf="data?.bookingStatus === 'ACCEPTED' || data?.bookingStatus === 'COMPLETED' || data?.bookingStatus === 'REJECTED' || data?.bookingStatus === 'CANCELLED' || data?.bookingStatus === 'PENDING'"
+                                                             [ngClass]="{
+                                                               'bg-success-light': data?.bookingStatus === 'ACCEPTED' || data?.bookingStatus === 'COMPLETED',
+                                                               'bg-danger-light': data?.bookingStatus === 'REJECTED' || data?.bookingStatus === 'CANCELLED',
+                                                               'bg-warning-light': data?.bookingStatus === 'PENDING'
+                                                             }">
+                                                             {{data?.bookingStatus}}
+                                                           </a>
+                                                        </td>
+                                                          <td>{{data?.bookingType}}</td>
+                                                          <td>
+                                                            <a class="btn btn-sm badge rounded-pill" 
+                                                            *ngIf="data?.bookingStatus === 'ACCEPTED' || data?.bookingStatus === 'COMPLETED' || data?.bookingStatus === 'REJECTED' || data?.bookingStatus === 'CANCELLED' || data?.bookingStatus === 'PENDING'"
+                                                             [ngClass]="{
+                                                               'bg-success-light': data?.bookingStatus === 'ACCEPTED' || data?.bookingStatus === 'COMPLETED',
+                                                               'bg-danger-light': data?.bookingStatus === 'REJECTED' || data?.bookingStatus === 'CANCELLED',
+                                                               'bg-warning-light': data?.bookingStatus === 'PENDING'
+                                                             }">
+                                                             {{data?.bookingSlot?.bookingSlotStatus}}
+                                                           </a>
+                                                        </td>
+                                                          <td>{{data?.bookingSlot?.slotTime}}</td>
+                                                          <td>
+                                                            {{getEndTime(data?.bookingSlot?.slotTime,data?.bookingSlot?.slotInterval)}}
+                                                          </td>
+
+                                                        
+                                                      
+
+                                                          <td>
+
+                                                    
+                                                              <div class="table-action">
+                                                            
+                                                                <a class="btn btn-sm bg-success-light link" (click)="showEditModal(editTemplate,data?.id,'accept')" *ngIf="data?.bookingStatus === 'PENDING'">
+                                                                  <i class="fas fa-check"></i> Accept
+                                                                </a>
+                                                           
+                                                                <a class="btn btn-sm link" 
+                                                                 *ngIf="data?.bookingStatus === 'ACCEPTED' || data?.bookingStatus === 'COMPLETED' || data?.bookingStatus === 'REJECTED' || data?.bookingStatus === 'CANCELLED'"
+                                                                  [ngClass]="{
+                                                                    'bg-success-light': data?.bookingStatus === 'ACCEPTED' || data?.bookingStatus === 'COMPLETED',
+                                                                    'bg-danger-light': data?.bookingStatus === 'REJECTED' || data?.bookingStatus === 'CANCELLED'
+                                                                  }">
+                                                                  <i class="fas fa-check"></i> {{data?.bookingStatus}}
+                                                                </a>
+                                                        
+                                                                <a 
+                                                                *ngIf="data?.bookingStatus === 'ACCEPTED'"
+                                                                (click)="showEditModal(editTemplateBookingCancelation,data?.id,'cancel')"
+                                                                class="btn btn-sm bg-danger-light link">
+                                                                  <i class="fas fa-times"></i> Cancel
+                                                                </a>
+                                                                <a 
+                                                                *ngIf="data?.bookingStatus === 'PENDING'"
+                                                                class="btn btn-sm bg-danger-light link" (click)="showEditModal(editTemplate,data?.id,'reject')">
+                                                                  <i class="fas fa-times"></i> REJECT
+                                                                </a>
+                                                               
+                                                              </div>
+                                                          </td>
+                                                      </tr>
+                                                  </tbody>
+                                              </table>
+                                   
+                                          </div>
+                                          <app-custom-pagination></app-custom-pagination>
+                                      </div>
+                                  </div>
+                              </div>
+                        
+  
+             
+                 
+                
+    
+           
+      </div>
+  </div>
+</div>
+
+
+ -->
+
+<ng-template #editTemplate>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      <i class="fa fa-bank me-1"></i>
+      {{ action ? 'Confirmation' : 'Appointment Details' }}
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>
+  </div>
+  <div class="modal-body">
+    <app-booking-appointments-edit [id]="id" [action]="action" (onSaveComplete)="recordSaved($event)"></app-booking-appointments-edit>
+  </div>
+</ng-template>
+<ng-template #editTemplateBookingCancelation>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      <i class="fa fa-bank me-1"></i>
+      Booking Cancellation
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>
+  </div>
+  <div class="modal-body">
+    <app-booking-cancellation-reason [id]="id" [action]="action" (onSaveComplete)="recordSaved($event)"></app-booking-cancellation-reason>
+  </div>
+</ng-template>
+
+<!-- <ng-template #editTemplate>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      <i class="fa fa-bank me-1"></i>
+      {{ action ? 'Confirmation' : 'Appointment Details' }} 
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>
+  </div>
+  <div class="modal-body">
+    <app-booking-appointments-edit [id]="id" [action]="action" (onSaveComplete)="recordSaved($event)"></app-booking-appointments-edit>
+  </div>
+</ng-template>
+<ng-template #editTemplateBookingCancelation>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      <i class="fa fa-bank me-1"></i>
+      Booking Cancellation
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>
+  </div>
+  <div class="modal-body">
+    <app-booking-cancellation-reason [id]="id" [action]="action" (onSaveComplete)="recordSaved($event)"></app-booking-cancellation-reason>
+  </div>
+</ng-template> -->

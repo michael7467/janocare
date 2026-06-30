@@ -1,0 +1,245 @@
+.edit-link {
+    color: #20c0f3;
+    font-size: 16px;
+    margin-top: 4px;
+}
+.visits input:checked ~ .visit-rsn {
+    background-color: #808080 !important;
+    color: #000 !important;
+    border-radius: 4px !important;
+}
+
+.visits input:checked ~ .visit-rsn::before {
+    // content: "\f00d"; /* This is the Unicode for the Font Awesome check icon */
+    opacity: 1;
+}
+
+.form-control.is-invalid{
+  background-image: none !important;
+}
+.form-control.is-valid{
+    background-image: none !important;
+  }
+  .cal-icon {
+    cursor: pointer;
+  }
+  button{
+    cursor: pointer;
+  }
+//   .visits .visit-btns{
+  
+//     border: 1px solid #199fd9 !important;
+
+//   }
+  .visits span.visit-rsn {
+     background-color: #ffffff !important;
+    border: 1px solid #008B00 !important;
+    color: #000000 !important;
+
+  }
+
+  .visits .visits-booked span.visit-rsn {
+    background-color: #FF8D00 !important;
+   border: 5px solid #007FFF !important;
+   color: #FFFFFF !important;
+ 
+ }
+ .visits .visits-cancelled span.visit-rsn {
+  background-color: #D50000 !important;
+ border: 1px solid #880E4F !important;
+ color: #FFFFFF !important;
+
+}
+.visits .visits-completed span.visit-rsn {
+  background-color: #41C300 !important;
+ border: 1px solid #008B00 !important;
+ color: #FFFFFF !important;
+
+}
+.visits .visits-expired span.visit-rsn {
+  background-color: #9400D3 !important;
+ border: 1px solid #199fd9 !important;
+
+}
+
+
+.slotTot{
+  @media only screen and (max-width: 600px) {
+      /* Styles for extra small devices (phones, 600px and down) */
+      margin-left: -15px !important;
+      margin-right: -10px !important;
+      margin-top: -13px !important;
+    }
+  
+    @media only screen and (min-width: 601px) and (max-width: 768px) {
+      /* Styles for small devices (portrait tablets and large phones, 601px - 768px) */
+      margin-left: -15px !important;
+      margin-right: -3px !important;
+      margin-top: -13px !important;
+    }
+  
+    @media only screen and (min-width: 769px) and (max-width: 992px) {
+      /* Styles for medium devices (landscape tablets, 769px - 992px) */
+      margin-left: -13px !important;
+      margin-right: -3px !important;
+      margin-top: -13px !important;
+    }
+  
+    @media only screen and (min-width: 993px) and (max-width: 1200px) {
+      /* Styles for large devices (laptops/desktops, 993px - 1200px) */
+      margin-left: -15px !important;
+      margin-right: -5px !important;
+      margin-top: -13px !important;
+    }
+  
+    @media only screen and (min-width: 1201px) {
+      /* Styles for extra large devices (large laptops and desktops, 1201px and up) */
+        margin-left: -15px !important;
+       margin-right: -5px !important;
+       margin-top: -13px !important;
+    }
+}
+.slotBooked{
+  @media only screen and (max-width: 600px) {
+      /* Styles for extra small devices (phones, 600px and down) */
+      margin-left: -15px !important;
+      margin-right: -10px !important;
+      margin-top: -13px !important;
+    }
+  
+    @media only screen and (min-width: 601px) and (max-width: 768px) {
+      /* Styles for small devices (portrait tablets and large phones, 601px - 768px) */
+      margin-left: -15px !important;
+      margin-right: -3px !important;
+      margin-top: -13px !important;
+    }
+  
+    @media only screen and (min-width: 769px) and (max-width: 992px) {
+      /* Styles for medium devices (landscape tablets, 769px - 992px) */
+      margin-left: -13px !important;
+      margin-right: -3px !important;
+      margin-top: -13px !important;
+    }
+  
+    @media only screen and (min-width: 993px) and (max-width: 1200px) {
+      /* Styles for large devices (laptops/desktops, 993px - 1200px) */
+      margin-left: -15px !important;
+      margin-right: -5px !important;
+      margin-top: -13px !important;
+    }
+  
+    @media only screen and (min-width: 1201px) {
+      /* Styles for extra large devices (large laptops and desktops, 1201px and up) */
+        margin-left: -15px !important;
+       margin-right: -5px !important;
+       margin-top: -13px !important;
+    }
+}
+.slotCompleted{
+  @media only screen and (max-width: 600px) {
+      /* Styles for extra small devices (phones, 600px and down) */
+      margin-left: -15px !important;
+      margin-right: -10px !important;
+      margin-top: -13px !important;
+    }
+  
+    @media only screen and (min-width: 601px) and (max-width: 768px) {
+      /* Styles for small devices (portrait tablets and large phones, 601px - 768px) */
+      margin-left: -15px !important;
+    }
+  
+    @media only screen and (min-width: 769px) and (max-width: 992px) {
+      /* Styles for medium devices (landscape tablets, 769px - 992px) */
+      margin-left: -13px !important;
+      margin-right: -3px !important;
+      margin-top: -13px !important;
+    }
+  
+    @media only screen and (min-width: 993px) and (max-width: 1200px) {
+      /* Styles for large devices (laptops/desktops, 993px - 1200px) */
+      margin-left: -15px !important;
+      margin-right: -5px !important;
+      margin-top: -13px !important;
+    }
+  
+    @media only screen and (min-width: 1201px) {
+      /* Styles for extra large devices (large laptops and desktops, 1201px and up) */
+        margin-left: -15px !important;
+       margin-right: -5px !important;
+       margin-top: -13px !important;
+    }
+}
+
+.slotExpired{
+  @media only screen and (max-width: 600px) {
+      /* Styles for extra small devices (phones, 600px and down) */
+      margin-left: -15px !important;
+      margin-right: -10px !important;
+      margin-top: -13px !important;
+    }
+  
+    @media only screen and (min-width: 601px) and (max-width: 768px) {
+      /* Styles for small devices (portrait tablets and large phones, 601px - 768px) */
+      margin-left: -15px !important;
+    }
+  
+    @media only screen and (min-width: 769px) and (max-width: 992px) {
+      /* Styles for medium devices (landscape tablets, 769px - 992px) */
+      margin-left: -13px !important;
+      margin-right: -3px !important;
+      margin-top: -13px !important;
+    }
+  
+    @media only screen and (min-width: 993px) and (max-width: 1200px) {
+      /* Styles for large devices (laptops/desktops, 993px - 1200px) */
+      margin-left: -15px !important;
+      margin-right: -5px !important;
+      margin-top: -13px !important;
+    }
+  
+    @media only screen and (min-width: 1201px) {
+      /* Styles for extra large devices (large laptops and desktops, 1201px and up) */
+        margin-left: -15px !important;
+       margin-right: -5px !important;
+       margin-top: -13px !important;
+    }
+}
+
+.slotList{
+  @media only screen and (max-width: 600px) {
+      /* Styles for extra small devices (phones, 600px and down) */
+      margin-left: -15px !important;
+      margin-right: -10px !important;
+      margin-top: -13px !important;
+      .dateRange{
+          display: none !important;
+      }
+    }
+  
+    @media only screen and (min-width: 601px) and (max-width: 768px) {
+      /* Styles for small devices (portrait tablets and large phones, 601px - 768px) */
+      margin-left: -13px !important;
+      margin-right: -13px !important;
+    }
+  
+    @media only screen and (min-width: 769px) and (max-width: 992px) {
+      /* Styles for medium devices (landscape tablets, 769px - 992px) */
+      margin-left: -13px !important;
+      margin-right: -8px !important;
+       margin-top: -13px !important;
+    }
+  
+    @media only screen and (min-width: 993px) and (max-width: 1200px) {
+      /* Styles for large devices (laptops/desktops, 993px - 1200px) */
+      margin-left: -13px !important;
+      margin-right: -8px !important;
+       margin-top: -13px !important;
+    }
+  
+    @media only screen and (min-width: 1201px) {
+      /* Styles for extra large devices (large laptops and desktops, 1201px and up) */
+       margin-left: -13px !important;
+      margin-right: -8px !important;
+       margin-top: -13px !important;
+    }
+}

@@ -1,0 +1,190 @@
+<section class="pt-4 bg-light" id="doctors">
+  <div class="custom-container">
+    <div class="row">
+      <div class="d-none d-md-block col-xl-4 col-lg-4">
+        <app-filters (searchDoctor)="searchDoctor($event)" (handleFilterSearchFromQueryParams)="handleFilterSearch($event)"></app-filters>
+      </div>
+
+      <ng-template #filterTemplate>
+        <app-filters (searchDoctor)="searchDoctor($event)" (handleFilterSearchFromQueryParams)="handleFilterSearch($event)"></app-filters>
+      </ng-template>
+
+      <!-- right -->
+      <div class="col-xl-8 col-lg-8">
+        <div>
+          <div class="d-flex d-sm-none justify-content-end my-2">
+            <button
+              type="button"
+              class="d-sm-none align-self-end btn btn-outline-primary"
+              data-bs-toggle="modal"
+              id="create-btn"
+              data-bs-target="#showModal"
+              (click)="showEditModal(filterTemplate)"
+            >
+              <i class="ri-filter-3-line align-bottom me-1"></i> Filter
+            </button>
+          </div>
+
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="d-flex gap-2 align-items-center">
+                <p class="fs-3 fw-semibold">Search Results</p>
+                <p class="">Found {{ itemCount ?? 0 }} professionals</p>
+              </div>
+              <div class="d-flex gap-2 align-items-start">
+                <img src="{{ 'assets/images/verified-gray.png' }}" />
+                <p class="text-muted fs-13">Book appointments with minimum wait-time & verified doctor details</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <div class="card-body">
+              @for (professional of professionals; track $index) {
+              <div class="card joblist-card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-2 mb-1 mb-sm-4">
+                      <div class="avatar-xl mx-auto mb-0 mb-sm-4 position-relative">
+                        <img
+                          src="{{ professional?.user?.userProfile?.profilePic | removePort }}"
+                          alt=""
+                          class="img-fluid rounded-circle"
+                          [appImgFallback]="'assets/images/users/user-dummy-img.jpg'"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 mb-4 mb-md-0 text-center text-md-start d-flex flex-column gap-2">
+                      <a href="javascript:void(0);" [routerLink]="[professional?.id]">
+                        <h5 class="job-title">
+                          @if ((professional?.user?.userProfile?.firstName + professional?.user?.userProfile?.lastName).length > 24) {
+                          {{ (professional?.user?.userProfile?.firstName + ' ' + professional?.user?.userProfile?.lastName)?.slice(0, 24) + '...' }}
+                          } @else {
+                          {{ professional?.user?.userProfile?.firstName + ' ' + professional?.user?.userProfile?.lastName }}
+                          }
+                        </h5>
+                      </a>
+                      <p class="company-name text-muted mb-0 fs-6">{{ professional?.professionType?.type }}</p>
+                      @if (professional.practicingFrom) {
+                      <p class="company-name text-muted mb-0 fs-6">
+                        <span class="fw-bold">{{ getPracticingYears(professional?.practicingFrom) }}</span> Years of Experience
+                      </p>
+                      }
+                      <p class="company-name text-muted mb-0 fs-6">
+                        {{ professional?.user?.userProfile?.city?.cityName }}, {{ professional?.user?.userProfile?.country?.countryName }}
+                      </p>
+
+                      <div class="my-2">
+                        <div class="fs-13">
+                          <i class="fs-4 ri-map-pin-2-line align-bottom mx-1"></i>
+                          <span class="job-location"
+                            >{{ professional?.user?.institutionUsers[0]?.institution?.name ?? 'Attached with no institution.' }}
+                            <!--  -->
+                            @if (professional?.user?.institutionUsers?.length > 2) {<span>+ {{ professional?.user?.institutionUsers.length - 1 }} more</span>}
+                          </span>
+                        </div>
+                      </div>
+
+                      <hr style="border: none; border-top: 1px dashed #000; margin: 1rem 0" />
+
+                      <div class="">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                          <div class="p-1 rounded d-flex justify-content-start align-items-center gap-2">
+                            <div class="fw-bolder d-flex align-items-center bg-warning px-2 rounded-2">
+                              <i class="ri-star-s-fill align-bottom mx-1 fs-4 text-white"></i> <span class="job-type text-white"> {{ professional?.overallRatings ?? 0 }} </span>
+                            </div>
+                            <span class="fs-13">{{ '( ' + (professional?.totalReviews ?? 0) + ' Reviews )' }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <div class="d-flex flex-column gap-2">
+                        <div class="d-flex flex-row flex-sm-column justify-content-between gap-2">
+                          @if (professional?.isOnlineConsultationEnabled || professional?.isInpersonEnabled || professional?.isInstantCallEnabled){
+                          <div>
+                            <i class="ri-time-line align-bottom mx-1"></i>
+                            <span class="job-postdate text-success"> Available Today</span>
+                          </div>
+                          }
+
+                          <div class="">
+                            <i class="ri-thumb-up-line align-bottom mx-1"></i>
+                            @if(professional?.upVotes) {
+                            <span class="job-postdate">{{ getVotingPercentage(professional?.upVotes, professional?.downVotes) }} %</span>
+                            } @else {
+                            <span class="job-postdate">0 %</span>
+                            }
+                          </div>
+
+                          <div><i class="ri-user-3-line align-bottom mx-1"></i> {{ professional?.totalPatients ?? 0 }} Patients</div>
+                        </div>
+
+                        <hr class="d-sm-none" />
+
+                        <div class="d-flex flex-column gap-2">
+                          <!--  -->
+                          @if (professional?.isOnlineConsultationEnabled) {
+                          <button
+                            type="button"
+                            class="btn btn-info btn-label waves-effect waves-light"
+                            routerLink="/doctors/{{ professional.id }}"
+                            [queryParams]="{ consultationType: 'video' }"
+                          >
+                            Book Video Consult
+                          </button>
+                          }
+                          <!--  -->
+                          @if (professional?.isInpersonEnabled) {
+                          <button
+                            type="button"
+                            class="btn btn-outline-primary btn-label waves-effect waves-light"
+                            routerLink="/doctors/{{ professional.id }}"
+                            [queryParams]="{ consultationType: 'inperson' }"
+                          >
+                            Book In Person Visit
+                          </button>
+                          }
+                          <!--  -->
+                          @if (professional?.isInstantCallEnabled) {
+                          <button
+                            type="button"
+                            class="btn btn-outline-success btn-label btn-load waves-effect waves-light d-flex justify-content-start align-items-center"
+                            routerLink="/doctors/{{ professional.id }}"
+                            [queryParams]="{ consultationType: 'instant' }"
+                          >
+                            <span class="d-flex justify-content-between text-center align-items-center gap-3 w-100">
+                              <!-- pagination -->
+                            
+                              <span class="spinner-grow flex-shrink-0" role="status">
+                                <span class="visually-hidden">Chat Now...</span>
+                              </span>
+                              <span class="flex-grow-1 align-start me-2 text-center" style="margin-left: -50px"> Chat Now </span>
+                            </span>
+                          </button>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              }
+            </div>
+
+            <div class="card-footer">
+              <!-- pagination -->
+              @if (false) {
+          
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

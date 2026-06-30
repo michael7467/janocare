@@ -1,0 +1,181 @@
+<form *ngIf="isLoaded && !isError" (ngSubmit)="goToNext(frm)" [formGroup]="frm" novalidate>
+  <div class="row">
+      <div class="col-lg-6">
+         
+
+            <app-tp-input [label]="'Last Name'" [type]="'text'" formControlName="lastName" [control]="lastName"> </app-tp-input>
+
+       
+      </div><!--end col-->
+      <div class="col-lg-6">
+          
+       <app-tp-input [label]="'First Name'" [type]="'text'" formControlName="firstName" [control]="firstName"> </app-tp-input>
+        
+      </div><!--end col-->
+    <!--end col-->
+      <div class="col-lg-6">
+        <div class="mb-3 select">
+            <label *ngIf="!gender.touched" [for]="id" class="d-block"> Gender {{ isRequired }} </label>
+            <label *ngIf="gender.touched && !gender.invalid" [for]="id" class="valid-feedback d-block">Gender {{ isRequired }}</label>
+            <label *ngIf="gender.touched && gender.invalid" [for]="id" class="invalid-feedback d-block">Gender {{ isRequired }}</label>
+            <ng-select
+               #genderCtl
+              
+                [searchable]="false"
+                (change)="genderCtl.blur()"
+                [items]="$genders"
+                bindLabel="name"
+                bindValue="value"
+                [placeholder]="'Select gender ...'"
+                id="value"
+                name="gender"
+                formControlName="gender"
+                [ngClass]="{
+                'is-valid': gender.touched && !gender.invalid,
+                'is-invalid': gender.touched && gender.invalid
+                }"
+            >
+            </ng-select>
+            <ng-template ng-header-tmp>
+                <input
+                appAutofocus
+                class="form-control form-control-sm bg-primary-subtle text-primary"
+                style="width: 100%; line-height: 24px"
+                type="text"
+                (input)="genderCtl.filter($event.target['value'])"
+                />
+            </ng-template>
+            <div [id]="'validation' + id" class="invalid-feedback d-block">
+                &nbsp;
+                <ng-container *ngIf="gender.touched && gender.invalid">
+                  <small class="text-danger" *ngFor="let error of Errors"> <i class="ri ri-close-line"> </i> {{ error.message }} </small>
+                </ng-container>
+              </div>
+          </div>
+      </div><!--end col-->
+      <div class="col-lg-6">
+          <div class="mb-3">
+            <label *ngIf="!countryId.touched" [for]="id" class="d-block"> Country {{ isRequiredCountry }} </label>
+            <label *ngIf="countryId.touched && !countryId.invalid" [for]="id" class="valid-feedback d-block">Country {{ isRequiredCountry }}</label>
+            <label *ngIf="countryId.touched && countryId.invalid" [for]="id" class="invalid-feedback d-block">Country {{ isRequiredCountry }}</label>
+         <ng-select
+    style="color: black !important;"
+    class="text-dark"
+    #countryCtl
+    [searchable]="true"
+    (change)="onCountryChange($event)"
+    [items]="$countries | async"
+    [trackByFn]="countryTrackedBy"
+    bindLabel="countryName"
+    bindValue="id"
+    [loading]="countryLoading"
+    [placeholder]="'Select country ...'"
+    typeToSearchText="Start typing country name..."
+    [typeahead]="$countryInput"
+    id="countryId"
+    name="countryId"
+    formControlName="countryId">
+</ng-select>
+      
+            <ng-template ng-header-tmp>
+                <input
+                appAutofocus
+                class="form-control form-control-sm bg-primary-subtle text-primary"
+                style="width: 100%; line-height: 24px"
+                type="text"
+                (input)="countryCtl.filter($event.target['value'])"
+                />
+            </ng-template>
+          </div>
+      </div><!--end col-->
+      <div class="col-lg-6">
+          <div class="mb-3">
+            <label *ngIf="!stateId.touched" [for]="id" class="d-block"> State {{ isRequiredState }} </label>
+            <label *ngIf="stateId.touched && !stateId.invalid" [for]="id" class="valid-feedback d-block">State {{ isRequiredState }}</label>
+            <label *ngIf="stateId.touched && stateId.invalid" [for]="id" class="invalid-feedback d-block">State {{ isRequiredState }}</label>
+
+              <ng-select
+                  #stateCtl
+                  [searchable]="true"
+                  (change)="onStateChange($event)"
+                  [items]="$states | async"
+                  [trackByFn]="stateTrackedBy"
+                  bindLabel="stateName"
+                  bindValue="id"
+                  [loading]="stateLoading"
+                  [placeholder]="'Select state ...'"
+                  typeToSearchText="Start typing state name..."
+                  [typeahead]="$stateInput"
+                  id="stateId"
+                  name="stateId"
+                  formControlName="stateId"
+                  [ngClass]="{
+                  'is-valid': stateId.touched && !stateId.invalid,
+                  'is-invalid': stateId.touched && stateId.invalid
+                  }"
+              >
+              </ng-select>
+              <ng-template ng-header-tmp>
+                  <input
+                  appAutofocus
+                  class="form-control form-control-sm bg-primary-subtle text-primary"
+                  style="width: 100%; line-height: 24px"
+                  type="text"
+                  (input)="stateCtl.filter($event.target['value'])"
+                  />
+              </ng-template>
+          </div>
+      </div><!--end col-->
+      <div class="col-lg-6">
+          <div class="mb-3">
+            <label *ngIf="!cityId.touched" [for]="id" class="d-block"> City {{ isRequiredCity }} </label>
+            <label *ngIf="cityId.touched && !cityId.invalid" [for]="id" class="valid-feedback d-block">City {{ isRequiredCity }}</label>
+            <label *ngIf="cityId.touched && cityId.invalid" [for]="id" class="invalid-feedback d-block">City {{ isRequiredCity }}</label>
+            <ng-select
+                #cityCtl
+                [searchable]="true"
+                (change)="cityCtl.blur()"
+                [items]="$cities | async"
+                [trackByFn]="cityTrackedBy"
+                bindLabel="cityName"
+                bindValue="id"
+                [loading]="cityLoading"
+                [placeholder]="'Select city ...'"
+                typeToSearchText="Start typing city name..."
+                [typeahead]="$cityInput"
+                id="cityId"
+                name="cityId"
+                formControlName="cityId"
+                [ngClass]="{
+                'is-valid': cityId.touched && !cityId.invalid,
+                'is-invalid': cityId.touched && cityId.invalid
+                }"
+            >
+            </ng-select>
+            <ng-template ng-header-tmp>
+                <input
+                appAutofocus
+                class="form-control form-control-sm bg-primary-subtle text-primary"
+                style="width: 100%; line-height: 24px"
+                type="text"
+                (input)="cityCtl.filter($event.target['value'])"
+                />
+            </ng-template>
+          </div>
+      </div><!--end col-->
+
+
+  </div><!--end row-->
+
+  <div class="col-lg-12">
+    <div class="hstack gap-2 justify-content-end">
+        <!-- <button type="submit" class="btn btn-primary">Updates</button> -->
+        <button type="submit" class="btn btn-primary" [disabled]="frm.invalid">
+          <i class="ri ri-save-line label-icon align-middle fs-16 me-2"></i>
+          {{ saveLabel }} Details
+        </button>
+      
+    </div>
+</div><!--end col-->
+
+</form>

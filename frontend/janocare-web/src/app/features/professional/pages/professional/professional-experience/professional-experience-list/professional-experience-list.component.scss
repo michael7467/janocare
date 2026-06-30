@@ -1,0 +1,148 @@
+
+.before-circle{
+    background-color: rgba(32, 192, 243, 0.2);
+    height: 12px;
+    width: 12px;
+    border: 2px solid #20c0f3;
+    border-radius: 50%;
+}
+.experience-list{
+    list-style: none;
+    position: relative !important;
+    margin: 0;
+    padding: 0 !important;
+    
+}
+.experience-list > li{
+    background-color: #ffffff;
+    position: relative;
+    margin: 0 0 20px 40px;
+    padding: 0;
+}
+.experience-list::before {
+    background: #dddddd;
+    bottom: 0;
+    content: "";
+    width: 2px;
+    position: absolute !important;
+    top: 8px;
+    left: 8px;
+}
+.experience-list li {
+    position: relative;
+}
+.experience-list li:last-child .experience-content {
+    margin-bottom: 0;
+}
+.experience-list > li .experience-content {
+    background-color: #ffffff; 
+    position: relative !important; 
+     margin: 0 0 20px 80px; 
+    padding: 0; 
+}
+.experience-list li{
+    position: relative !important;
+}
+.experience-box {
+    position: relative !important;
+}
+
+.cardHeader{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+      @media only screen and (max-width: 600px) {
+        margin-bottom: 20px !important;
+   
+        .headerTitle{
+         .card-title{
+           font-size: 0.8rem;
+           margin-left: 15px !important
+         }
+     
+        }
+        .headerButton{
+         .add-btn{
+           .iconButton{
+             font-size: large !important;
+           }
+         }
+       }
+        }
+      
+        @media only screen and (min-width: 601px) and (max-width: 768px) {
+          margin-bottom: 20px !important;
+        .headerTitle{
+         .card-title{
+           font-size: 0.8rem;
+           margin-left: 15px !important
+         }
+     
+        }
+        .headerButton{
+         .add-btn{
+           .iconButton{
+             font-size: large !important;
+           }
+         }
+       }
+        }
+      
+        @media only screen and (min-width: 769px) and (max-width: 992px) {
+          margin-bottom: 20px !important;
+          .headerTitle{
+            .card-title{
+              font-size: 1rem;
+              margin-left: 15px !important
+            }
+        
+           }
+           .headerButton{
+            .add-btn{
+              .iconButton{
+                font-size: x-large !important;
+              }
+            }
+          }
+        }
+      
+        @media only screen and (min-width: 993px) and (max-width: 1200px) {
+          margin-bottom: 20px !important;
+          .headerTitle{
+            .card-title{
+              font-size: 1rem;
+              margin-left: 15px !important
+            }
+        
+           }
+           .headerButton{
+            .add-btn{
+              .iconButton{
+                font-size: x-large !important;
+              }
+            }
+          }
+        }
+      
+        @media only screen and (min-width: 1201px) {
+          
+         margin-bottom: 20px !important;
+         .headerTitle{
+          .card-title{
+            font-size: 1rem;
+            margin-left: 15px !important
+          }
+      
+         }
+         .headerButton{
+          .add-btn{
+            .iconButton{
+              font-size: x-large !important;
+            }
+          }
+        }
+     
+        }
+      
+  }

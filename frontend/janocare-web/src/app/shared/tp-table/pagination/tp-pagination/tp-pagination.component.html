@@ -1,0 +1,52 @@
+<div class="row justify-content-md-between align-items-md-center mt-4">
+
+  <div class="col col-sm-6">
+    <div class="text-sm-left float-sm-start listjs-pagination" style="padding-right: 5px">
+      <ng-container *ngIf="!showMoreButton">
+        <select
+          class="form-select form-select-md"
+          style="margin-bottom: 1.3rem; line-height: 1.2"
+          transactionNo="pageSize"
+          [ngModel]="pageSize"
+          (ngModelChange)="pageSize = $event; pageSizeChange.emit($event)"
+        >
+          <option *ngFor="let item of perPageRecords" [ngValue]="item">{{ item }} per page</option>
+        </select>
+      </ng-container>
+      <ng-container *ngIf="showMoreButton">
+        <button class="btn btn-outline-primary btn-md" (click)="seeMoreClick.emit($event)">See More...</button>
+      </ng-container>
+    </div>
+  </div>
+  <div class="col col-sm-6">
+    <div class="dataTables_info" id="tickets-table_info" role="status" aria-live="polite">
+      <ngb-pagination
+        class="pagination pagination-separated pagination-sm pagination-danger  justify-content-sm-end justify-content-center mb-0"
+        style="margin: 0 !important"
+        size="md"
+        [collectionSize]="collectionSize!"
+        [page]="page"
+        (pageChange)="page = $event; pageChange.emit(page)"
+        [pageSize]="pageSize"
+        [maxSize]="4"
+        [rotate]="true"
+        [ellipses]="false"
+        [boundaryLinks]="true"
+      >
+        <ng-template class="page-item pointer" role="button" ngbPaginationFirst>
+          <i class="mdi mdi-chevron-double-left"></i>
+        </ng-template>
+        <ng-template ngbPaginationPrevious>
+          <i class="mdi mdi-chevron-left"></i>
+        </ng-template>
+        <ng-template ngbPaginationNext>
+          <i class="mdi mdi-chevron-double-right"></i>
+        </ng-template>
+        <ng-template ngbPaginationLast>
+          <i class="mdi mdi-chevron-double-right"></i>
+        </ng-template>
+      </ngb-pagination>
+    </div>
+  </div>
+
+</div>

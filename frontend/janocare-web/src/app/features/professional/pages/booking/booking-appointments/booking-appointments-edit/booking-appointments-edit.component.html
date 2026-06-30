@@ -1,0 +1,38 @@
+    <div *ngIf="isView">
+        <ul class="info-details">
+            <li>
+                <div class="details-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="title">{{appointemntBookings?.patient?.id}}</span>
+                            <span class="text">{{appointemntBookings?.bookingDate}}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-end">
+                                <button type="button" class="btn bg-success-light btn-sm"
+                                    id="topup_status">{{appointemntBookings?.bookingStatus}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <span class="title">Status:</span>
+                <span class="text">{{appointemntBookings?.bookingStatus}}</span>
+            </li>
+            <li>
+                <span class="title">Paid Amount</span>
+                <!-- <span class="text">{{appointemntBookings?.bookingTransactions[0]?.amount}}</span> -->
+            </li>
+        </ul>
+    </div>
+    <div *ngIf="!isView">
+        <div class="modal-body">
+            Are you sure you want to {{action}}?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" aria-label="close" (click)="closeModal()"  data-bs-dismiss="modal">No</button>
+            <button type="button" class="btn btn-primary" (click)="confirmAction()">Yes</button>
+        </div>
+    </div>
+

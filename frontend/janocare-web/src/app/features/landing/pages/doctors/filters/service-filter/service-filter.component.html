@@ -1,0 +1,19 @@
+<!-- Services -->
+<div>
+  <p class="text-muted text-uppercase fs-12 fw-medium my-3">Service</p>
+  <div class="my-3 d-flex flex-column gap-2">
+    <div class="form-check form-switch form-switch-success">
+      <!-- <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck3" [checked]="isInpersonEnabled.value" (change)="" /> -->
+      <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck3" [checked]="isInpersonEnabled$.value" (change)="selectInpersonEnabled()" />
+      <label class="form-check-label text-sm-start fs-13" for="SwitchCheck3">In-Person Visit</label>
+    </div>
+    <div class="form-check form-switch form-switch-success">
+      <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck3" [checked]="isOnlineConsultationEnabled$.value" (change)="selectOnlineConsultationEnabled()" />
+      <label class="form-check-label text-sm-start fs-13" for="SwitchCheck3">Online Booking</label>
+    </div>
+    <div class="form-check form-switch form-switch-success">
+      <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck3" [checked]="isInstantCallEnabled$.value" (change)="selectInstantCallEnabled()" />
+      <label class="form-check-label text-sm-start fs-13" for="SwitchCheck3">Instant Call</label>
+    </div>
+  </div>
+</div>

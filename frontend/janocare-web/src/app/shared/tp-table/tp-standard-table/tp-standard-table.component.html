@@ -1,0 +1,128 @@
+<div class="table-responsive">
+  <!-- table search start -->
+  <div class="py-2" *ngIf="options.showSearch">
+    <input type="search" class="form-control" [formControl]="fullTextFilter" [attr.placeholder]="language['search']" />
+  </div>
+
+  <table class="table align-middle table-nowrap table-striped table-striped-columns" [ngClass]="options.className" role="grid">
+    <!-- table head start -->
+    <thead>
+      <!-- row for col title & sorting start -->
+      <tr role="row">
+        <th
+          *ngFor="let column of cols"
+          scope="col"
+          [ngClass]="{ headerSortable: column.sort }"
+          [style.width]="column.width"
+          [tpTableSort]="column.sort || false"
+          (toggled)="onToggleSort(column, $event)"
+        >
+          <div role="button" class="d-flex justify-content-center align-content-center" *ngIf="column.sort; else colTitle">
+            <span class="flex-grow-1">{{ column.title }}</span>
+            <div class="flex-shrink-0">
+              <ng-container [ngSwitch]="column.sortOrder">
+                <div *ngSwitchCase="'asc'">
+                  <svg width="12" height="12" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#3B3D58" d="m41 288h238c21.4 0 32.1 25.9 17 41l-119 119c-9.4 9.4-24.6 9.4-33.9 0l-119.1-119c-15.1-15.1-4.4-41 17-41z" />
+                  </svg>
+                </div>
+                <div *ngSwitchCase="'desc'">
+                  <svg width="12" height="12" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#3B3D58" d="m279 224h-238c-21.4 0-32.1-25.9-17-41l119-119c9.4-9.4 24.6-9.4 33.9 0l119 119c15.2 15.1 4.5 41-16.9 41z" />
+                  </svg>
+                </div>
+                <div *ngSwitchDefault>
+                  <svg width="12" height="12" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      fill="blue"
+                      d="m41 288h238c21.4 0 32.1 25.9 17 41l-119 119c-9.4 9.4-24.6 9.4-33.9 0l-119.1-119c-15.1-15.1-4.4-41 17-41zm255-105-119-119c-9.4-9.4-24.6-9.4-33.9 0l-119.1 119c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z"
+                    />
+                  </svg>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+
+          <ng-template #colTitle>
+            <span>{{ column.title }}</span>
+          </ng-template>
+        </th>
+      </tr>
+      <!-- row for col title & sorting end -->
+    </thead>
+    <!-- table head end -->
+
+    <tbody>
+      <!-- filter row -->
+      <tr *ngIf="showFilterRow">
+        <td class="p-0" *ngFor="let column of cols">
+          <div *ngIf="column.filter" [ngSwitch]="column.filter.controlType">
+            <tp-table-list-filter *ngSwitchCase="'list'" [column]="column" (filterValueChanged)="onChangeFilter(column, $event)"> </tp-table-list-filter>
+            <tp-table-default-filter *ngSwitchDefault [column]="column" (filterValueChanged)="onChangeFilter(column, $event)"> </tp-table-default-filter>
+          </div>
+        </td>
+      </tr>
+
+      <!-- spinner on loading row -->
+      <tr *ngIf="processing">
+        <td class="p-2 text-center" [attr.colspan]="colsCount">
+          <div class="spinner-border align-middle" role="status"></div>
+          Please wait...
+        </td>
+      </tr>
+
+      <!-- records not found row -->
+      <tr *ngIf="!processing && rows?.length == 0">
+        <td class="p-2 text-center" [attr.colspan]="colsCount">
+          <span class="text-warning">Records not found</span>
+        </td>
+      </tr>
+
+      <!-- page records row -->
+      <ng-container *ngIf="!processing && rows.length > 0">
+        <tr *ngFor="let text of rows; index as i">
+          <td *ngFor="let column of cols">
+            <ng-container
+              [ngTemplateOutlet]="getCellTemplate(column, standardCell)"
+              [ngTemplateOutletContext]="getContext({ row: text, rowIndex: i, data: getData(text, column.name), col: column })"
+            >
+            </ng-container>
+            <ng-template #standardCell let-data="data" let-col="col">
+              <span>{{ getData(text, column.name) }}</span>
+            </ng-template>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+
+    <!-- table footer start -->
+    <tfoot *ngIf="rows.length > 0">
+      <!-- A row to show info like: Showing {{start}} to {{end}} of {{total}} entries  -->
+      <tr class="table-secondary">
+        <th class="text-center py-0" [attr.colspan]="cols?.length">
+          <span class="text-secondary fs-11 fw-light">{{ PaginationResult }}</span>
+        </th>
+      </tr>
+    </tfoot>
+    <!-- table footer end -->
+  </table>
+
+  <!-- table pagination start -->
+  <div class="row g-0 p-2">
+    <div class="col-sm-12">
+      <tp-table-pagination
+        *ngIf="paging.showPaging && rows.length > 0"
+        class="tp-table-pagination"
+        [totalItems]="recordsTotal"
+        [page]="currentPage"
+        [itemsPerPage]="itemsPerPage"
+        [itemsPerPageOptions]="paging.itemsPerPageOptions"
+        (paginationChanged)="onPageChanged($event)"
+        [maxSize]="paging.maxSize"
+        [nextText]="language['pagination']['next']"
+        [previousText]="language['pagination']['previous']"
+      ></tp-table-pagination>
+    </div>
+  </div>
+  <!-- table pagination end -->
+</div>

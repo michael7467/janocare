@@ -1,0 +1,83 @@
+
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-header  card-body border border-dashed border-end-0 border-start-0">
+        <div class="row align-items-center gy-3">
+          <div class="col-sm">
+            <h5 class="card-title mb-0">Service</h5>
+          </div>
+          <div class="col-sm-auto hstack gap-2">
+            <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal" (click)="showEditModal(editTemplate)"><i class="ri-add-line align-bottom me-1"></i>
+              New 
+              Service</button>
+    
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+    
+    <app-common-table [columns]="columns" sortBy="sortByType"  [data]="service.data$ | async" 
+    [collectionSize]="(service.total$ | async)!"
+    [pageSize]="service.pageSize"
+    [page]="service.page"
+    [isTableOnly]="true"
+    [loading]="service.loading$ | async"
+    (onSortBy)="setSortNew($event)"
+    (onEditClick)="showEditModal(editTemplate, $event)"
+    ></app-common-table>
+      <app-tp-pagination [collectionSize]="(service.total$ | async)!" [(pageSize)]="service.pageSize" [(page)]="service.page"> </app-tp-pagination>
+    
+      </div>
+    </div>
+
+  </div>
+</div>
+
+ 
+     
+ <!-- <div class="row">
+  <div class="col-xl-12">
+
+    <div class="card">
+ 
+
+      <div class="card-body">
+        <tp-standard-table #table [options]="options" [columns]="columns" [datasource]="datasource" [paging]="paging">
+          <ng-template tpTableCellTemplate="IdTemplate" let-data="data" let-row="row">
+            <a class="fw-semibold" [routerLink]="[routes.banks, row.id]" class="fw-bold">
+              {{ row?.id.toString().padStart(10, '0') }}
+            </a>
+          </ng-template>
+        
+          <ng-template tpTableCellTemplate="btnActions" let-data="data" let-row="row">
+            <div class="hstack gap-2">
+              <button type="button" class="btn btn-sm btn-primary" (click)="showEditModal(editTemplate, row.id)">
+                <i class="fa fa-edit"></i>
+              </button>
+              <button type="button" class="btn btn-sm btn-danger" [routerLink]="[routes.banks, row.id]">
+                <i class="fa fa-trash-alt"></i>
+              </button>
+            </div>
+          </ng-template>
+        </tp-standard-table>
+        
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+    <ng-template #editTemplate>
+      <div class="modal-header bg-primary-subtle p-2 px-4">
+        <h5 class="modal-title tablelist-form mb-0" autocomplete="off">
+          <i class=" align-middle text-primary me-1"></i>
+          {{ id ? 'Edit' : 'Add' }} Service
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>
+      </div>
+      <div class="modal-body">
+        <app-professional-service-edit [id]="id" (onSaveComplete)="recordSaved($event)"></app-professional-service-edit>
+      </div>
+    </ng-template>
+    

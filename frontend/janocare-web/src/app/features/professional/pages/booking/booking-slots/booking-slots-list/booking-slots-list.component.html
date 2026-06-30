@@ -1,0 +1,306 @@
+<app-breadcrumbs title="BOOKING SLOTS" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+
+<div class="row">
+  <div class="col-xxl-3 col-sm-6">
+    <div class="card slotTot card-animate">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <div>
+            <p class="fw-semibold text-muted mb-0">Total Slots</p>
+            <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="totalSlots" class="counter-value" [options]="option"></span></h2>
+            <p class="mb-0 text-muted">
+              <span class="badge bg-light text-success mb-0"> <i class="ri-arrow-up-line align-middle"></i> 17.32 % </span> vs. previous month
+            </p>
+          </div>
+          <div>
+            <div class="avatar-sm flex-shrink-0">
+              <span class="avatar-title bg-info-subtle text-info rounded-circle fs-4">
+                <i class="ri-timer-2-line"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end card body -->
+    </div>
+    <!-- end card-->
+  </div>
+  <!--end col-->
+  <div class="col-xxl-3 col-sm-6">
+    <div class="card slotBooked card-animate">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <div>
+            <p class="fw-semibold text-muted mb-0">Booked</p>
+            <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="booked" class="counter-value" [options]="option"></span></h2>
+            <p class="mb-0 text-muted">
+              <span class="badge bg-light text-danger mb-0"> <i class="ri-arrow-down-line align-middle"></i> 0.87 % </span> vs. previous month
+            </p>
+          </div>
+          <div>
+            <div class="avatar-sm flex-shrink-0">
+              <span class="avatar-title bg-info-subtle text-info rounded-circle fs-4">
+                <i class="las la-calendar-check"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end card body -->
+    </div>
+  </div>
+  <!--end col-->
+  <div class="col-xxl-3 col-sm-6">
+    <div class="card slotCompleted card-animate">
+      <div class="card-body" style="background-color: #831089 !important">
+        <div class="d-flex justify-content-between">
+          <div>
+            <p class="fw-semibold text-muted mb-0" style="color: whitesmoke">Completed</p>
+            <h2 class="mt-4 ff-secondary fw-semibold" style="color: white"><span [countUp]="completed" class="counter-value" [options]="option"></span></h2>
+            <p class="mb-0 text-muted" style="color: white">
+              <span class="badge bg-light text-danger mb-0" style="color: white"> <i class="ri-arrow-down-line align-middle"></i> 2.52 % </span> vs. previous month
+            </p>
+          </div>
+          <div>
+            <div class="avatar-sm flex-shrink-0">
+              <span class="avatar-title bg-success-subtle text-success rounded-circle fs-4" style="background: #9a499e !important">
+                <i class="ri-user-follow-line" style="color: white !important"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end card body -->
+    </div>
+  </div>
+  <!--end col-->
+  <div class="col-xxl-3 col-sm-6">
+    <div class="card slotExpired card-animate">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <div>
+            <p class="fw-semibold text-muted mb-0">Expired</p>
+            <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="expired" class="counter-value" [options]="option"></span></h2>
+            <p class="mb-0 text-muted">
+              <span class="badge bg-light text-success mb-0"> <i class="ri-arrow-up-line align-middle"></i> 0.63 % </span> vs. previous month
+            </p>
+          </div>
+          <div>
+            <div class="avatar-sm flex-shrink-0">
+              <span class="avatar-title bg-info-subtle text-info rounded-circle fs-4">
+                <i class="las la-calendar-times"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end card body -->
+    </div>
+  </div>
+  <!--end col-->
+</div>
+
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card slotList">
+      <div class="card-body border border-dashed border-end-0 border-start-0">
+        <div class="d-flex align-items-center flex-wrap gap-1">
+          <div class="flex-grow-1">
+            <h5 class="card-title fw-semibold mb-0">Booking Slots Summary</h5>
+          </div>
+          <div class="row align-items-center gy-3">
+            <div class="col-sm"></div>
+            <div class="col-sm-auto hstack gap-2">
+              <button
+                type="button"
+                class="btn btn-lg w-lg btn-success add-btn px-4 py-3"
+                data-bs-toggle="modal"
+                id="create-btn"
+                data-bs-target="#showModal"
+                [routerLink]="[routes.bookingSlots, 'add']"
+              >
+                Generate Slot
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="table-responsive table-card">
+          <table #TABLE class="table">
+            <thead>
+              <tr class="border-top border-opacity-10">
+                <th class="text-muted">Created Date</th>
+                <th class="text-muted">Slote Date</th>
+                <th class="text-muted">Slot Interval</th>
+                <th class="text-muted">Total Slots</th>
+                <th class="text-muted">Available</th>
+                <th class="text-muted">Booked</th>
+                <th class="text-muted">Completed</th>
+                <th class="text-muted">Deleted</th>
+                <th class="text-muted">Actions</th>
+              </tr>
+
+              <tr>
+                <td class="p-0">
+                  <app-date-range-picker class="dateRange" (selectedRange)="rangeSelected($event)"></app-date-range-picker>
+                </td>
+                <td class="p-0">
+                  <app-date-range-picker class="dateRange" (selectedRange)="rangeSelected($event)"></app-date-range-picker>
+                </td>
+
+                <td class="p-0"></td>
+                <td class="p-0"></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th [attr.colspan]="6" *ngIf="service.loading$ | async">
+                  <div class="spinner-border text-primary text-center" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </th>
+              </tr>
+            <ng-container *ngIf="!(service.loading$ | async)">
+  <ng-container *ngIf="!(service.loading$ | async)">
+  <tr *ngFor="let item of (service.data$ | async)">
+    <td>-</td>
+    <td>{{ item?.slotDate }}</td>
+    <td>{{ item?.slotInterval }} min</td>
+    <td>{{ item?.Total }}</td>
+    <td>{{ item?.PENDING }}</td>
+    <td>{{ item?.ACCEPTED }}</td>
+    <td>{{ item?.COMPLETED }}</td>
+    <td>{{ item?.CANCELLED }}</td>
+    <td>
+      <a [routerLink]="[routes.bookingSlots, item?.slotDate]" 
+         class="text-primary d-inline-block">
+        View
+      </a>
+    </td>
+  </tr>
+  <tr *ngIf="(service.data$ | async)?.length === 0">
+    <td colspan="9" class="text-center text-muted py-4">
+      No booking slots found
+    </td>
+  </tr>
+</ng-container>
+  </ng-container>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td class="py-1" [attr.colspan]="6">
+                  <app-tp-pagination-info
+                    [collectionSize]="(service.total$ | async)!"
+                    [pageSize]="service.pageSize"
+                    [page]="service.page"
+                    [loading]="service.loading$ | async"
+                  ></app-tp-pagination-info>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <div class="row">
+          <!-- <app-tp-pagination [collectionSize]="(service.total$ | async)!" [(pageSize)]="service.pageSize" [(page)]="service.page"> </app-tp-pagination> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #editTemplate>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      <i class="fa fa-bank me-1"></i>
+      {{ id ? 'Edit' : 'Add' }} Award/Recognition Name
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+  </div>
+  <div class="modal-body">
+    <app-professional-achievement-edit [id]="id" (onSaveComplete)="recordSaved($event)"></app-professional-achievement-edit>
+  </div>
+</ng-template>
+
+<!-- <div class="row">
+  <div class="col-md-7 col-lg-8 col-xl-9">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title mb-0">Achievement</h4>
+        </div>
+        <div class="card-body">
+
+            
+
+            <div class="add-more-item text-end">
+                <a href="javascript:void(0);" class="add-prescription" (click)="addPrescription()"><i class="fa fa-plus-circle"></i> Add More</a>
+            </div>
+
+            <div class="card card-table">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-center">
+                        <thead>
+                            <tr>
+                              <th aria-disabled="true" class="table-head-name">ID</th>
+
+                                <th aria-disabled="false" class="table-head-name">Award/Recognition Name</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="test" *ngFor = "let data of prescriptionCont1; let i = index">
+                              <td aria-disabled="true">
+                                  <div>2</div>
+                              </td>
+                                <td>
+                                    <input class="form-control" value="Award A" type="text">
+                                </td>
+                          
+                                <td>
+                                    <a (click)="dltPrescription1(i)" href="javascript:void(0)" class="btn bg-danger-light trash"><i class="far fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                            <tr class="test" *ngFor = "let data of prescriptionCont2; let i = index">
+                              <ng-container *ngIf="i">
+                              <td>
+                                    <input class="form-control" type="text">
+                                </td>
+                          
+                                <td>
+                                    <a (click)="dltPrescription2(i)" href="javascript:void(0)" class="btn bg-danger-light trash"><i class="far fa-trash-alt"></i></a>
+                                </td>
+                              </ng-container>
+                            </tr>
+                            <tr class="test" *ngFor="let data of prescriptionCont3; let i = index" >
+                                <ng-container *ngIf="i">
+                                <td>
+                                    <input class="form-control" type="text">
+                                </td>
+                             
+                                <td>
+                                    <a (click)="dltPrescription3(i)" href="javascript:void(0)" class="btn bg-danger-light trash"><i class="far fa-trash-alt"></i></a>
+                                </td>
+                            </ng-container>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="submit-section">
+                        <button type="submit" class="btn btn-primary submit-btn">Save</button>
+                        <button type="reset" class="btn btn-secondary submit-btn">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+</div>
+</div> -->

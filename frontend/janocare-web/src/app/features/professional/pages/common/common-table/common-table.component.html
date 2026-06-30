@@ -1,0 +1,645 @@
+ 
+  <div class="row">
+    <div class="col-lg-12">
+     
+      
+<div *ngIf="!isTableOnly">
+
+
+
+ <ul ngbNav #nav="ngbNav" [activeId]="0" (navChange)="onNavChange($event)" class="nav nav-tabs nav-tabs-custom nav-success mb-3">
+    <li *ngFor="let column of columns;let i=index" [ngbNavItem]="i">
+      <a ngbNavLink>
+        <i class='me-1 align-bottom' [ngClass]="column?.icon"></i> {{column?.title}}
+      </a>
+      <ng-template ngbNavContent>
+        <div class="table-responsive table-card mb-0">
+          <table class="table">
+            <thead>
+              <tr class="bg-light text-muted text-uppercase">
+               
+                <th class="sort" *ngFor="let subItem of column?.subItems"  (click)="onChangeSortBy(subItem?.name)">
+                  <!-- <th  *ngFor="let subItem of column?.subItems" > -->
+                  {{subItem?.title}}
+                 <!-- <app-sorter sortBy="subItem?.name"> {{subItem?.title}} </app-sorter> -->
+                  </th>
+    
+              </tr>
+              <tr>
+                <td class="p-0" *ngIf="column?.dateFilter">    
+                    <app-date-range-picker (selectedRange)="rangeSelected($event)"></app-date-range-picker>            
+                </td>
+            
+                <td class="p-0">
+           
+                </td>
+                <td class="p-0">
+            
+                  </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th [attr.colspan]="6" *ngIf="loading">
+                  <div class="spinner-border text-primary text-center" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </th>
+              </tr>
+             
+              <ng-container *ngIf="!loading">
+       
+                <tr *ngFor="let item of data; let i = index">
+        
+                   <td *ngFor="let subItem of column.subItems" >
+                    <ng-container *ngIf="subItem.name !== 'actions'; else actionCell">
+                      <ng-container *ngIf="subItem.patient; else notPatient">
+                         
+                           <a [routerLink]="['/patients', item?.patient?.id]">
+                            <img
+                            [src]="item?.patient?.user?.userProfile?.profilePic"
+                            appImgFallback="assets/images/users/user-dummy-img.jpg"
+                            id="img"
+                            class="rounded-circle header-profile-user"
+                            alt="Avatar"
+                          />
+                          </a>
+                          <a [routerLink]="['/patients',item?.patient?.id]">{{item?.patient?.user?.userProfile?.firstName}} {{item?.patient?.user?.userProfile?.middleName}} {{item?.patient?.user?.userProfile?.lastName}}</a>
+                      </ng-container>
+                      <ng-template #notPatient>
+                        <ng-containar *ngIf="subItem.patientDirect; else notPatientDirect">
+                          <a [routerLink]="['/patients', item?.id]">
+                            <img
+                            [src]="item?.user?.userProfile?.profilePic"
+                            appImgFallback="assets/images/users/user-dummy-img.jpg"
+                            id="img"
+                            class="rounded-circle header-profile-user"
+                            alt="Avatar"
+                          />
+                          </a>
+                          <a [routerLink]="['/patients',item?.id]">{{item?.user?.userProfile?.firstName}} {{item?.user?.userProfile?.middleName}} {{item?.user?.userProfile?.lastName}}</a>
+                        </ng-containar>
+                        <ng-template #notPatientDirect>
+      
+                      
+                        <ng-container *ngIf="subItem.professional; else notProfessional">
+                         
+                          <a [routerLink]="['/patients', item?.professional?.id]">
+                           <img
+                           [src]="item?.professional?.user?.userProfile?.profilePic | removePort"
+                           appImgFallback="assets/images/users/user-dummy-img.jpg"
+                           id="img"
+                           class="rounded-circle header-profile-user"
+                           alt="Avatar"
+                         />
+                         </a>
+                         <a [routerLink]="['/patients',item?.professional?.id]">{{item?.professional?.user?.userProfile?.firstName}} {{item?.professional?.user?.userProfile?.lastName}}</a>
+                     </ng-container>
+                    </ng-template>
+                      </ng-template>
+                      <ng-template #notProfessional>
+                        <ng-container *ngIf="subItem.dependant; else notDependant">
+                          <a >
+                            <img
+                            [src]="item?.dependantPhoto | removePort"
+                            appImgFallback="assets/images/users/user-dummy-img.jpg"
+                            id="img"
+                            class="rounded-circle header-profile-user"
+                            alt="Avatar"
+                          />
+                          </a>
+                          <a >{{item?.firstName}} {{item?.lastName}}</a>
+                        </ng-container>
+                        <ng-template #notDependant>
+      
+                       
+                       <ng-container *ngIf="subItem.userName; else notUser">
+                          {{auth?.userFullName$ | async}}
+                       </ng-container>
+                      </ng-template>
+                       <ng-template #notUser>
+                         <ng-container *ngIf="subItem.innerData; else notBank">
+      
+                            <ng-container *ngIf="subItem.endTime; else bookingTransaction">
+                              {{ getEndTime(item?.bookingSlot?.slotTime,item?.bookingSlot?.slotInterval)}}
+
+                            
+                            </ng-container>
+                            <ng-template #bookingTransaction>
+
+
+                              <ng-container *ngIf="subItem.bookingTransaction; else startTime">
+
+                                  
+                                {{item?.[subItem?.h1][0]?.[subItem?.h2]}}
+
+                              </ng-container>
+                              <ng-template #startTime>
+                                {{item?.[subItem?.h1]?.[subItem?.h2]}}
+
+                              </ng-template>
+      
+                            </ng-template>
+                           <!-- Content for condition2 -->
+                           
+                          <!-- {{ item?.bank?.bankName }} -->
+                         </ng-container>
+                       </ng-template>
+                       <ng-template #notBank>
+                        <ng-container *ngIf="subItem.status; else notStatus">
+                          <!-- Content for condition2 -->
+                          <span
+                          class="badge badge-pill bg-success-subtle text-success font-size-11"
+                          [ngClass]="{
+                            'bg-danger-subtle text-danger': item[subItem.name] === 'REJECTED',
+                            'bg-warning-subtle text-warning': item[subItem.name] === 'PENDING',
+                            'bg-primary-subtle text-primary': item[subItem.name] === 'ACCEPTED'
+                          }"
+                          > {{ item[subItem.name] }}</span>
+                          <!-- {{ item?.bank?.bankName }} -->
+                        </ng-container>
+                      </ng-template>
+                       <ng-template #notStatus>
+                         <ng-container *ngIf="subItem.pipe; else notPipe">
+                  
+                           <ng-container *ngIf="subItem.pipeImage; else notPipeImage">
+                             <a href="{{item[subItem.name] | removePort}}" target="_blank">
+                               {{getFileName(item[subItem.name] ) }}
+                             </a>
+                           </ng-container>
+                           <ng-template #notPipeImage>
+                             {{ item[subItem.name] | date:subItem?.pipeBy }}
+                           </ng-template>
+                         </ng-container>
+                         <ng-template #notPipe>
+                           {{ item[subItem.name] }}
+         
+                         </ng-template>
+                       </ng-template>
+                      </ng-template>
+                  
+                     </ng-container>
+                     <ng-template #actionCell>
+                      <ng-container *ngIf="subItem.IsAppt; else notAppt">
+                       <ul class="list-inline hstack gap-2 mb-0">
+                         <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="View" placement="top">
+             
+                           <a class="badge badge-pill bg-success-subtle text-success" (click)="actionApptClicked(item?.id,'accept')" *ngIf="item.bookingStatus === 'PENDING' || item.bookingStatus === 'REJECTED'">
+                             <i class="bx bx-check-square"></i> Accept
+                           </a>
+                           <a class="badge badge-pill bg-danger-subtle text-danger" (click)="actionApptCancelClicked(item?.id,'cancel')" *ngIf="item.bookingStatus === 'ACCEPTED'">
+                             <i class="bx bx-x"></i> Cancel
+                           </a>
+                         </li>
+                         <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                           <a class="badge badge-pill bg-danger-subtle text-danger" (click)="actionApptClicked(item?.id,'reject')" *ngIf="item.bookingStatus === 'PENDING'">
+                             <i class="fas fa-check"></i> Reject
+                           </a>
+                         </li>
+                     
+                       </ul>  
+                      </ng-container>
+                      <ng-template #notAppt>
+                    
+                        <ng-container *ngIf="subItem.IsBookingSlot; else notBookingSlot">
+                         <ul class="list-inline hstack gap-2 mb-0">
+          
+                           <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="View" placement="top">
+                            <h1>Please</h1>
+                             <a [routerLink]="[routes.bookingSlots,item?.slotDate]" class="text-primary d-inline-block">
+                               <i class="ri-eye-fill fs-16"></i> 
+                             </a>
+                           </li>
+                     
+                         </ul>
+                        </ng-container>
+                      <ng-template #notBookingSlot>
+                      
+                      <ul class="list-inline hstack gap-2 mb-0">
+                        
+                        <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="View" placement="top" *ngFor="let action of subItem.actions" (click)="actionClicked(item,action.name)">
+                         <ng-container *ngIf="action.name === 'View'; else notView">
+                           <a class="text-primary d-inline-block"
+                           [routerLink]="[action.link,item?.id]"
+                           >
+                             <i class="ri-eye-fill fs-16"
+                          
+       
+                             ></i>  
+                           </a>
+                         </ng-container>
+                         <ng-template #notView>
+                           <a class=" d-inline-block"
+                           [ngClass]="{
+                             'text-primary': action.name === 'View',
+                             'text-success': action.name === 'Edit',
+                             'text-danger': action.name === 'Delete'
+                           }"
+                           >
+                             <i class=" fs-16"
+                             [ngClass]="{
+                               'ri-eye-fill': action.name === 'View',
+                               'ri-pencil-fill': action.name === 'Edit',
+                               'ri-delete-bin-5-fill': action.name === 'Delete'
+                             }"
+        
+                             ></i>  
+                           </a>
+                         </ng-template>
+            
+                        </li>
+               
+                      </ul>
+                     </ng-template>
+                    </ng-template>
+                   </ng-template>
+                   </td>
+              
+               </tr>
+             
+               <!-- <tr *ngFor="let item of data; let i = index">
+                 <td></td>
+                 <ng-container *ngFor="let column of columns">
+                   <td *ngIf="column.name !== 'actions'; else actionCell">
+                     {{ item[column.prop] }}
+                   </td>
+                
+                 </ng-container>
+               </tr> -->
+                 <!-- <tr *ngFor="let item of data; let i = index;let subItem of column?.subItems">
+                   <td></td>
+                   <td *ngFor="let column of columns">
+                     <ng-container *ngIf="column.pipe; else noPipe">
+                       {{ column.pipe(item[column.prop]) }}
+                     </ng-container>
+                     <ng-template #noPipe>
+                       {{ item[column.prop] }}
+                     </ng-template>
+                   </td>
+                   <td>{{item?.officeNumber}}</td>
+                           <td>{{item?.daysOfWeek}}</td>
+                           <td>{{item?.amount}}</td> 
+                           <td>{{item?.transactionDate | date}}</td> 
+                
+                        
+                           <td><span innerHTML="{{ item?.transactionNote}}"></span></td>
+                           <td>
+                             <span
+                               class="badge badge-pill bg-success-subtle text-success font-size-11"
+                               [ngClass]="{
+                                 'bg-danger-subtle text-danger': item.paymentStatus === 'REJECTED',
+                                 'bg-warning-subtle text-warning': item.paymentStatus === 'PENDING',
+                                 'bg-primary-subtle text-primary': item.paymentStatus === 'ACCEPTED'
+                               }"
+                               >{{ item.paymentStatus }}</span
+                             >
+                           </td>
+                    
+                 
+                 </tr> -->
+               </ng-container>
+            
+            </tbody>
+            <tfoot>
+              <tr>
+                <td class="py-1" [attr.colspan]="6">
+                  <app-tp-pagination-info
+                    [collectionSize]="collectionSize"
+                    [pageSize]="pageSize"
+                    [page]="page"
+                    [loading]="loading"
+                  ></app-tp-pagination-info>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <!-- <div class="row justify-content-md-between align-items-md-center gy-2">
+        
+            <app-tp-pagination [collectionSize]="collectionSize" [ngModel]="pageSize" [formControl]="itemsPerPageControl" [pageSize]="pageSize" [page]="page"> </app-tp-pagination>
+        
+        </div> -->
+      </ng-template>
+    </li>
+ 
+  </ul>
+  <div class="tab-content text-muted">
+    <div [ngbNavOutlet]="nav"></div>
+  </div>
+</div>
+<div *ngIf="isTableOnly">
+  <ng-conatainer *ngFor="let column of columns;let i=index">
+
+  <div class="table-responsive table-card mb-0">
+    <table class="table">
+      <thead>
+        <tr class="bg-light text-muted text-uppercase">
+         
+          <th class="sort" *ngFor="let subItem of column?.subItems"  (click)="onChangeSortBy(subItem?.name)">
+            <!-- <th  *ngFor="let subItem of column?.subItems" > -->
+            {{subItem?.title}}
+           <!-- <app-sorter sortBy="subItem?.name"> {{subItem?.title}} </app-sorter> -->
+            </th>
+
+        </tr>
+        <tr>
+          <td class="p-0" *ngIf="column?.dateFilter">    
+              <app-date-range-picker (selectedRange)="rangeSelected($event)"></app-date-range-picker>            
+          </td>
+      
+          <td class="p-0">
+     
+          </td>
+          <td class="p-0">
+      
+            </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th [attr.colspan]="6" *ngIf="loading">
+            <div class="spinner-border text-primary text-center" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </th>
+        </tr>
+        <ng-container *ngIf="!loading">
+       
+         <tr *ngFor="let item of data; let i = index">
+ 
+          <ng-container *ngFor="let column of columns">
+            <td *ngFor="let subItem of column.subItems" >
+              <ng-container *ngIf="subItem.name !== 'actions'; else actionCell">
+                <ng-container *ngIf="subItem.patient; else notPatient">
+                   
+                     <a [routerLink]="['/patients', item?.patient?.id]">
+                      <img
+                      [src]="item?.patient?.user?.userProfile?.profilePic"
+                      appImgFallback="assets/images/users/user-dummy-img.jpg"
+                      id="img"
+                      class="rounded-circle header-profile-user"
+                      alt="Avatar"
+                    />
+                    </a>
+                    <a [routerLink]="['/patients',item?.patient?.id]">{{item?.patient?.user?.userProfile?.firstName}} {{item?.patient?.user?.userProfile?.middleName}} {{item?.patient?.user?.userProfile?.lastName}}</a>
+                </ng-container>
+                <ng-template #notPatient>
+                  <ng-containar *ngIf="subItem.patientDirect; else notPatientDirect">
+                    <a [routerLink]="['/patients', item?.id]">
+                      <img
+                      [src]="item?.user?.userProfile?.profilePic"
+                      appImgFallback="assets/images/users/user-dummy-img.jpg"
+                      id="img"
+                      class="rounded-circle header-profile-user"
+                      alt="Avatar"
+                    />
+                    </a>
+                    <a [routerLink]="['/patients',item?.id]">{{item?.user?.userProfile?.firstName}} {{item?.user?.userProfile?.middleName}} {{item?.user?.userProfile?.lastName}}</a>
+                  </ng-containar>
+                  <ng-template #notPatientDirect>
+
+                
+                  <ng-container *ngIf="subItem.professional; else notProfessional">
+                   
+                    <a [routerLink]="['/patients', item?.professional?.id]">
+                     <img
+                     [src]="item?.professional?.user?.userProfile?.profilePic | removePort"
+                     appImgFallback="assets/images/users/user-dummy-img.jpg"
+                     id="img"
+                     class="rounded-circle header-profile-user"
+                     alt="Avatar"
+                   />
+                   </a>
+                   <a [routerLink]="['/patients',item?.professional?.id]">{{item?.professional?.user?.userProfile?.firstName}} {{item?.professional?.user?.userProfile?.lastName}}</a>
+               </ng-container>
+              </ng-template>
+                </ng-template>
+                <ng-template #notProfessional>
+                  <ng-container *ngIf="subItem.dependant; else notDependant">
+                    <a >
+                      <img
+                      [src]="item?.dependantPhoto | removePort"
+                      appImgFallback="assets/images/users/user-dummy-img.jpg"
+                      id="img"
+                      class="rounded-circle header-profile-user"
+                      alt="Avatar"
+                    />
+                    </a>
+                    <a >{{item?.firstName}} {{item?.lastName}}</a>
+                  </ng-container>
+                  <ng-template #notDependant>
+
+                 
+                 <ng-container *ngIf="subItem.userName; else notUser">
+                    {{auth?.userFullName$ | async}}
+                 </ng-container>
+                </ng-template>
+                 <ng-template #notUser>
+                   <ng-container *ngIf="subItem.innerData; else notBank">
+
+                      <ng-container *ngIf="subItem.endTime; else startTime">
+                        {{ getEndTime(item?.bookingSlot?.slotTime,item?.bookingSlot?.slotInterval)}}
+                      
+                      </ng-container>
+                      <ng-template #startTime>
+                        <ng-container *ngIf="subItem.innerData3; else notInnerData3">
+                          {{item?.[subItem?.h1]?.[subItem?.h2]?.[subItem?.h3]}}
+                        </ng-container>
+                        <ng-template #notInnerData3>
+                          {{item?.[subItem?.h1]?.[subItem?.h2]}}
+                        </ng-template>
+                      
+
+                      </ng-template>
+                     <!-- Content for condition2 -->
+                     
+                    <!-- {{ item?.bank?.bankName }} -->
+                   </ng-container>
+                 </ng-template>
+                 <ng-template #notBank>
+                  <ng-container *ngIf="subItem.status; else notStatus">
+                    <!-- Content for condition2 -->
+                    <span
+                    class="badge badge-pill bg-success-subtle text-success font-size-11"
+                    [ngClass]="{
+                      'bg-danger-subtle text-danger': item[subItem.name] === 'REJECTED',
+                      'bg-warning-subtle text-warning': item[subItem.name] === 'PENDING',
+                      'bg-primary-subtle text-primary': item[subItem.name] === 'ACCEPTED'
+                    }"
+                    > {{ item[subItem.name] }}</span>
+                    <!-- {{ item?.bank?.bankName }} -->
+                  </ng-container>
+                </ng-template>
+                 <ng-template #notStatus>
+                   <ng-container *ngIf="subItem.pipe; else notPipe">
+            
+                     <ng-container *ngIf="subItem.pipeImage; else notPipeImage">
+                       <a href="{{item[subItem.name] | removePort}}" target="_blank">
+                         {{getFileName(item[subItem.name] ) }}
+                       </a>
+                     </ng-container>
+                     <ng-template #notPipeImage>
+                       {{ item[subItem.name] | date:subItem?.pipeBy }}
+                     </ng-template>
+                   </ng-container>
+                   <ng-template #notPipe>
+                     {{ item[subItem.name] }}
+   
+                   </ng-template>
+                 </ng-template>
+                </ng-template>
+            
+               </ng-container>
+               <ng-template #actionCell>
+                 <ng-container *ngIf="subItem.IsAppt; else notAppt">
+                  <ul class="list-inline hstack gap-2 mb-0">
+                    <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="View" placement="top">
+                      <!-- <a class="text-primary d-inline-block">
+                        <i class="ri-eye-fill fs-16"></i>
+                      </a> -->
+                      <a class="badge badge-pill bg-success-subtle text-success" (click)="actionApptClicked(item?.id,'accept')" *ngIf="item.bookingStatus === 'PENDING' || item.bookingStatus === 'REJECTED'">
+                        <i class="bx bx-check-square"></i> Accept
+                      </a>
+                      <a class="badge badge-pill bg-danger-subtle text-danger" (click)="actionApptCancelClicked(item?.id,'cancel')" *ngIf="item.bookingStatus === 'ACCEPTED'">
+                        <i class="bx bx-x"></i> Cancel
+                      </a>
+                    </li>
+                    <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                      <a class="badge badge-pill bg-danger-subtle text-danger" (click)="actionApptClicked(item?.id,'reject')" *ngIf="item.bookingStatus === 'PENDING'">
+                        <i class="fas fa-check"></i> Reject
+                      </a>
+                    </li>
+                
+                  </ul>  
+                 </ng-container>
+                 <ng-template #notAppt>
+                  <ng-container  *ngIf="subItem.patientDirect; else notPatientDirect">
+                    <ul class="list-inline hstack gap-2 mb-0">
+                   
+                      <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="View" placement="top">
+                        <a class="text-primary d-inline-block"
+                        [routerLink]="['/patients',item?.id]"
+                        >
+                          <i class="ri-eye-fill fs-16"
+                       
+    
+                          ></i>  
+                        </a>
+                      </li>
+                      <!-- <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                        <a href="javascript:void(0);" data-bs-toggle="modal" class=" d-inline-block edit-item-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal">
+                          <i class="ri-pencil-fill fs-16"></i>
+                        </a>
+                      </li>
+                      <li class="list-inline-item me-0" ngbTooltip="Remove" placement="top" data-bs-toggle="tooltip" data-bs-trigger="hover">
+                        <a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal" data-bs-target="#deleteOrder">
+                          <i class="ri-delete-bin-5-fill fs-16"></i>
+                        </a>
+                      </li> -->
+                    </ul>
+                  </ng-container>
+                  <ng-template #notPatientDirect>
+
+                 
+                  <ng-container *ngIf="subItem.IsConfirm; else notConfirm">
+                    <ul class="list-inline hstack gap-2 mb-0">
+                      <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="View" placement="top">
+                        <!-- <a class="text-primary d-inline-block">
+                          <i class="ri-eye-fill fs-16"></i>
+                        </a> -->
+                        <a class="badge badge-pill bg-success-subtle text-success" (click)="actionApptClicked(item?.id,'accept')" *ngIf="item.status === 'PENDING'">
+                          <i class="bx bx-check-square"></i> Accept
+                        </a>
+                        <!-- <a class="badge badge-pill bg-danger-subtle text-danger" (click)="actionApptCancelClicked(item?.id,'cancel')" *ngIf="item.bookingStatus === 'ACCEPTED'">
+                          <i class="bx bx-x"></i> Cancel
+                        </a> -->
+                      </li>
+                      <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                        <a class="badge badge-pill bg-danger-subtle text-danger" (click)="actionApptClicked(item?.id,'reject')" *ngIf="item.status === 'PENDING'">
+                          <i class="fas fa-check"></i> Reject
+                        </a>
+                      </li>
+                  
+                    </ul>  
+                  </ng-container>
+                </ng-template>
+                  <ng-template #notConfirm>
+                 
+                   <ng-container *ngIf="subItem.IsBookingSlot; else notBookingSlot">
+                    <ul class="list-inline hstack gap-2 mb-0">
+     
+                      <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="View" placement="top">
+                        <a [routerLink]="[routes.bookingSlots,item?.slotDate]" class="text-primary d-inline-block">
+                          <!-- <i class="ri-eye-fill fs-16"></i>  -->
+                          View
+                        </a>
+                      </li>
+                
+                    </ul>
+                   </ng-container>
+                 
+                 <ng-template #notBookingSlot>
+                 
+                 <ul class="list-inline hstack gap-2 mb-0">
+                   
+                   <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="View" placement="top" *ngFor="let action of subItem.actions" (click)="actionClicked(item,action.name)">
+                     <a class=" d-inline-block"
+                     [ngClass]="{
+                       'text-primary': action.name === 'View',
+                       'text-success': action.name === 'Edit',
+                       'text-danger': action.name === 'Delete'
+                     }"
+                     >
+                 
+                       <i class=" fs-16"
+                       [ngClass]="{
+                         'ri-eye-fill': action.name === 'View',
+                         'ri-pencil-fill': action.name === 'Edit',
+                         'ri-delete-bin-5-fill': action.name === 'Delete'
+                       }"
+ 
+                       ></i>  
+                     </a>
+                   </li>
+                   <!-- <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                     <a href="javascript:void(0);" data-bs-toggle="modal" class=" d-inline-block edit-item-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal">
+                       <i class="ri-pencil-fill fs-16"></i>
+                     </a>
+                   </li>
+                   <li class="list-inline-item me-0" ngbTooltip="Remove" placement="top" data-bs-toggle="tooltip" data-bs-trigger="hover">
+                     <a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal" data-bs-target="#deleteOrder">
+                       <i class="ri-delete-bin-5-fill fs-16"></i>
+                     </a>
+                   </li> -->
+                 </ul>
+                </ng-template>
+              </ng-template>
+               </ng-template>
+              </ng-template>
+            </td>
+     
+          </ng-container>
+        </tr>
+   
+        </ng-container>
+     
+      </tbody>
+      <tfoot>
+        <tr>
+          <td class="py-1" [attr.colspan]="6">
+            <app-tp-pagination-info
+              [collectionSize]="collectionSize"
+              [pageSize]="pageSize"
+              [page]="page"
+              [loading]="loading"
+            ></app-tp-pagination-info>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</ng-conatainer>
+</div>
+    
+    </div>
+  </div>

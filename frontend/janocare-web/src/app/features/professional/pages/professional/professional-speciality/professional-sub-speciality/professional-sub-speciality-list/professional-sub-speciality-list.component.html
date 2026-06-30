@@ -1,0 +1,34 @@
+<div class="cardHeader mx-1">
+  <div class="headerTitle">
+    <h4 class="card-title mb-0 text-muted">Sub Speciality</h4>
+  </div>
+  <div class="headerButton">
+    <button type="button" class="btn add-btn text-muted" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal" (click)="showEditModal(editTemplate)">
+      <i class="ri-add-line align-bottom iconButton me-1"></i>
+    </button>
+  </div>
+</div>
+<hr class="cardBody text-muted" />
+
+<div class="card-body" style="margin-top: -10px !important">
+  <ul>
+    <li *ngFor="let specialty of service?.data$ | async">
+      <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#showModal" (click)="showEditModal(editTemplate, specialty?.subSpecialization?.id)">
+        <span class="px-2">{{ specialty?.subSpecialization?.name }}</span>
+      </a>
+    </li>
+  </ul>
+</div>
+<!-- end card body -->
+<ng-template #editTemplate>
+  <div class="modal-header bg-primary-subtle p-2 px-4">
+    <h5 class="modal-title tablelist-form mb-0" autocomplete="off">
+      <i class="align-middle text-primary me-1"></i>
+      {{ id ? 'Edit' : 'Add' }} Sub Speciality
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>
+  </div>
+  <div class="modal-body">
+    <app-professional-sub-speciality-edit [id]="id" (onSaveComplete)="recordSaved($event)"></app-professional-sub-speciality-edit>
+  </div>
+</ng-template>

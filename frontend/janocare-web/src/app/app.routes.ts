@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { VerticalComponent } from './common/vertical/vertical.component';
 
 export const routes: Routes = [
   {
@@ -7,12 +8,19 @@ export const routes: Routes = [
       import('./features/landing/landing.module')
         .then(m => m.LandingModule)
   },
-  {
-    path: 'professionals',
-    loadChildren: () =>
-      import('./features/professional/professional.module')
-        .then(m => m.ProfessionalModule)
-  },
+{
+  path: 'professionals',
+  component: VerticalComponent,
+  children: [
+    {
+      path: '',
+      loadChildren: () =>
+        import('./features/professional/pages/pages.routes')
+          .then(m => m.routes)
+    }
+  ]
+}
+,
   {
     path: 'auth',
     loadChildren: () =>
@@ -21,6 +29,7 @@ export const routes: Routes = [
   },
   {
     path: 'patients',
+    component: VerticalComponent,
     loadChildren: () =>
       import('./features/patient/patient.module')
         .then(m => m.PatientModule)

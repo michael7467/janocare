@@ -1,0 +1,61 @@
+<div class="form-row mb-1">
+  <div class="col-md-12">
+    <label *ngIf="!control.touched" [for]="id" class="d-block"> {{ label }}{{ isRequired }} </label>
+    <label *ngIf="control.touched && !control.invalid" [for]="id" class="valid-feedback d-block">{{ label }}{{ isRequired }}</label>
+    <label *ngIf="control.touched && control.invalid" [for]="id" class="invalid-feedback d-block">{{ label }}{{ isRequired }}</label>
+    <input
+      *ngIf="type !== 'textarea' && type !== 'date'"
+      class="form-control"
+      [ngClass]="inputClass"
+      [id]="id"
+      [type]="type"
+      [value]="value"
+      [placeholder]="placeholder"
+      (input)="onChange($event.target['value'])"
+      [disabled]="isDisabled"
+      (blur)="onTouched()"
+    />
+
+    <input
+      *ngIf="type === 'date'"
+      class="form-control flatpickr-input"
+      type="text"
+      [minDate]="minDate"
+      mwlFlatpickr
+      [altInput]="true"
+      [convertModelValue]="true"
+      [ngClass]="inputClass"
+      [id]="id"
+      [type]="type"
+      [value]="value"
+      [placeholder]="placeholder"
+      (input)="onChange($event.target['value'])"
+      [disabled]="isDisabled"
+      (blur)="onTouched()"
+    />
+
+    <textarea
+      *ngIf="type === 'textarea'"
+      class="form-control"
+      [rows]="rows"
+      [ngClass]="inputClass"
+      [id]="id"
+      [value]="value"
+      [placeholder]="placeholder"
+      (input)="onChange($event.target['value'])"
+      [disabled]="isDisabled"
+      (blur)="onTouched()"
+    >
+    </textarea>
+    <small *ngIf="helpText" [id]="id + 'Help'" class="form-text text-muted">
+      {{ helpText }}
+    </small>
+
+    <div [id]="'validation' + id" class="invalid-feedback d-block">
+      &nbsp;
+      <ng-container *ngIf="control.touched && control.invalid">
+        <small class="text-danger" *ngFor="let error of Errors"> <i class="ri ri-close-line"> </i> {{ error.message }} </small>
+      </ng-container>
+    </div>
+  </div>
+</div>
