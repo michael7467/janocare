@@ -1,4 +1,4 @@
-package com.janocare.notification.infrastructure.persistence.enums;
+package com.janocare.notification.domain.enums;
 
 public enum NotificationType {
 

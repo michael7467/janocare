@@ -10,7 +10,7 @@ import com.janocare.professional.application.handlers.ProfessionalReviewHandler;
 import com.janocare.professional.application.queries.professionalreview.FindAllProfessionalReviewsQuery;
 import com.janocare.professional.application.queries.professionalreview.FindProfessionalReviewByIdQuery;
 import com.janocare.professional.application.queries.professionalreview.FindProfessionalReviewsByProfessionalIdQuery;
-
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -21,6 +21,7 @@ import java.util.UUID;
 @Path("/professional-reviews")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed("PROFESSIONAL")
 public class ProfessionalReviewController {
 
     @Inject

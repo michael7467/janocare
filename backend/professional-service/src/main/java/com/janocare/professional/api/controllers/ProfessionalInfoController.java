@@ -10,7 +10,7 @@ import com.janocare.professional.application.handlers.ProfessionalInfoHandler;
 import com.janocare.professional.application.queries.professionalinfo.FindAllProfessionalInfosQuery;
 import com.janocare.professional.application.queries.professionalinfo.FindProfessionalInfoByIdQuery;
 import com.janocare.professional.application.queries.professionalinfo.FindProfessionalInfosByProfessionalIdQuery;
-
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -21,6 +21,7 @@ import java.util.UUID;
 @Path("/professional-infos")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed("PROFESSIONAL")
 public class ProfessionalInfoController {
 
     @Inject

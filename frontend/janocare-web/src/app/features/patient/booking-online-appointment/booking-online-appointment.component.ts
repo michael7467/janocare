@@ -30,6 +30,7 @@ import { BehaviorSubject, Observable, catchError, concat, debounceTime, distinct
 import { defaultRequestParams } from '../../../shared/tp-table/config';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { NgStepperModule } from 'angular-ng-stepper';
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-booking-online-appointment',
   standalone: true,
@@ -185,6 +186,17 @@ ngOnInit(): void {
       genderd: [null],
       dependantAge: [''],
     });
+  }
+  getProfileImageUrl(profilePic?: string | null): string {
+    if (!profilePic) {
+      return 'assets/images/users/user-dummy-img.jpg';
+    }
+  
+    if (profilePic.startsWith('http')) {
+      return profilePic;
+    }
+  
+    return `${environment.apiUrl}/${profilePic}`;
   }
   private setFormValues() {
     if (this.fullName === null || this.fullName === undefined) {
@@ -527,16 +539,15 @@ ngOnInit(): void {
     }
   });
 }
-  getAvailableSlots(slotsAvailable: any) {
-    let arr = slotsAvailable.filter((p) => !p.checked);
+getAvailableSlots(slotsAvailable: any) {
+  if (!slotsAvailable) return 0;
+  return slotsAvailable.filter((p) => !p.checked).length;
+}
 
-    return arr.length;
-  }
-
-  getNotAvailableSlots(slotsAvailable: any) {
-    let arr = slotsAvailable.filter((p) => p.checked);
-    return arr.length;
-  }
+getNotAvailableSlots(slotsAvailable: any) {
+  if (!slotsAvailable) return 0;
+  return slotsAvailable.filter((p) => p.checked).length;
+}
   getDayName(date: Date): string {
     let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     return days[date.getDay()];

@@ -18,6 +18,7 @@ import { SlotsService } from '../../../../core/services/services/slots.service';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ReviewService } from '../../../../core/services/services/review.service';
 import { DoctorService } from '../../../../core/services/services/doctor.service';
+import { environment } from '../../../../../environments/environment.development';
 // import { PatientQuestionListComponent } from '../question/patient-question-list/patient-question-list.component';
 
 @Component({
@@ -163,7 +164,17 @@ ngOnInit(): void {
 
     return arr.length;
   }
+getProfileImageUrl(profilePic?: string | null): string {
+  if (!profilePic) {
+    return 'assets/images/users/user-dummy-img.jpg';
+  }
 
+  if (profilePic.startsWith('http')) {
+    return profilePic;
+  }
+
+  return `${environment.apiUrl}/${profilePic}`;
+}
   getNotAvailableSlots(slotsAvailable: any) {
     let arr = slotsAvailable.filter((p) => p.checked);
     return arr.length;

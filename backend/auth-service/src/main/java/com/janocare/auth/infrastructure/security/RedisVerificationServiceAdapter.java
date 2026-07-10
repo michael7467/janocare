@@ -32,8 +32,8 @@ public class RedisVerificationServiceAdapter implements VerificationServicePort 
 
         redis.setex(key, String.valueOf(OTP_TTL_SECONDS), code);
 
-        LOG.infof("Generated OTP %s for %s", code, email);
-//        emailSender.sendOtpEmail(email, code);
+        LOG.infof("OTP generated for %s (delivery via notification service)", email);
+
 
         return code; // <-- FIX
     }

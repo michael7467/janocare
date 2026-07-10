@@ -6,7 +6,6 @@ import java.time.Instant;
 import java.util.UUID;
 
 public class User {
-
     private UUID id;
     private String username;
     private Email email;
@@ -16,13 +15,8 @@ public class User {
     private UserRealm realm;
     private UserStatus status;
     private Instant createdAt;
-
-    // NEW FIELD — forces password change after OTP verification
     private boolean mustChangePassword;
-
-    // Private constructor to enforce invariants
     private User() {}
-
     // ---------------------------------------------------------
     // Factory for creating NEW users
     // ---------------------------------------------------------

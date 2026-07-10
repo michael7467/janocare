@@ -22,6 +22,7 @@ import java.util.UUID;
 @Path("/professional-achievements")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed("PROFESSIONAL")
 public class ProfessionalAchievementController {
 
     @Inject

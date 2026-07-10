@@ -1,4 +1,4 @@
-package domain.valueobjects;
+package com.janocare.professional.domain.valueobjects;
 
 public class Rating {
     private final int value; // 1–5

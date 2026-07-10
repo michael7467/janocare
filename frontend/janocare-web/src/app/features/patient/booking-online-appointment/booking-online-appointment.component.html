@@ -6,13 +6,20 @@
           <div class="team-profile-img d-flex">
             <div class="avatar-lg img-thumbnail rounded-circle flex-shrink-0">
               <a [routerLink]="['/doctor-profile', data?.id]">
-                <img
+                    <img 
+                        [src]="getProfileImageUrl((service?.dataSingle$ | async)?.user?.userProfile?.profilePic)" 
+                        alt="" 
+                        class="img-fluid rounded-circle" 
+                        appImgFallback="assets/images/users/user-dummy-img.jpg" 
+                      />
+                <!-- <img
                   [src]="(service?.dataSingle$ | async)?.user?.userProfile?.profilePic | removePort"
                   appImgFallback="assets/images/users/user-dummy-img.jpg"
                   id="img"
                   class="rounded-circle img-fluid userprofile"
                   alt="Avatar"
-              /></a>
+              /> -->
+              </a>
             </div>
 
             <div class="team-content px-4">
@@ -29,7 +36,7 @@
               </ng-container>
 
               <div class="pt-1 me-2">
-                {{ (service?.dataSingle$ | async)?.user?.userProfile?.state?.stateName }}, {{ (service?.dataSingle$ | async)?.user?.userProfile?.country?.countryName }}
+                {{ (service?.dataSingle$ | async)?.user?.userProfile?.state?.stateName }} Addis Ababa,Ethiopia {{ (service?.dataSingle$ | async)?.user?.userProfile?.country?.countryName }}
               </div>
 
               <p class="mb-0 pt-1">
@@ -73,7 +80,7 @@
         <div class="col-xxl-2 col-md-1"></div>
         <div class="col-xxl-8 col-md-10 col-sm-12">
           <ng-stepper #stepper cdkStepper [linear]="true" class="cdksteppercontent nav nav-pills progress-bar-tab custom-nav">
-            <cdk-step [optional]="false" class="center-label" *ngFor="let label of stepLabels; index as i">
+            <cdk-step [optional]="true" class="center-label" *ngFor="let label of stepLabels; index as i">
               <ng-template cdkStepLabel class="wizard-nav">
                 <button
                   class="nav-link rounded-pill"
@@ -199,7 +206,7 @@
                           <label class="visit-btns me-3">
                             <ng-container *ngIf="slotTime === slot.time && isSameDay(selectedTime, currentDate); else notSelected">
                               <button
-                                class="btn w-lg btn-info waves-effect waves-light"
+                                class="btn w-lg btn-info waves-effect waves-light active"
                                 [class.active]="slot.time === selectedTimeSlot"
                                 (click)="selectTimeSlot(slot.time, currentDate)"
                               >

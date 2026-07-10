@@ -178,7 +178,8 @@ services:
 
     container_name: janocare-auth-service
     restart: always
-
+    volumes:
+      - auth_uploads:/app/uploads   # ← add this line
     depends_on:
       - auth-postgres
       - redis
@@ -290,3 +291,4 @@ volumes:
   booking_postgres_data:
   payment_postgres_data:
   notification_postgres_data:
+  auth_uploads: 

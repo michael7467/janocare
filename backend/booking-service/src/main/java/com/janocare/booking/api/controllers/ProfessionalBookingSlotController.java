@@ -85,7 +85,7 @@ public Response findAll(
 
     return Response.ok(
             ApiResponse.success(
-                    handler.findAllSlots(query)
+                    handler.findOrGenerateSlots(query)
                             .stream()
                             .map(BookingSlotApiMapper::toResponse)
                             .toList()

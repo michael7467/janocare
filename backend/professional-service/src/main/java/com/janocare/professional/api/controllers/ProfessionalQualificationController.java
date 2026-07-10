@@ -10,7 +10,7 @@ import com.janocare.professional.application.handlers.ProfessionalQualificationH
 import com.janocare.professional.application.queries.professionalqualification.FindAllProfessionalQualificationsQuery;
 import com.janocare.professional.application.queries.professionalqualification.FindProfessionalQualificationByIdQuery;
 import com.janocare.professional.application.queries.professionalqualification.FindProfessionalQualificationsByProfessionalIdQuery;
-
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -21,6 +21,7 @@ import java.util.UUID;
 @Path("/professional-qualifications")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed("PROFESSIONAL")
 public class ProfessionalQualificationController {
 
     @Inject

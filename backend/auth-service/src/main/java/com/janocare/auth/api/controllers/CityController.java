@@ -15,7 +15,7 @@ import com.janocare.auth.application.queries.location.FindCityByIdQuery;
 
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
-
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -32,7 +32,7 @@ public class CityController {
 
     @POST
     @RolesAllowed("ADMIN")
-    public Response create(CreateCityRequest req) {
+    public Response create(@Valid CreateCityRequest req) {
 
         CreateCityCommand command =
                 new CreateCityCommand();
@@ -57,7 +57,7 @@ public class CityController {
     @RolesAllowed("ADMIN")
     public Response update(
             @PathParam("id") UUID id,
-            UpdateCityRequest req
+          @Valid  UpdateCityRequest req
     ) {
 
         UpdateCityCommand command =

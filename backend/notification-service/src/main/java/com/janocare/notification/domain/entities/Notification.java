@@ -3,9 +3,9 @@ package com.janocare.notification.domain.entities;
 import java.time.Instant;
 import java.util.UUID;
 
-import com.janocare.notification.infrastructure.persistence.enums.NotificationStatus;
-import com.janocare.notification.infrastructure.persistence.enums.NotificationType;
-import com.janocare.notification.infrastructure.persistence.enums.NotificationChannel;
+import com.janocare.notification.domain.enums.NotificationStatus;
+import com.janocare.notification.domain.enums.NotificationType;
+import com.janocare.notification.domain.enums.NotificationChannel;
 
 public class Notification {
 

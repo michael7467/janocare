@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 
 import java.util.UUID;
 
-import com.janocare.notification.infrastructure.persistence.enums.NotificationStatus;
-import com.janocare.notification.infrastructure.persistence.enums.NotificationType;
-import com.janocare.notification.infrastructure.persistence.enums.NotificationChannel;
+import com.janocare.notification.domain.enums.NotificationStatus;
+import com.janocare.notification.domain.enums.NotificationType;
+import com.janocare.notification.domain.enums.NotificationChannel;
 
 @Entity
 @Table(name = "notifications")

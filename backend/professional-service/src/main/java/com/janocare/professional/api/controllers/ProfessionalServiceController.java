@@ -10,7 +10,7 @@ import com.janocare.professional.application.handlers.ProfessionalServiceHandler
 import com.janocare.professional.application.queries.professionalservice.FindAllProfessionalServicesQuery;
 import com.janocare.professional.application.queries.professionalservice.FindProfessionalServiceByIdQuery;
 import com.janocare.professional.application.queries.professionalservice.FindProfessionalServicesByProfessionalIdQuery;
-
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -21,6 +21,7 @@ import java.util.UUID;
 @Path("/professional-services")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed("PROFESSIONAL")
 public class ProfessionalServiceController {
 
     @Inject

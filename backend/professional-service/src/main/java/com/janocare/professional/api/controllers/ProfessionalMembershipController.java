@@ -10,7 +10,7 @@ import com.janocare.professional.application.handlers.ProfessionalMembershipHand
 import com.janocare.professional.application.queries.professionalmembership.FindAllProfessionalMembershipsQuery;
 import com.janocare.professional.application.queries.professionalmembership.FindProfessionalMembershipByIdQuery;
 import com.janocare.professional.application.queries.professionalmembership.FindProfessionalMembershipsByProfessionalIdQuery;
-
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -21,6 +21,7 @@ import java.util.UUID;
 @Path("/professional-memberships")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed("PROFESSIONAL")
 public class ProfessionalMembershipController {
 
     @Inject

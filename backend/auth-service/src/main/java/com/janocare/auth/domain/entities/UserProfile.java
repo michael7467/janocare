@@ -68,23 +68,23 @@ public class UserProfile {
     }
 
     public void updateProfile(
-            String firstName,
-            String lastName,
-            String profilePic,
-            String gender,
-            UUID countryId,
-            UUID stateId,
-            UUID cityId
-    ) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.profilePic = profilePic;
-        this.gender = gender;
-        this.countryId = countryId;
-        this.stateId = stateId;
-        this.cityId = cityId;
-        this.updatedAt = Instant.now();
-    }
+        String firstName,
+        String lastName,
+        String profilePic,
+        String gender,
+        UUID countryId,
+        UUID stateId,
+        UUID cityId
+) {
+    if (firstName  != null) this.firstName  = firstName;
+    if (lastName   != null) this.lastName   = lastName;
+    if (profilePic != null) this.profilePic = profilePic;
+    if (gender     != null) this.gender     = gender;
+    if (countryId  != null) this.countryId  = countryId;
+    if (stateId    != null) this.stateId    = stateId;
+    if (cityId     != null) this.cityId     = cityId;
+    this.updatedAt = Instant.now();
+}
 
     public void updateProfilePicture(String profilePic) {
         this.profilePic = profilePic;

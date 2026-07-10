@@ -12,7 +12,9 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.SecurityContext;
+import com.janocare.professional.application.commands.professional.ApproveProfessionalCommand;
 import java.util.UUID;
 
 @Path("/professionals")
@@ -79,6 +81,41 @@ public class ProfessionalController {
                 ApiResponse.success(handler.findById(query))
         ).build();
     }
+
+   @PUT
+@Path("/{id}/approve")
+@RolesAllowed("ADMIN")
+public Response approveProfessional(
+        @PathParam("id") UUID id,
+        @Context SecurityContext securityContext
+) {
+    UUID adminUserId = UUID.fromString(
+            securityContext.getUserPrincipal().getName()
+    );
+
+    handler.approveProfessional(
+            new ApproveProfessionalCommand(id, adminUserId)
+    );
+
+    return Response.ok(
+            ApiResponse.success(null, "Professional approved successfully")
+    ).build();
+}
+
+@PUT
+@Path("/{id}/reject")
+@RolesAllowed("ADMIN")
+public Response rejectProfessional(
+        @PathParam("id") UUID id
+) {
+    handler.rejectProfessional(
+            new RejectProfessionalCommand(id)
+    );
+
+    return Response.ok(
+            ApiResponse.success(null, "Professional rejected")
+    ).build();
+}
 
     @GET
     @Path("/by-user/{userId}")

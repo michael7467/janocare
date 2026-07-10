@@ -12,7 +12,7 @@ import com.janocare.auth.application.handlers.LocationHandler;
 
 import com.janocare.auth.application.queries.location.FindAllCountriesQuery;
 import com.janocare.auth.application.queries.location.FindCountryByIdQuery;
-
+import jakarta.validation.Valid;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -31,7 +31,7 @@ public class CountryController {
 
     @POST
     @RolesAllowed("ADMIN")
-    public Response create(CreateCountryRequest req) {
+    public Response create(@Valid CreateCountryRequest req) {
 
         CreateCountryCommand command =
                 new CreateCountryCommand();
@@ -55,7 +55,7 @@ public class CountryController {
     @RolesAllowed("ADMIN")
     public Response update(
             @PathParam("id") UUID id,
-            UpdateCountryRequest req
+           @Valid UpdateCountryRequest req
     ) {
 
         UpdateCountryCommand command =

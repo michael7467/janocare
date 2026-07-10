@@ -6,6 +6,7 @@ import com.janocare.auth.application.commands.otp.ResendOtpCommand;
 import com.janocare.auth.application.commands.otp.VerifyOtpCommand;
 import com.janocare.auth.application.handlers.AuthCommandHandler;
 
+import jakarta.validation.Valid;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -22,7 +23,7 @@ public class OtpController {
     @POST
     @Path("/verify")
     public Response verifyOtp(
-            VerifyOtpRequest req
+        @Valid    VerifyOtpRequest req
     ) {
 
         VerifyOtpCommand command =
@@ -39,7 +40,7 @@ public class OtpController {
     @POST
     @Path("/resend")
     public Response resendOtp(
-            ResendOtpRequest req
+            @Valid ResendOtpRequest req
     ) {
 
         ResendOtpCommand command =

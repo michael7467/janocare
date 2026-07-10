@@ -4,11 +4,11 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 COPY . .
 
-RUN npm run build -- --configuration docker
+RUN npm run build -- --configuration production
 
 FROM nginx:alpine
 

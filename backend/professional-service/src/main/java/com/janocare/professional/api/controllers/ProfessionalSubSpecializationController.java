@@ -10,7 +10,8 @@ import com.janocare.professional.application.handlers.ProfessionalSubSpecializat
 import com.janocare.professional.application.queries.professionalsubspecialization.FindAllProfessionalSubSpecializationsQuery;
 import com.janocare.professional.application.queries.professionalsubspecialization.FindProfessionalSubSpecializationByIdQuery;
 import com.janocare.professional.application.queries.professionalsubspecialization.FindProfessionalSubSpecializationsByProfessionalIdQuery;
-
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -27,6 +28,7 @@ public class ProfessionalSubSpecializationController {
     ProfessionalSubSpecializationHandler handler;
 
     @POST
+    @RolesAllowed("ADMIN")
     public Response create(CreateProfessionalSubSpecializationRequest req) {
         CreateProfessionalSubSpecializationCommand command =
                 new CreateProfessionalSubSpecializationCommand();
@@ -44,6 +46,7 @@ public class ProfessionalSubSpecializationController {
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed("ADMIN")
     public Response update(
             @PathParam("id") UUID id,
             UpdateProfessionalSubSpecializationRequest req
@@ -62,6 +65,7 @@ public class ProfessionalSubSpecializationController {
 
     @GET
     @Path("/{id}")
+    @PermitAll
     public Response findById(@PathParam("id") UUID id) {
         return Response.ok(ApiResponse.success(
                 handler.findById(
@@ -72,6 +76,7 @@ public class ProfessionalSubSpecializationController {
 
     @GET
     @Path("/professional/{professionalId}")
+    @PermitAll
     public Response findByProfessionalId(
             @PathParam("professionalId") UUID professionalId
     ) {
@@ -83,6 +88,7 @@ public class ProfessionalSubSpecializationController {
     }
 
     @GET
+    @PermitAll
     public Response findAll(
             @QueryParam("page") Integer page,
             @QueryParam("size") Integer size,
@@ -102,6 +108,7 @@ public class ProfessionalSubSpecializationController {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed("ADMIN")
     public Response delete(@PathParam("id") UUID id) {
         handler.delete(new DeleteProfessionalSubSpecializationCommand(id));
 

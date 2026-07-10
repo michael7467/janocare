@@ -12,6 +12,7 @@ import com.janocare.auth.application.commands.password.SetPasswordCommand;
 import com.janocare.auth.application.handlers.AuthCommandHandler;
 import com.janocare.auth.infrastructure.security.CookieService;
 
+import jakarta.validation.Valid;
 import io.vertx.ext.web.RoutingContext;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -33,7 +34,7 @@ public class PasswordController {
     @POST
     @Path("/forgot")
     public Response forgotPassword(
-            ForgotPasswordRequest req
+         @Valid    ForgotPasswordRequest req
     ) {
 
         ForgotPasswordCommand command =
@@ -49,7 +50,7 @@ public class PasswordController {
     @POST
     @Path("/reset")
     public Response resetPassword(
-            ResetPasswordRequest req
+        @Valid     ResetPasswordRequest req
     ) {
 
         ResetPasswordCommand command =
@@ -68,7 +69,7 @@ public class PasswordController {
     @POST
     @Path("/set")
     public Response setPassword(
-            SetPasswordRequest req,
+            @Valid   SetPasswordRequest req,
             RoutingContext ctx
     ) {
 
@@ -99,7 +100,7 @@ public class PasswordController {
     @Path("/change-my-password")
     @RolesAllowed({"PATIENT", "ADMIN", "PROFESSIONAL"})
     public Response changeMyPassword(
-            ChangeMyPasswordRequest req,
+        @Valid    ChangeMyPasswordRequest req,
             RoutingContext ctx
     ) {
 

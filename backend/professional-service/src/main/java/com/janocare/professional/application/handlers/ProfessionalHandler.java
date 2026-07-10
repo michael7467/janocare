@@ -1,5 +1,5 @@
 package com.janocare.professional.application.handlers;
-
+import com.janocare.professional.api.responses.professional.UserResponse;
 import com.janocare.professional.api.mappers.ProfessionalApiMapper;
 import com.janocare.professional.api.responses.professional.ProfessionalResponse;
 import com.janocare.professional.application.commands.professional.*;
@@ -14,10 +14,16 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import java.util.List;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
+import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class ProfessionalHandler {
-
+    private static final Logger LOG = Logger.getLogger(ProfessionalHandler.class);
     @Inject
     ProfessionalRepositoryPort professionalRepository;
 
@@ -123,16 +129,26 @@ public class ProfessionalHandler {
         return ProfessionalApiMapper.toResponse(professionalRepository.save(professional));
     }
 
-    public ProfessionalResponse findById(FindProfessionalByIdQuery query) {
-        if (query == null || query.professionalId == null) {
-            throw new ValidationException("Professional ID is required");
-        }
-
-        return ProfessionalApiMapper.toResponse(
-                professionalRepository.findDomainById(query.professionalId)
-                        .orElseThrow(ProfessionalNotFoundException::new)
-        );
+   public ProfessionalResponse findById(FindProfessionalByIdQuery query) {
+    if (query == null || query.professionalId == null) {
+        throw new ValidationException("Professional ID is required");
     }
+
+    Professional professional = professionalRepository
+            .findDomainById(query.professionalId)
+            .orElseThrow(ProfessionalNotFoundException::new);
+
+    ProfessionalResponse response = ProfessionalApiMapper.toResponse(professional);
+
+    try {
+        UserResponse user = authServiceClient.getUserById(professional.getUserId());
+        response.user = user;
+    } catch (Exception e) {
+        System.out.println("Could not fetch user: " + e.getMessage());
+    }
+
+    return response;
+}
 
     public ProfessionalResponse findByUserId(FindProfessionalByUserIdQuery query) {
         if (query == null || query.userId == null) {
@@ -147,18 +163,46 @@ public class ProfessionalHandler {
 
    public List<ProfessionalResponse> findAll(FindAllProfessionalsQuery query) {
 
-    return professionalRepository.findAllProfessionals()
-            .stream()
-            .map(professional -> {
+    List<Professional> professionals =
+            professionalRepository.findAllProfessionals();
 
+    if (professionals.isEmpty()) {
+        return List.of();
+    }
+
+    // Collect all user IDs — single batch call instead of N calls
+    List<UUID> userIds = professionals.stream()
+            .map(Professional::getUserId)
+            .filter(Objects::nonNull)
+            .distinct()
+            .toList();
+
+    // One HTTP call to auth service
+    Map<String, UserResponse> userMap = new HashMap<>();
+    try {
+        List<UserResponse> users = authServiceClient.getUsersByIds(userIds);
+        if (users != null) {
+            users.forEach(u -> {
+                if (u != null && u.id != null) {
+                    userMap.put(u.id, u);
+                }
+            });
+        }
+    } catch (Exception e) {
+        LOG.warnf("Could not fetch users from auth service: %s",
+                e.getMessage());
+    }
+
+    // Enrich each professional response from the map
+    return professionals.stream()
+            .map(professional -> {
                 ProfessionalResponse response =
                         ProfessionalApiMapper.toResponse(professional);
-
-                response.user =
-                        authServiceClient.getUserById(professional.getUserId());
-
+                response.user = userMap.get(
+                        professional.getUserId().toString()
+                );
                 return response;
             })
             .toList();
-    }
+}
 }

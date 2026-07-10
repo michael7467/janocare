@@ -10,7 +10,7 @@ import com.janocare.auth.application.commands.auth.RefreshTokenCommand;
 import com.janocare.auth.application.commands.auth.RegisterCommand;
 import com.janocare.auth.application.handlers.AuthCommandHandler;
 import com.janocare.auth.infrastructure.security.CookieService;
-
+import jakarta.validation.Valid;
 import io.vertx.ext.web.RoutingContext;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -30,7 +30,7 @@ public class AuthController {
 
     @POST
     @Path("/register")
-    public Response register(RegisterRequest req) {
+    public Response register(@Valid RegisterRequest req) {
 
         RegisterCommand command = new RegisterCommand();
 
@@ -53,7 +53,7 @@ public class AuthController {
     @POST
     @Path("/login")
     public Response login(
-            LoginRequest req,
+          @Valid  LoginRequest req,
             RoutingContext ctx
     ) {
 
@@ -80,7 +80,7 @@ public class AuthController {
     @POST
     @Path("/refresh")
     public Response refresh(
-            RoutingContext ctx
+       @Valid  RefreshTokenRequest req, RoutingContext ctx
     ) {
 
         String refreshToken =

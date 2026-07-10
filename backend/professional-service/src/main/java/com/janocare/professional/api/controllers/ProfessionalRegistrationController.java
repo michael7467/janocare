@@ -10,7 +10,7 @@ import com.janocare.professional.application.handlers.ProfessionalRegistrationHa
 import com.janocare.professional.application.queries.professionalregistration.FindAllProfessionalRegistrationsQuery;
 import com.janocare.professional.application.queries.professionalregistration.FindProfessionalRegistrationByIdQuery;
 import com.janocare.professional.application.queries.professionalregistration.FindProfessionalRegistrationsByProfessionalIdQuery;
-
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -21,6 +21,7 @@ import java.util.UUID;
 @Path("/professional-registrations")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed("PROFESSIONAL")
 public class ProfessionalRegistrationController {
 
     @Inject

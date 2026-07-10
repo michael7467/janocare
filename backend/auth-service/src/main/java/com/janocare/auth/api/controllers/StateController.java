@@ -12,7 +12,7 @@ import com.janocare.auth.application.handlers.LocationHandler;
 
 import com.janocare.auth.application.queries.location.FindAllStatesQuery;
 import com.janocare.auth.application.queries.location.FindStateByIdQuery;
-
+import jakarta.validation.Valid;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -31,7 +31,7 @@ public class StateController {
 
     @POST
     @RolesAllowed("ADMIN")
-    public Response create(CreateStateRequest req) {
+    public Response create(@Valid CreateStateRequest req) {
 
         CreateStateCommand command =
                 new CreateStateCommand();
@@ -55,7 +55,7 @@ public class StateController {
     @RolesAllowed("ADMIN")
     public Response update(
             @PathParam("id") UUID id,
-            UpdateStateRequest req
+           @Valid UpdateStateRequest req
     ) {
 
         UpdateStateCommand command =

@@ -85,7 +85,7 @@ public class BookingHandler {
         return slot;
     }
 
-   public List<BookingSlot> findAllSlots(FindAllBookingSlotsQuery query) {
+   public List<BookingSlot> findOrGenerateSlots(FindAllBookingSlotsQuery query) {
 
     if (query.professionalId != null && query.slotDate != null) {
 
@@ -211,7 +211,6 @@ public List<BookingSlot> findExistingSlots(FindAllBookingSlotsQuery query) {
 
         slot.book();
         slotRepository.save(slot);
-
         AppointmentBooking booking = AppointmentBooking.create(
                 command.patientUserId,
                 command.professionalId,
@@ -221,10 +220,8 @@ public List<BookingSlot> findExistingSlots(FindAllBookingSlotsQuery query) {
                 command.bookingReason,
                 command.timezone
         );
-
         AppointmentBooking savedBooking = bookingRepository.save(booking);
 
-        // Create pending payment
         try {
             CreatePaymentRequest paymentReq = new CreatePaymentRequest();
             paymentReq.appointmentBookingId = savedBooking.getId();
