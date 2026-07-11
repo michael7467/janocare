@@ -5,4 +5,5 @@ public class CreateProfessionalTypeCommand {
     public String name;
 
     public String description;
+    public Integer slotInterval;
 }

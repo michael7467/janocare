@@ -7,12 +7,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ProfessionTypeRepositoryPort {
-
     ProfessionType save(ProfessionType professionType);
-
     Optional<ProfessionType> findDomainById(UUID id);
-    Optional<ProfessionType> findByType(String type);
+    Optional<ProfessionType> findByName(String name); 
     List<ProfessionType> findAllProfessionTypes();
-
     void deleteProfessionTypeById(UUID id);
 }

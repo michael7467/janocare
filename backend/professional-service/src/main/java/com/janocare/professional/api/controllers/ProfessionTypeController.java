@@ -9,9 +9,11 @@ import com.janocare.professional.application.commands.professiontype.UpdateProfe
 import com.janocare.professional.application.handlers.ProfessionTypeHandler;
 import com.janocare.professional.application.queries.professiontype.FindAllProfessionalTypesQuery;
 import com.janocare.professional.application.queries.professiontype.FindProfessionalTypeByIdQuery;
+
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -26,12 +28,20 @@ public class ProfessionTypeController {
     @Inject
     ProfessionTypeHandler handler;
 
+    // =====================================================
+    // CREATE — admin only
+    // Accountability pattern: admin adds knowledge-level object
+    // =====================================================
+
     @POST
     @RolesAllowed("ADMIN")
-    public Response create(CreateProfessionalTypeRequest req) {
-        CreateProfessionalTypeCommand command = new CreateProfessionalTypeCommand();
-        command.name = req.name;
-        command.description = req.description;
+    public Response create(@Valid CreateProfessionalTypeRequest req) {
+
+        CreateProfessionalTypeCommand command =
+                new CreateProfessionalTypeCommand();
+        command.name         = req.name;
+        command.description  = req.description;
+        command.slotInterval = req.slotInterval; // ADD
 
         return Response.status(Response.Status.CREATED)
                 .entity(ApiResponse.success(
@@ -41,17 +51,24 @@ public class ProfessionTypeController {
                 .build();
     }
 
+    // =====================================================
+    // UPDATE — admin only
+    // =====================================================
+
     @PUT
     @Path("/{id}")
     @RolesAllowed("ADMIN")
     public Response update(
             @PathParam("id") UUID id,
-            UpdateProfessionalTypeRequest req
-    ) {
-        UpdateProfessionalTypeCommand command = new UpdateProfessionalTypeCommand();
+            @Valid UpdateProfessionalTypeRequest req) {
+
+        UpdateProfessionalTypeCommand command =
+                new UpdateProfessionalTypeCommand();
         command.professionTypeId = id;
-        command.name = req.name;
-        command.description = req.description;
+        command.name             = req.name;
+        command.description      = req.description;
+        command.slotInterval     = req.slotInterval; // ADD
+        command.active           = req.active;        // ADD
 
         return Response.ok(
                 ApiResponse.success(
@@ -61,42 +78,53 @@ public class ProfessionTypeController {
         ).build();
     }
 
+    // =====================================================
+    // DELETE — admin only
+    // =====================================================
+
     @DELETE
     @Path("/{id}")
     @RolesAllowed("ADMIN")
     public Response delete(@PathParam("id") UUID id) {
-        DeleteProfessionalTypeCommand command =
-                new DeleteProfessionalTypeCommand(id);
-        handler.delete(command);
+
+        handler.delete(new DeleteProfessionalTypeCommand(id));
 
         return Response.ok(
                 ApiResponse.success(null, "Profession type deleted")
         ).build();
     }
 
+    // =====================================================
+    // READ — public (patients browse profession types)
+    // =====================================================
+
     @GET
     @Path("/{id}")
     @PermitAll
     public Response findById(@PathParam("id") UUID id) {
-        FindProfessionalTypeByIdQuery query =
-                new FindProfessionalTypeByIdQuery(id);
 
         return Response.ok(
-                ApiResponse.success(handler.findById(query))
+                ApiResponse.success(
+                        handler.findById(
+                                new FindProfessionalTypeByIdQuery(id))
+                )
         ).build();
     }
 
     @GET
     @PermitAll
     public Response findAll(
-            @QueryParam("page") Integer page,
-            @QueryParam("size") Integer size,
-            @QueryParam("search") String search
+            @QueryParam("page")   Integer page,
+            @QueryParam("size")   Integer size,
+            @QueryParam("search") String search,
+            @QueryParam("active") Boolean active  // ADD
     ) {
-        FindAllProfessionalTypesQuery query = new FindAllProfessionalTypesQuery();
-        query.page = page;
-        query.size = size;
+        FindAllProfessionalTypesQuery query =
+                new FindAllProfessionalTypesQuery();
+        query.page   = page;
+        query.size   = size;
         query.search = search;
+        query.active = active;                    // ADD
 
         return Response.ok(
                 ApiResponse.success(handler.findAll(query))

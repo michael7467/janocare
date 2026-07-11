@@ -7,4 +7,5 @@ public class FindAllProfessionalTypesQuery {
     public Integer size;
 
     public String search;
+     public Boolean active;
 }

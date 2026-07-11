@@ -9,4 +9,6 @@ public class UpdateProfessionalTypeCommand {
     public String name;
 
     public String description;
+        public Integer slotInterval;
+    public Boolean active;       
 }

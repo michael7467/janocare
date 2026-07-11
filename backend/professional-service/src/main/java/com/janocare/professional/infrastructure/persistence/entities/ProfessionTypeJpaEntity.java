@@ -29,12 +29,32 @@ public class ProfessionTypeJpaEntity {
     @Column(length = 500)
     public String description;
 
-    @Column(name = "created_at", nullable = false)
+    /**
+     * Slot interval in minutes.
+     * Knowledge-level configuration — Accountability pattern.
+     * Governs BookingSlot generation for all professionals
+     * of this type at the operational level.
+     */
+    @Column(name = "slot_interval", nullable = false)
+    public Integer slotInterval;
+
+    /**
+     * Active flag — admin can deactivate without deleting.
+     * Deactivated types are not shown to patients or professionals.
+     */
+    @Column(nullable = false)
+    public boolean active = true;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
     public LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     public LocalDateTime updatedAt;
 
+    // ── relationship ─────────────────────────────────────────
+    // Unidirectional from Professional → ProfessionType
+    // This @OneToMany is the inverse side — LAZY, no cascade
+    // Do not use this collection to navigate — query directly
     @OneToMany(
             mappedBy = "professionType",
             fetch = FetchType.LAZY
@@ -43,13 +63,8 @@ public class ProfessionTypeJpaEntity {
 
     @PrePersist
     public void prePersist() {
-        if (createdAt == null) {
-            createdAt = LocalDateTime.now();
-        }
-
-        if (updatedAt == null) {
-            updatedAt = LocalDateTime.now();
-        }
+        if (createdAt == null) createdAt = LocalDateTime.now();
+        if (updatedAt == null) updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate

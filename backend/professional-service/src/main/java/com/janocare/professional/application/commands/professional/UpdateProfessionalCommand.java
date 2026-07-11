@@ -9,7 +9,7 @@ public class UpdateProfessionalCommand {
     public UUID professionalId;
 
     public String bio;
-
+    public UUID requestingUserId;
     public LocalDate practicingFrom;
 
     public BigDecimal consultationFee;
