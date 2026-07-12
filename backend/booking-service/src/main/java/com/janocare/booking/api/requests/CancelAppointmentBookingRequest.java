@@ -1,10 +1,13 @@
 package com.janocare.booking.api.requests;
 
+import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 public class CancelAppointmentBookingRequest {
-    public UUID userId;
+
+    @NotNull(message = "Cancellation reason is required")
     public UUID cancellationReasonId;
+
     public String comment;
     public String timezone;
 }

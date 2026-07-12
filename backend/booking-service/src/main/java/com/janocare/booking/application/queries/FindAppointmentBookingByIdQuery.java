@@ -5,7 +5,7 @@ import java.util.UUID;
 public class FindAppointmentBookingByIdQuery {
 
     public UUID appointmentBookingId;
-
+    public UUID patientUserId;
     public UUID professionalId;
 
     public FindAppointmentBookingByIdQuery(UUID appointmentBookingId) {

@@ -6,11 +6,14 @@ import com.janocare.booking.application.handlers.BookingHandler;
 import com.janocare.booking.application.queries.FindAllBookingSlotsQuery;
 import com.janocare.booking.domain.entities.BookingSlot;
 import com.janocare.booking.domain.enums.BookingSlotStatus;
+
 import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.jboss.logging.Logger;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -21,37 +24,57 @@ import java.util.UUID;
 @PermitAll
 public class PublicBookingSlotController {
 
+    private static final Logger LOG =
+            Logger.getLogger(PublicBookingSlotController.class);
+
     @Inject
     BookingHandler handler;
+
+    // =====================================================
+    // PUBLIC — patient browses available slots
+    // @PermitAll — no JWT required
+    // findExistingSlots — NEVER auto-generates slots
+    // Only returns AVAILABLE slots — filters out BOOKED etc
+    // =====================================================
 
     @GET
     public Response findAvailableSlots(
             @QueryParam("professionalId") UUID professionalId,
-            @QueryParam("slotDate") String slotDate
-    ) {
-        FindAllBookingSlotsQuery query = new FindAllBookingSlotsQuery();
+            @QueryParam("slotDate") String slotDate) {
+
+        FindAllBookingSlotsQuery query =
+                new FindAllBookingSlotsQuery();
         query.professionalId = professionalId;
 
         if (slotDate != null && !slotDate.isBlank()) {
             try {
-                query.slotDate = LocalDate.parse(slotDate.substring(0, 10));
+                query.slotDate = LocalDate.parse(
+                        slotDate.substring(0, 10));
             } catch (Exception e) {
-                return Response.status(Response.Status.BAD_REQUEST)
-                        .entity(ApiResponse.error("Invalid date format"))
+                return Response
+                        .status(Response.Status.BAD_REQUEST)
+                        .entity(ApiResponse.error(
+                                "Invalid date format: " + slotDate))
                         .build();
             }
         }
 
-        // Use findExistingSlots — never auto-generate for public
-        List<BookingSlot> slots = handler.findExistingSlots(query);
+        List<BookingSlot> slots =
+                handler.findExistingSlots(query);
+
+        List<Object> available = slots.stream()
+                .filter(s -> s.getStatus()
+                        == BookingSlotStatus.AVAILABLE)
+                .map(BookingSlotApiMapper::toResponse)
+                .toList();
+
+        LOG.debugf(
+                "Public slot query: professional=%s date=%s found=%d available=%d",
+                professionalId, slotDate,
+                slots.size(), available.size());
 
         return Response.ok(
-                ApiResponse.success(
-                        slots.stream()
-                                .filter(s -> s.getStatus() == BookingSlotStatus.AVAILABLE)
-                                .map(BookingSlotApiMapper::toResponse)
-                                .toList()
-                )
+                ApiResponse.success(available)
         ).build();
     }
 }

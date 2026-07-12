@@ -10,4 +10,5 @@ public class CreateSingleBookingSlotRequest {
     public LocalTime startTime;
 
     public LocalTime endTime;
+    public Integer slotInterval;
 }

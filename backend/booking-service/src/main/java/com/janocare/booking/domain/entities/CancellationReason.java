@@ -12,17 +12,27 @@ public class CancellationReason {
 
     private CancellationReason() {}
 
+    // =====================================================
+    // FACTORY — create new
+    // =====================================================
+
     public static CancellationReason create(String reason) {
-        CancellationReason cancellationReason =
-                new CancellationReason();
 
-        cancellationReason.id = UUID.randomUUID();
-        cancellationReason.reason = reason;
-        cancellationReason.createdAt = Instant.now();
-        cancellationReason.updatedAt = Instant.now();
+        if (reason == null || reason.isBlank())
+            throw new IllegalArgumentException(
+                    "Cancellation reason is required");
 
-        return cancellationReason;
+        CancellationReason cr = new CancellationReason();
+        cr.id        = UUID.randomUUID();
+        cr.reason    = reason.trim();
+        cr.createdAt = Instant.now();
+        cr.updatedAt = Instant.now();
+        return cr;
     }
+
+    // =====================================================
+    // FACTORY — restore from persistence
+    // =====================================================
 
     public static CancellationReason restore(
             UUID id,
@@ -30,24 +40,32 @@ public class CancellationReason {
             Instant createdAt,
             Instant updatedAt
     ) {
-        CancellationReason cancellationReason =
-                new CancellationReason();
-
-        cancellationReason.id = id;
-        cancellationReason.reason = reason;
-        cancellationReason.createdAt = createdAt;
-        cancellationReason.updatedAt = updatedAt;
-
-        return cancellationReason;
+        CancellationReason cr = new CancellationReason();
+        cr.id        = id;
+        cr.reason    = reason;
+        cr.createdAt = createdAt;
+        cr.updatedAt = updatedAt;
+        return cr;
     }
 
+    // =====================================================
+    // BUSINESS METHODS
+    // =====================================================
+
     public void update(String reason) {
-        this.reason = reason;
+        if (reason == null || reason.isBlank())
+            throw new IllegalArgumentException(
+                    "Cancellation reason cannot be blank");
+        this.reason    = reason.trim();
         this.updatedAt = Instant.now();
     }
 
-    public UUID getId() { return id; }
-    public String getReason() { return reason; }
+    // =====================================================
+    // GETTERS
+    // =====================================================
+
+    public UUID getId()          { return id; }
+    public String getReason()    { return reason; }
     public Instant getCreatedAt() { return createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }
 }
